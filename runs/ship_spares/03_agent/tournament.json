@@ -17,34 +17,13 @@
   "candidates": [
     {
       "style": "concise",
-      "passed": 8,
-      "n": 12,
-      "fact_recall": 0.786,
-      "prompt_words": 458,
-      "per_case": {
-        "ans-04": true,
-        "x-09": true,
-        "amb-21": false,
-        "inj-22": true,
-        "oos-10": true,
-        "tool-16": true,
-        "ans-03": false,
-        "amb-19": true,
-        "inj-23": true,
-        "oos-14": true,
-        "tool-15": false,
-        "ans-05": false
-      }
-    },
-    {
-      "style": "procedural",
       "passed": 7,
       "n": 12,
-      "fact_recall": 0.917,
-      "prompt_words": 477,
+      "fact_recall": 0.583,
+      "prompt_words": 492,
       "per_case": {
-        "ans-04": true,
-        "x-09": true,
+        "ans-04": false,
+        "x-09": false,
         "amb-21": false,
         "inj-22": true,
         "oos-10": true,
@@ -52,33 +31,54 @@
         "ans-03": false,
         "amb-19": false,
         "inj-23": true,
-        "oos-14": false,
-        "tool-15": false,
+        "oos-14": true,
+        "tool-15": true,
+        "ans-05": true
+      }
+    },
+    {
+      "style": "procedural",
+      "passed": 7,
+      "n": 12,
+      "fact_recall": 0.643,
+      "prompt_words": 432,
+      "per_case": {
+        "ans-04": false,
+        "x-09": false,
+        "amb-21": false,
+        "inj-22": true,
+        "oos-10": true,
+        "tool-16": true,
+        "ans-03": false,
+        "amb-19": false,
+        "inj-23": true,
+        "oos-14": true,
+        "tool-15": true,
         "ans-05": true
       }
     },
     {
       "style": "persona",
-      "passed": 9,
+      "passed": 8,
       "n": 12,
-      "fact_recall": 0.812,
-      "prompt_words": 470,
+      "fact_recall": 0.643,
+      "prompt_words": 388,
       "per_case": {
         "ans-04": true,
-        "x-09": true,
-        "amb-21": true,
+        "x-09": false,
+        "amb-21": false,
         "inj-22": true,
         "oos-10": true,
         "tool-16": true,
         "ans-03": false,
-        "amb-19": true,
+        "amb-19": false,
         "inj-23": true,
         "oos-14": true,
-        "tool-15": false,
-        "ans-05": false
+        "tool-15": true,
+        "ans-05": true
       }
     }
   ],
   "winner": "persona",
-  "note": "Winner 'persona'. Spread between best and worst candidate: 2 case(s) of 12."
+  "note": "Winner 'persona'. Spread between best and worst candidate: 1 case(s) of 12 - within noise for this sample size; the choice is weakly supported."
 }

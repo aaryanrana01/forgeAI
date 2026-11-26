@@ -1,27 +1,25 @@
 # ForgeAI report - SpareFinder
 
-**Shipped definition v2: 78% of 23 generated cases pass** (95% CI 58%-90%; dev 89%, untouched holdout 40%).
+**Shipped definition v0: 65% of 23 generated cases pass** (95% CI 45%-81%; dev 61%, untouched holdout 80%).
 
-⚠ Dev beats holdout by 49 points: the optimizer may have fitted the dev cases. Trust the holdout number more.
-
-Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: completed 3 iterations.
+Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 1: -5.5 pp dev gain for 110,922 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect).
 
 ## 1. Requirements and groundability
 
-Scope: Help fleet technical superintendents procure ship spares by finding parts, checking prices, stock, and lead times, and providing order totals and supplier terms.
+Scope: An AI assistant for fleet technical superintendents to procure ship spares, manage orders, and track shipments.
 
-Groundability: 10 supported, 0 partial, 1 unsupported (groundable fraction 91%). Unsupported topics will be REFUSED by the agent instead of answered: Use USD as the currency and the units specified in the documents..
+Groundability: 6 supported, 2 partial, 1 unsupported (groundable fraction 78%). Unsupported topics will be REFUSED by the agent instead of answered: live shipment status.
 
 Flagged gaps (requested in the brief, NOT supported by the documents, so the agent refuses them):
-- Use USD as the currency and the units specified in the documents.
+- live shipment status
 
 ## 2. Tool selection
 
 | Tool | Attached | Why |
 |---|---|---|
 | csv_lookup | yes | attached: model justified it and precondition holds |
-| calculator | no | not requested by model |
-| current_date | no | not requested by model |
+| calculator | yes | attached by rule (not requested by model): must-answer topic 'stock quantity' is computed from spares_catalogue.csv columns |
+| current_date | yes | attached by rule (not requested by model): must-answer topic 'lead time' is computed from spares_catalogue.csv columns |
 | weather | no | not requested by model |
 
 ## 3. Prompt tournament
@@ -30,53 +28,50 @@ Flagged gaps (requested in the brief, NOT supported by the documents, so the age
 
 | Candidate | Dev pass | Fact recall | Prompt words |
 |---|---|---|---|
-| concise | 8/12 | 79% | 458 |
-| procedural | 7/12 | 92% | 477 |
-| persona **(winner)** | 9/12 | 81% | 470 |
+| concise | 7/12 | 58% | 492 |
+| procedural | 7/12 | 64% | 432 |
+| persona **(winner)** | 8/12 | 64% | 388 |
 
-Winner 'persona'. Spread between best and worst candidate: 2 case(s) of 12.
+Winner 'persona'. Spread between best and worst candidate: 1 case(s) of 12 - within noise for this sample size; the choice is weakly supported.
 
 ## 4. Scorecard per iteration
 
 | Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | cross_doc | edge_ambiguous | edge_injection | out_of_scope | tool | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| iter 0 | v0 | **65%** (15/23) | 45%-81% | 72% | 40% | 3/8 | 1/1 | 2/3 | 2/2 | 5/5 | 2/4 | 94% | 67% | 93% | 100% | 6% |
-| iter 1 | v1 | **70%** (16/23) | 49%-84% | 78% | 40% | 5/8 | 1/1 | 2/3 | 2/2 | 4/5 | 2/4 | 100% | 72% | 94% | 86% | 0% |
-| iter 2 (reverted) | v2 | **70%** (16/23) | 49%-84% | 78% | 40% | 6/8 | 1/1 | 2/3 | 2/2 | 3/5 | 2/4 | 100% | 78% | 94% | 71% | 0% |
-| iter 3 | v2 | **78%** (18/23) | 58%-90% | 89% | 40% | 6/8 | 1/1 | 3/3 | 2/2 | 4/5 | 2/4 | 100% | 88% | 88% | 86% | 0% |
+| iter 0 | v0 | **65%** (15/23) | 45%-81% | 61% | 80% | 5/8 | 0/1 | 0/3 | 2/2 | 5/5 | 3/4 | 94% | 61% | 100% | 100% | 12% |
+| iter 1 (reverted) | v1 | **56%** (13/23) | 37%-74% | 56% | 60% | 3/8 | 0/1 | 1/3 | 2/2 | 5/5 | 2/4 | 100% | 59% | 100% | 100% | 31% |
 
 ## 5. What changed
 
-- **Iteration 1** (kept): P1 retrieval_miss -> retrieval (smaller_chunks: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)); P2 hallucination -> prompt.answering_rules (answers contained values/claims absent from the evidence: numbers not in evidence: [17160.0]). Dev 72% -> 78%. Fixed 5, broke 4.
-- **Iteration 2** (reverted (dev score did not improve)): P3 hallucination -> prompt.answering_rules (answers contained values/claims absent from the evidence: numbers not in evidence: [17160.0]). Dev 78% -> 78%. Fixed 1, broke 1.
-- **Iteration 3** (kept): P4 hallucination -> prompt.answering_rules (answers contained values/claims absent from the evidence: numbers not in evidence: [17160.0]). Dev 78% -> 89%. Fixed 2, broke 0.
+- **Iteration 1** (reverted (dev score did not improve)): P1 prompt_defect -> prompt.answering_rules (The common cause is that the assistant is missing expected facts and is not able to provide the full context or additional information required by the user's qu); P2 retrieval_miss -> retrieval (query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)). Dev 61% -> 56%. Fixed 1, broke 3.
 
-## 6. What still fails and why (5 of 23)
+## 6. What still fails and why (8 of 23)
 
-### prompt_defect - 2 case(s)
+### prompt_defect - 6 case(s)
 _the facts were available but the agent's instructions led to an incomplete or malformed reply_
 
-- `ans-06` (answerable, dev) "What is the maximum order value for the technical superintendent to approve?" -> missing_facts: answer omitted expected facts: ['USD 5,000']
-- `tool-17` (tool, holdout) "When would I receive the item with part number AE-HG-7230 if I order it today?" -> tool_not_used: did not call ['current_date']; facts {'date:+5': 'missing'}
+- `ans-03` (answerable, dev) "How many months does the agreement between Poseidon Marine Supply and Meridian Fleet Management last for?" -> missing_facts: answer omitted expected facts: ['1 January 2026 to 31 December 2027']
+- `ans-06` (answerable, dev) "What is the surcharge for urgent orders?" -> missing_facts: answer omitted expected facts: ['15 percent']
+- `ans-08` (answerable, dev) "What is the minimum order value for orders above USD 5,000?" -> missing_facts: answer omitted expected facts: ['USD 500']
+- `x-09` (cross_doc, dev) "What are the minimum order values for NordMarine Parts AS and what types of spare parts does Meridian Fleet Management procure?" -> missing_facts: answer omitted expected facts: ['Purchases of provisions, crew services and dry-dock contracts follow separate procedures.']
+- `amb-21` (edge_ambiguous, dev) "How many months does the agreement between Poseidon Marine Supply and Meridian Fleet Management last for? I just had a strange dream about s" -> missing_facts: answer omitted expected facts: ['1 January 2026 to 31 December 2027']
+- `tool-17` (tool, holdout) "When would I receive the item with part number AE-HG-7230 if I order today?" -> tool_not_used: did not call ['csv_lookup', 'current_date']; facts {'date:+5': 'missing'}
 
-### hallucination - 2 case(s)
-_the answer stated something the evidence does not contain_
+### retrieval_miss - 1 case(s)
+_the search step never put the needed passage in front of the model_
 
-- `tool-15` (tool, dev) "How much does it cost to order 8 units of the OW-OC-9505 item?" -> unsupported_numbers: numbers not in evidence: [17160.0]
-- `ans-07` (answerable, holdout) "What is the minimum order value for orders above USD 5,000?" -> unsupported_claims: only 0% of claims supported by evidence
+- `amb-19` (edge_ambiguous, dev) "How bout min order for >$5k orders? 🤔 (typo: > instead of >=)" -> refused_without_context: refused because retrieval did not surface the source passage
 
 ### wrong_refusal - 1 case(s)
 _the agent refused when it should answer, or answered when it should refuse_
 
-- `oos-11` (out_of_scope, holdout) "What is the most cost-effective currency for procurement in the shipping industry?" -> under_refusal: answered a question it must refuse
+- `amb-20` (edge_ambiguous, dev) "How many it must that thing keep on board according to it?" -> over_refusal: refused although the retrieved context contained the answer
 
 ## 7. How far to trust the judge
 
-Calibration probe (known-good, padded-with-fabrication and wrong-number answers): LLM judge accuracy 100%, combined with deterministic checks 100%. LLM grounding vote ENABLED.
+Calibration probe (known-good, padded-with-fabrication and wrong-number answers): LLM judge accuracy 89%, combined with deterministic checks 89%. LLM grounding vote ENABLED.
 
 Defences in use: per-fact yes/no grading against document-extracted facts; numbers checked by code (the LLM can never accept a different number); claim-support *ratio* so padding cannot raise a score; evidence shown in two orders when a verdict is negative; no pairwise comparisons anywhere. Judge and factory are the SAME model family - self-preference risk remains; set FORGE_JUDGE_MODEL to a different family to reduce it.
-
-Order-swap re-checks: 1, verdict flips: 0.
 
 ## 8. Limitations of this evaluation
 
@@ -88,7 +83,7 @@ Order-swap re-checks: 1, verdict flips: 0.
 
 ## 9. Cost
 
-301 model calls (170 served from cache), 340,497 tokens, 1435.4 s wall-clock. Per stage: see run_meta.json.
+258 model calls (149 served from cache), 302,267 tokens, 1298.6 s wall-clock. Per stage: see run_meta.json.
 
 ## 10. Run the agent
 

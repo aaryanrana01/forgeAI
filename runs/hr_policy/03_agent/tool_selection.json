@@ -33,7 +33,7 @@
     "tool": "weather",
     "model_attach": false,
     "model_quote": "",
-    "model_justification": "No weather information is needed for the provided requirements.",
+    "model_justification": "No weather or sea/wind conditions are needed for the provided requirements.",
     "precondition_ok": false,
     "precondition": "requirements never mention a need this tool serves (pattern: weather)",
     "final": false,

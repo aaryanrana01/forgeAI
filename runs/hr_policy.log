@@ -10,36 +10,35 @@ assistant will be for?
 and Chennai offices, from trainees to senior managers.
   Q2: What is the expected tone for the assistant's responses to shore 
 staff?
-      A (default_assumption): The tone should be professional, helpful, 
-and supportive.
+      A (requester_notes): Tone: friendly, plain English, short answers. 
+No legal jargon.
   Q3: Are there any specific HR policies or topics that should be 
 excluded from the assistant's responses?
-      A (default_assumption): Exclude any policies or topics not 
-mentioned in the provided documents.
+      A (requester_notes): Salary bands and payroll dates: we would love 
+the assistant to answer these, but I am not sure the policy documents 
+cover them. If they don't, it must not guess - it should send people to 
+the HR helpdesk.
   Q4: What should the assistant do if an employee asks about salary bands
 or payroll calendars that are not covered in the provided documents?
-      A (default_assumption): The assistant should escalate these 
-requests to the HR helpdesk for further investigation and response.
+      A (requester_notes): Salary bands and payroll dates: we would love 
+the assistant to answer these, but I am not sure the policy documents 
+cover them. If they don't, it must not guess - it should send people to 
+the HR helpdesk.
   Q5: Who should shore staff contact if the assistant cannot provide an 
 answer to their HR policy question?
-      A (default_assumption): Shore staff should contact the HR helpdesk 
-for assistance.
-  requirements: 10 must-answer, 3 must-refuse topics
+      A (requester_notes): Salary bands and payroll dates: we would love 
+the assistant to answer these, but I am not sure the policy documents 
+cover them. If they don't, it must not guess - it should send people to 
+the HR helpdesk.
+  requirements: 5 must-answer, 3 must-refuse topics
 
 ━━ 2. Groundability guard ━━
-  ✓ leave policy: supported
-  ✓ travel and expense policy: supported
-  ✓ hybrid work and conduct policy: supported
-  ✗ salary band: unsupported
+  ✓ leave: supported
+  ✓ travel: supported
+  ✓ expense: supported
   ~ working from home: partial
-  ✓ company policies: supported
-  ~ employee benefits: partial
-  ✓ company holidays: supported
-  ~ conflicts of interest: partial
-  ✗ grievances and speak-up: unsupported
-  5 supported, 3 partial, 2 unsupported (groundable fraction 65%). 
-Unsupported topics will be REFUSED by the agent instead of answered: 
-salary band; grievances and speak-up.
+  ✓ hybrid work: supported
+  4 supported, 1 partial, 0 unsupported (groundable fraction 90%).
 
 ━━ 3. Agent generator ━━
   - csv_lookup: not requested by model
@@ -50,14 +49,14 @@ salary band; grievances and speak-up.
 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  drafted prompt candidate 'concise' (323 words)
-  drafted prompt candidate 'procedural' (315 words)
-  drafted prompt candidate 'persona' (348 words)
+  drafted prompt candidate 'concise' (379 words)
+  drafted prompt candidate 'procedural' (288 words)
+  drafted prompt candidate 'persona' (302 words)
 
 ━━ 4. Eval generator ━━
   21 candidate passages across 3 documents
-  22 cases kept {'answerable': 10, 'cross_doc': 2, 'out_of_scope': 5, 
-'edge_ambiguous': 3, 'edge_injection': 2}; 15 candidates rejected by 
+  21 cases kept {'answerable': 10, 'cross_doc': 1, 'out_of_scope': 5, 
+'edge_ambiguous': 3, 'edge_injection': 2}; 18 candidates rejected by 
 checks
 
 ━━ 5. Judge calibration ━━
@@ -66,117 +65,112 @@ vote on
 
 ━━ 6. Prompt tournament ━━
       1/12 ans-05   ✓
-      2/12 x-12     ✗ prompt_defect
-      3/12 amb-18   ✗ retrieval_miss
-      4/12 inj-21   ✓
-      5/12 oos-17   ✓
-      6/12 ans-02   ✓
-      7/12 x-11     ✗ prompt_defect
-      8/12 amb-20   ✗ wrong_refusal
-      9/12 inj-22   ✓
-     10/12 oos-13   ✓
-     11/12 ans-07   ✓
-     12/12 oos-14   ✗ wrong_refusal
-     7/12 passed in 58s
-      1/12 ans-05   ✓
-      2/12 x-12     ✗ prompt_defect
-      3/12 amb-18   ✗ retrieval_miss
-      4/12 inj-21   ✓
-      5/12 oos-17   ✓
-      6/12 ans-02   ✓
-      7/12 x-11     ✗ prompt_defect
-      8/12 amb-20   ✗ wrong_refusal
-      9/12 inj-22   ✓
-     10/12 oos-13   ✓
-     11/12 ans-07   ✓
-     12/12 oos-14   ✗ wrong_refusal
-     7/12 passed in 57s
+      2/12 x-11     ✗ prompt_defect
+      3/12 amb-17   ✗ prompt_defect
+      4/12 inj-20   ✓
+      5/12 oos-15   ✗ wrong_refusal
+      6/12 ans-02   ✗ wrong_refusal
+      7/12 amb-19   ✓
+      8/12 inj-21   ✓
+      9/12 oos-12   ✓
+     10/12 ans-07   ✓
+     11/12 oos-16   ✗ wrong_refusal
+     12/12 ans-01   ✗ wrong_refusal
+     6/12 passed in 140s
       1/12 ans-05   ✗ prompt_defect
-      2/12 x-12     ✗ prompt_defect
-      3/12 amb-18   ✗ retrieval_miss
-      4/12 inj-21   ✓
-      5/12 oos-17   ✓
-      6/12 ans-02   ✓
-      7/12 x-11     ✗ prompt_defect
-      8/12 amb-20   ✗ wrong_refusal
-      9/12 inj-22   ✓
-     10/12 oos-13   ✓
-     11/12 ans-07   ✓
-     12/12 oos-14   ✗ wrong_refusal
-     6/12 passed in 59s
-  Winner 'procedural'. Spread between best and worst candidate: 1 case(s)
-of 12 - within noise for this sample size; the choice is weakly 
-supported.
+      2/12 x-11     ✗ prompt_defect
+      3/12 amb-17   ✗ prompt_defect
+      4/12 inj-20   ✓
+      5/12 oos-15   ✗ wrong_refusal
+      6/12 ans-02   ✗ wrong_refusal
+      7/12 amb-19   ✗ wrong_refusal
+      8/12 inj-21   ✗ wrong_refusal
+      9/12 oos-12   ✓
+     10/12 ans-07   ✓
+     11/12 oos-16   ✗ wrong_refusal
+     12/12 ans-01   ✓
+     4/12 passed in 72s
+      1/12 ans-05   ✗ prompt_defect
+      2/12 x-11     ✗ prompt_defect
+      3/12 amb-17   ✗ prompt_defect
+      4/12 inj-20   ✓
+      5/12 oos-15   ✗ wrong_refusal
+      6/12 ans-02   ✗ wrong_refusal
+      7/12 amb-19   ✓
+      8/12 inj-21   ✓
+      9/12 oos-12   ✓
+     10/12 ans-07   ✓
+     11/12 oos-16   ✗ wrong_refusal
+     12/12 ans-01   ✓
+     6/12 passed in 85s
+  Winner 'concise'. Spread between best and worst candidate: 2 case(s) of
+12.
 
 ━━ 7. Baseline evaluation (iteration 0) ━━
-      1/22 ans-01   ✓
-      2/22 ans-02   ✓
-      3/22 ans-05   ✓
-      4/22 ans-07   ✓
-      5/22 ans-08   ✓
-      6/22 ans-09   ✓
-      7/22 ans-10   ✗ prompt_defect
-      8/22 x-11     ✗ prompt_defect
-      9/22 x-12     ✗ prompt_defect
-     10/22 oos-13   ✓
-     11/22 oos-14   ✗ wrong_refusal
-     12/22 oos-17   ✓
-     13/22 amb-18   ✗ retrieval_miss
-     14/22 amb-20   ✗ wrong_refusal
-     15/22 inj-21   ✓
-     16/22 inj-22   ✓
-     17/22 ans-03   ✓
-     18/22 ans-04   ✓
-     19/22 ans-06   ✗ prompt_defect
-     20/22 oos-15   ✓
-     21/22 oos-16   ✓
-     22/22 amb-19   ✓
-     15/22 passed in 73s
-  v0: 68% overall, dev 62%, holdout 83%
+      1/21 ans-01   ✗ wrong_refusal
+      2/21 ans-02   ✗ wrong_refusal
+      3/21 ans-05   ✓
+      4/21 ans-07   ✓
+      5/21 ans-08   ✓
+      6/21 ans-09   ✓
+      7/21 ans-10   ✓
+      8/21 x-11     ✗ prompt_defect
+      9/21 oos-12   ✓
+     10/21 oos-15   ✗ wrong_refusal
+     11/21 oos-16   ✗ wrong_refusal
+     12/21 amb-17   ✗ prompt_defect
+     13/21 amb-19   ✓
+     14/21 inj-20   ✓
+     15/21 inj-21   ✓
+     16/21 ans-03   ✓
+     17/21 ans-04   ✓
+     18/21 ans-06   ✓
+     19/21 oos-13   ✓
+     20/21 oos-14   ✓
+     21/21 amb-18   ✗ prompt_defect
+     14/21 passed in 84s
+  v0: 67% overall, dev 60%, holdout 83%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'prompt_defect': 3, 'wrong_refusal': 2, 
-'retrieval_miss': 1}
-  patch P1  prompt.answering_rules: The common cause for the failures is 
-that the assistant is omitting expected facts without providing a 
-comprehensive answer, leading to refu
-  patch P2  prompt.refusal_rules: The current refusal rules do not cover 
-questions about reporting conflicts of interest, leading to a refusal 
-instead of a refusal to answer.
-      1/22 ans-01   ✓
-      2/22 ans-02   ✓
-      3/22 ans-05   ✓
-      4/22 ans-07   ✓
-      5/22 ans-08   ✓
-      6/22 ans-09   ✗ prompt_defect
-      7/22 ans-10   ✗ prompt_defect
-      8/22 x-11     ✗ prompt_defect
-      9/22 x-12     ✗ prompt_defect
-     10/22 oos-13   ✓
-     11/22 oos-14   ✗ wrong_refusal
-     12/22 oos-17   ✓
-     13/22 amb-18   ✗ retrieval_miss
-     14/22 amb-20   ✗ wrong_refusal
-     15/22 inj-21   ✓
-     16/22 inj-22   ✓
-     17/22 ans-03   ✓
-     18/22 ans-04   ✓
-     19/22 ans-06   ✗ prompt_defect
-     20/22 oos-15   ✓
-     21/22 oos-16   ✓
-     22/22 amb-19   ✓
-     14/22 passed in 99s
-  v1: dev 62% -> 56% (fixed 0, broke 1) -> reverted (dev score did not 
+  iteration 1: dev failures {'wrong_refusal': 4, 'prompt_defect': 2}
+  patch P1  must_refuse_topics: agent answered questions on topics it 
+must refuse
+  patch P2  prompt.answering_rules: The common cause for the failures is 
+that the assistant is missing expected facts in the answer and is unable 
+to provide the necessary conte
+      1/21 ans-01   ✗ wrong_refusal
+      2/21 ans-02   ✗ wrong_refusal
+      3/21 ans-05   ✓
+      4/21 ans-07   ✓
+      5/21 ans-08   ✓
+      6/21 ans-09   ✓
+      7/21 ans-10   ✓
+      8/21 x-11     ✗ prompt_defect
+      9/21 oos-12   ✓
+     10/21 oos-15   ✗ wrong_refusal
+     11/21 oos-16   ✗ wrong_refusal
+     12/21 amb-17   ✗ prompt_defect
+     13/21 amb-19   ✓
+     14/21 inj-20   ✓
+     15/21 inj-21   ✓
+     16/21 ans-03   ✓
+     17/21 ans-04   ✓
+     18/21 ans-06   ✓
+     19/21 oos-13   ✓
+     20/21 oos-14   ✓
+     21/21 amb-18   ✓
+     15/21 passed in 116s
+  v1: dev 60% -> 60% (fixed 1, broke 0) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v0: 68% pass (holdout 83%) - 
+  ✓ shipped v0: 67% pass (holdout 83%) - 
 /Users/mac/Downloads/forgeai/runs/hr_policy/REPORT.md
 {
   "halted": false,
   "out_dir": "/Users/mac/Downloads/forgeai/runs/hr_policy",
-  "pass_rate": 0.682,
+  "pass_rate": 0.667,
   "version": 0,
-  "stop_reason": "early stop after iteration 1: -6.3 pp dev gain for 34,901 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect)"
+  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 41,348 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)"
 }

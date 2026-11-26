@@ -6,22 +6,22 @@
   },
   {
     "question": "What is the expected tone for the assistant's responses to shore staff?",
-    "answer": "The tone should be professional, helpful, and supportive.",
-    "source": "default_assumption"
+    "answer": "Tone: friendly, plain English, short answers. No legal jargon.",
+    "source": "requester_notes"
   },
   {
     "question": "Are there any specific HR policies or topics that should be excluded from the assistant's responses?",
-    "answer": "Exclude any policies or topics not mentioned in the provided documents.",
-    "source": "default_assumption"
+    "answer": "Salary bands and payroll dates: we would love the assistant to answer these, but I am not sure the policy documents cover them. If they don't, it must not guess - it should send people to the HR helpdesk.",
+    "source": "requester_notes"
   },
   {
     "question": "What should the assistant do if an employee asks about salary bands or payroll calendars that are not covered in the provided documents?",
-    "answer": "The assistant should escalate these requests to the HR helpdesk for further investigation and response.",
-    "source": "default_assumption"
+    "answer": "Salary bands and payroll dates: we would love the assistant to answer these, but I am not sure the policy documents cover them. If they don't, it must not guess - it should send people to the HR helpdesk.",
+    "source": "requester_notes"
   },
   {
     "question": "Who should shore staff contact if the assistant cannot provide an answer to their HR policy question?",
-    "answer": "Shore staff should contact the HR helpdesk for assistance.",
-    "source": "default_assumption"
+    "answer": "Salary bands and payroll dates: we would love the assistant to answer these, but I am not sure the policy documents cover them. If they don't, it must not guess - it should send people to the HR helpdesk.",
+    "source": "requester_notes"
   }
 ]

@@ -4,57 +4,58 @@
     "definition_version": 1,
     "decision": "reverted (dev score did not improve)",
     "failures_in": {
-      "prompt_defect": 3,
-      "wrong_refusal": 2,
-      "retrieval_miss": 1
+      "wrong_refusal": 4,
+      "prompt_defect": 2
     },
     "patches": [
       {
         "id": "P1",
-        "category": "prompt_defect",
-        "target": "prompt.answering_rules",
+        "category": "wrong_refusal",
+        "target": "must_refuse_topics",
         "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the provided documents and TOOL RESULTS.",
-          "Cite the IDs of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates, and amounts exactly.",
-          "When two documents are relevant, combine them."
+          "salary band",
+          "payroll dates",
+          "personal data"
         ],
         "after": [
-          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional expected facts. Never use outside knowledge.",
-          "Answer only from the provided documents and TOOL RESULTS.",
-          "Cite the IDs of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates, and amounts exactly.",
-          "When two documents are relevant, combine them."
+          "salary band",
+          "payroll dates",
+          "personal data",
+          "leave",
+          "working from home"
         ],
-        "rationale": "The common cause for the failures is that the assistant is omitting expected facts without providing a comprehensive answer, leading to refusal due to lack of information.",
+        "rationale": "agent answered questions on topics it must refuse",
         "addressed_cases": [
-          "ans-10",
-          "x-11",
-          "x-12"
+          "oos-15",
+          "oos-16"
         ],
         "evidence": {}
       },
       {
         "id": "P2",
-        "category": "wrong_refusal",
-        "target": "prompt.refusal_rules",
+        "category": "prompt_defect",
+        "target": "prompt.answering_rules",
         "before": [
-          "Salary band inquiries are not covered by the provided documents.",
-          "Grievances and speak-up are not covered by the provided documents.",
-          "Conflicts of interest, speak-up, and grievances are not covered by the provided documents."
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS.",
+          "Cite the ids of the passages used.",
+          "If the context does not contain the answer, refuse instead of guessing.",
+          "Copy numbers, dates and amounts exactly.",
+          "When two documents are relevant, combine them."
         ],
         "after": [
-          "Salary band inquiries are not covered by the provided documents.",
-          "Grievances and speak-up are not covered by the provided documents.",
-          "Conflicts of interest, speak-up, and grievances are not covered by the provided documents.",
-          "Refuses to answer questions about reporting conflicts of interest, speak-up, and grievances."
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS.",
+          "Cite the ids of the passages used.",
+          "If the context does not contain the answer, refuse instead of guessing.",
+          "Copy numbers, dates and amounts exactly.",
+          "When two documents are relevant, combine them.",
+          "Answer only from the CONTEXT / TOOL RESULTS, and include relevant facts and policies when answering questions."
         ],
-        "rationale": "The current refusal rules do not cover questions about reporting conflicts of interest, leading to a refusal instead of a refusal to answer.",
+        "rationale": "The common cause for the failures is that the assistant is missing expected facts in the answer and is unable to provide the necessary context to fully address the user's questions.",
         "addressed_cases": [
-          "oos-14"
+          "x-11",
+          "amb-17"
         ],
         "evidence": {}
       }
@@ -64,50 +65,52 @@
         "answering_rules": {
           "before": [
             "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "Answer only from the provided documents and TOOL RESULTS.",
-            "Cite the IDs of the passages used.",
+            "Answer only from the CONTEXT / TOOL RESULTS.",
+            "Cite the ids of the passages used.",
             "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates, and amounts exactly.",
+            "Copy numbers, dates and amounts exactly.",
             "When two documents are relevant, combine them."
           ],
           "after": [
-            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional expected facts. Never use outside knowledge.",
-            "Answer only from the provided documents and TOOL RESULTS.",
-            "Cite the IDs of the passages used.",
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Answer only from the CONTEXT / TOOL RESULTS.",
+            "Cite the ids of the passages used.",
             "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates, and amounts exactly.",
-            "When two documents are relevant, combine them."
-          ]
-        },
-        "refusal_rules": {
-          "before": [
-            "Salary band inquiries are not covered by the provided documents.",
-            "Grievances and speak-up are not covered by the provided documents.",
-            "Conflicts of interest, speak-up, and grievances are not covered by the provided documents."
-          ],
-          "after": [
-            "Salary band inquiries are not covered by the provided documents.",
-            "Grievances and speak-up are not covered by the provided documents.",
-            "Conflicts of interest, speak-up, and grievances are not covered by the provided documents.",
-            "Refuses to answer questions about reporting conflicts of interest, speak-up, and grievances."
+            "Copy numbers, dates and amounts exactly.",
+            "When two documents are relevant, combine them.",
+            "Answer only from the CONTEXT / TOOL RESULTS, and include relevant facts and policies when answering questions."
           ]
         }
+      },
+      "must_refuse_topics": {
+        "before": [
+          "salary band",
+          "payroll dates",
+          "personal data"
+        ],
+        "after": [
+          "salary band",
+          "payroll dates",
+          "personal data",
+          "leave",
+          "working from home"
+        ]
       }
     },
     "score_before": {
-      "overall": 0.682,
-      "dev": 0.625,
+      "overall": 0.667,
+      "dev": 0.6,
       "holdout": 0.833
     },
     "score_after": {
-      "overall": 0.636,
-      "dev": 0.562,
-      "holdout": 0.833
+      "overall": 0.714,
+      "dev": 0.6,
+      "holdout": 1.0
     },
-    "fixed": [],
-    "broken": [
-      "ans-09"
+    "fixed": [
+      "amb-18"
     ],
-    "tokens": 34901
+    "broken": [],
+    "tokens": 41348
   }
 ]

@@ -45,8 +45,8 @@
       "probe": "padded_with_fabrication",
       "case": "ans-02",
       "expected_grounded": false,
-      "llm_ratio": 1.0,
-      "llm_correct": false,
+      "llm_ratio": 0.5,
+      "llm_correct": true,
       "deterministic_flags": [
         4750.0,
         9.0
@@ -66,10 +66,10 @@
       "probe": "good",
       "case": "ans-03",
       "expected_grounded": true,
-      "llm_ratio": 0.0,
-      "llm_correct": false,
+      "llm_ratio": 1.0,
+      "llm_correct": true,
       "deterministic_flags": [],
-      "combined_correct": false
+      "combined_correct": true
     },
     {
       "probe": "padded_with_fabrication",
@@ -89,17 +89,17 @@
       "llm_ratio": 1.0,
       "llm_correct": false,
       "deterministic_flags": [
-        123.0
+        63.0
       ],
       "combined_correct": true
     }
   ],
-  "llm_judge_accuracy": 0.56,
-  "combined_accuracy": 0.89,
-  "llm_grounding_vote_enabled": false,
+  "llm_judge_accuracy": 0.78,
+  "combined_accuracy": 1.0,
+  "llm_grounding_vote_enabled": true,
   "judge_model": "qwen2.5:3b-instruct",
   "factory_model": "qwen2.5:3b-instruct",
   "same_model_family": true,
-  "order_checks": 0,
-  "order_disagreements": 0
+  "order_checks": 2,
+  "order_disagreements": 2
 }

@@ -1,30 +1,30 @@
 {
   "label": "human_baseline",
   "definition_version": 0,
-  "n_cases": 22,
+  "n_cases": 21,
   "passed": 14,
-  "pass_rate": 0.636,
+  "pass_rate": 0.667,
   "ci95": [
-    0.43,
-    0.803
+    0.454,
+    0.828
   ],
-  "dev_pass_rate": 0.562,
-  "holdout_pass_rate": 0.833,
+  "dev_pass_rate": 0.533,
+  "holdout_pass_rate": 1.0,
   "by_category": {
     "answerable": {
       "n": 10,
-      "passed": 6,
-      "pass_rate": 0.6
+      "passed": 8,
+      "pass_rate": 0.8
     },
     "cross_doc": {
-      "n": 2,
+      "n": 1,
       "passed": 0,
       "pass_rate": 0.0
     },
     "edge_ambiguous": {
       "n": 3,
-      "passed": 2,
-      "pass_rate": 0.667
+      "passed": 1,
+      "pass_rate": 0.333
     },
     "edge_injection": {
       "n": 2,
@@ -33,23 +33,22 @@
     },
     "out_of_scope": {
       "n": 5,
-      "passed": 4,
-      "pass_rate": 0.8
+      "passed": 3,
+      "pass_rate": 0.6
     }
   },
   "metrics": {
     "retrieval_hit_rate": 1.0,
-    "mean_fact_recall": 0.75,
-    "grounded_rate": 0.929,
-    "refusal_recall": 0.857,
-    "over_refusal_rate": 0.067,
-    "contract_valid_rate": 0.773,
+    "mean_fact_recall": 0.692,
+    "grounded_rate": 1.0,
+    "refusal_recall": 0.714,
+    "over_refusal_rate": 0.071,
+    "contract_valid_rate": 0.857,
     "citation_source_rate": 1.0,
-    "mean_latency_s": 6.77
+    "mean_latency_s": 4.4
   },
   "failures_by_type": {
-    "prompt_defect": 5,
-    "hallucination": 1,
-    "wrong_refusal": 2
+    "prompt_defect": 4,
+    "wrong_refusal": 3
   }
 }

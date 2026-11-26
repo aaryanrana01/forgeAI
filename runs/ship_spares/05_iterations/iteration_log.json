@@ -2,15 +2,46 @@
   {
     "iteration": 1,
     "definition_version": 1,
-    "decision": "kept",
+    "decision": "reverted (dev score did not improve)",
     "failures_in": {
-      "prompt_defect": 3,
-      "hallucination": 1,
-      "retrieval_miss": 1
+      "prompt_defect": 5,
+      "retrieval_miss": 1,
+      "wrong_refusal": 1
     },
     "patches": [
       {
         "id": "P1",
+        "category": "prompt_defect",
+        "target": "prompt.answering_rules",
+        "before": [
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "answer only from the CONTEXT / TOOL RESULTS",
+          "cite the ids of the passages used",
+          "if the context does not contain the answer, refuse instead of guessing",
+          "copy numbers, dates and amounts exactly",
+          "when two documents are relevant, combine them"
+        ],
+        "after": [
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "answer only from the CONTEXT / TOOL RESULTS",
+          "cite the ids of the passages used",
+          "if the context does not contain the answer, refuse instead of guessing",
+          "copy numbers, dates and amounts exactly",
+          "when two documents are relevant, combine them",
+          "cite the ids of the passages used and the expected facts required for the answer"
+        ],
+        "rationale": "The common cause is that the assistant is missing expected facts and is not able to provide the full context or additional information required by the user's question.",
+        "addressed_cases": [
+          "ans-03",
+          "ans-06",
+          "ans-08",
+          "x-09",
+          "amb-21"
+        ],
+        "evidence": {}
+      },
+      {
+        "id": "P2",
         "category": "retrieval_miss",
         "target": "retrieval",
         "before": {
@@ -23,64 +54,54 @@
           "min_relevance": 0.0
         },
         "after": {
-          "chunk_size": 80,
-          "chunk_overlap": 15,
+          "chunk_size": 120,
+          "chunk_overlap": 24,
           "prepend_headings": true,
           "top_k": 6,
           "mode": "bm25",
-          "query_expansion": false,
+          "query_expansion": true,
           "min_relevance": 0.0
         },
-        "rationale": "smaller_chunks: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)",
+        "rationale": "query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)",
         "addressed_cases": [
-          "amb-20"
+          "amb-19"
         ],
         "evidence": {
           "trials": [
             {
               "variant": "top_k+3",
-              "hit_rate": 1.0,
+              "hit_rate": 0.9,
               "context_words": 1080.0,
               "lost": [],
-              "gained": [
-                "amb-20"
-              ]
+              "gained": []
             },
             {
               "variant": "top_k+6",
-              "hit_rate": 1.0,
+              "hit_rate": 0.9,
               "context_words": 1440.0,
               "lost": [],
-              "gained": [
-                "amb-20"
-              ]
+              "gained": []
             },
             {
               "variant": "smaller_chunks",
-              "hit_rate": 1.0,
+              "hit_rate": 0.9,
               "context_words": 480.0,
               "lost": [],
-              "gained": [
-                "amb-20"
-              ]
+              "gained": []
             },
             {
               "variant": "smaller_chunks+top_k+3",
-              "hit_rate": 1.0,
+              "hit_rate": 0.9,
               "context_words": 720.0,
               "lost": [],
-              "gained": [
-                "amb-20"
-              ]
+              "gained": []
             },
             {
               "variant": "larger_chunks",
-              "hit_rate": 1.0,
+              "hit_rate": 0.9,
               "context_words": 1080.0,
               "lost": [],
-              "gained": [
-                "amb-20"
-              ]
+              "gained": []
             },
             {
               "variant": "toggle_headings",
@@ -95,7 +116,7 @@
               "context_words": 936.0,
               "lost": [],
               "gained": [
-                "amb-20"
+                "amb-19"
               ]
             },
             {
@@ -104,312 +125,65 @@
               "context_words": 1404.0,
               "lost": [],
               "gained": [
-                "amb-20"
+                "amb-19"
               ]
             }
           ],
           "baseline_hit_rate": 0.9
         }
-      },
-      {
-        "id": "P2",
-        "category": "hallucination",
-        "target": "prompt.answering_rules",
-        "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-          "Provide the current unit price of a specific part in USD from the catalogue.",
-          "Inform about the current stock quantity of a specific part from the catalogue.",
-          "Estimate the lead time for a specific part from the supplier terms.",
-          "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-          "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-          "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-          "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms."
-        ],
-        "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-          "Provide the current unit price of a specific part in USD from the catalogue.",
-          "Inform about the current stock quantity of a specific part from the catalogue.",
-          "Estimate the lead time for a specific part from the supplier terms.",
-          "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-          "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-          "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-          "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-          "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
-        ],
-        "rationale": "answers contained values/claims absent from the evidence: numbers not in evidence: [17160.0]",
-        "addressed_cases": [
-          "tool-15"
-        ],
-        "evidence": {}
       }
     ],
     "diff": {
       "retrieval": {
+        "query_expansion": {
+          "before": false,
+          "after": true
+        },
         "rationale": {
           "before": "median paragraph 27 words -> chunk 120 words (~2-3 paragraphs) with 20% overlap; 4 documents -> top_k 6; section headings prefixed so keyword search sees the section a chunk came from; mode=bm25 (no embedding model configured)",
-          "after": "smaller_chunks: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)"
-        },
-        "chunk_overlap": {
-          "before": 24,
-          "after": 15
-        },
-        "chunk_size": {
-          "before": 120,
-          "after": 80
+          "after": "query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)"
         }
       },
       "prompt": {
         "answering_rules": {
           "before": [
             "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-            "Provide the current unit price of a specific part in USD from the catalogue.",
-            "Inform about the current stock quantity of a specific part from the catalogue.",
-            "Estimate the lead time for a specific part from the supplier terms.",
-            "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-            "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-            "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-            "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms."
+            "answer only from the CONTEXT / TOOL RESULTS",
+            "cite the ids of the passages used",
+            "if the context does not contain the answer, refuse instead of guessing",
+            "copy numbers, dates and amounts exactly",
+            "when two documents are relevant, combine them"
           ],
           "after": [
             "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-            "Provide the current unit price of a specific part in USD from the catalogue.",
-            "Inform about the current stock quantity of a specific part from the catalogue.",
-            "Estimate the lead time for a specific part from the supplier terms.",
-            "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-            "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-            "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-            "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-            "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
+            "answer only from the CONTEXT / TOOL RESULTS",
+            "cite the ids of the passages used",
+            "if the context does not contain the answer, refuse instead of guessing",
+            "copy numbers, dates and amounts exactly",
+            "when two documents are relevant, combine them",
+            "cite the ids of the passages used and the expected facts required for the answer"
           ]
         }
       }
     },
     "score_before": {
       "overall": 0.652,
-      "dev": 0.722,
-      "holdout": 0.4
+      "dev": 0.611,
+      "holdout": 0.8
     },
     "score_after": {
-      "overall": 0.696,
-      "dev": 0.778,
-      "holdout": 0.4
+      "overall": 0.565,
+      "dev": 0.556,
+      "holdout": 0.6
     },
     "fixed": [
-      "amb-20",
-      "ans-01",
-      "ans-03",
-      "ans-05",
-      "ans-08"
+      "amb-21"
     ],
     "broken": [
-      "amb-21",
-      "ans-02",
-      "ans-06",
-      "oos-11"
+      "ans-04",
+      "ans-07",
+      "tool-15"
     ],
-    "tokens": 78810
-  },
-  {
-    "iteration": 2,
-    "definition_version": 2,
-    "decision": "reverted (dev score did not improve)",
-    "failures_in": {
-      "prompt_defect": 3,
-      "hallucination": 1
-    },
-    "patches": [
-      {
-        "id": "P3",
-        "category": "hallucination",
-        "target": "prompt.answering_rules",
-        "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-          "Provide the current unit price of a specific part in USD from the catalogue.",
-          "Inform about the current stock quantity of a specific part from the catalogue.",
-          "Estimate the lead time for a specific part from the supplier terms.",
-          "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-          "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-          "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-          "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-          "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
-        ],
-        "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-          "Provide the current unit price of a specific part in USD from the catalogue.",
-          "Inform about the current stock quantity of a specific part from the catalogue.",
-          "Estimate the lead time for a specific part from the supplier terms.",
-          "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-          "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-          "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-          "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-          "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round.",
-          "Do not add conditions, exceptions or examples that are not written in the CONTEXT."
-        ],
-        "rationale": "answers contained values/claims absent from the evidence: numbers not in evidence: [17160.0]",
-        "addressed_cases": [
-          "tool-15"
-        ],
-        "evidence": {}
-      }
-    ],
-    "diff": {
-      "prompt": {
-        "answering_rules": {
-          "before": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-            "Provide the current unit price of a specific part in USD from the catalogue.",
-            "Inform about the current stock quantity of a specific part from the catalogue.",
-            "Estimate the lead time for a specific part from the supplier terms.",
-            "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-            "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-            "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-            "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-            "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
-          ],
-          "after": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-            "Provide the current unit price of a specific part in USD from the catalogue.",
-            "Inform about the current stock quantity of a specific part from the catalogue.",
-            "Estimate the lead time for a specific part from the supplier terms.",
-            "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-            "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-            "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-            "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-            "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round.",
-            "Do not add conditions, exceptions or examples that are not written in the CONTEXT."
-          ]
-        }
-      }
-    },
-    "score_before": {
-      "overall": 0.696,
-      "dev": 0.778,
-      "holdout": 0.4
-    },
-    "score_after": {
-      "overall": 0.696,
-      "dev": 0.778,
-      "holdout": 0.4
-    },
-    "fixed": [
-      "ans-02"
-    ],
-    "broken": [
-      "oos-14"
-    ],
-    "tokens": 41237
-  },
-  {
-    "iteration": 3,
-    "definition_version": 2,
-    "decision": "kept",
-    "failures_in": {
-      "prompt_defect": 3,
-      "hallucination": 1
-    },
-    "patches": [
-      {
-        "id": "P4",
-        "category": "hallucination",
-        "target": "prompt.answering_rules",
-        "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-          "Provide the current unit price of a specific part in USD from the catalogue.",
-          "Inform about the current stock quantity of a specific part from the catalogue.",
-          "Estimate the lead time for a specific part from the supplier terms.",
-          "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-          "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-          "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-          "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-          "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
-        ],
-        "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-          "Provide the current unit price of a specific part in USD from the catalogue.",
-          "Inform about the current stock quantity of a specific part from the catalogue.",
-          "Estimate the lead time for a specific part from the supplier terms.",
-          "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-          "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-          "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-          "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-          "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round.",
-          "If the CONTEXT answers only part of the question, answer that part and say plainly which part is not covered."
-        ],
-        "rationale": "answers contained values/claims absent from the evidence: numbers not in evidence: [17160.0]",
-        "addressed_cases": [
-          "tool-15"
-        ],
-        "evidence": {}
-      }
-    ],
-    "diff": {
-      "prompt": {
-        "answering_rules": {
-          "before": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-            "Provide the current unit price of a specific part in USD from the catalogue.",
-            "Inform about the current stock quantity of a specific part from the catalogue.",
-            "Estimate the lead time for a specific part from the supplier terms.",
-            "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-            "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-            "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-            "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-            "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
-          ],
-          "after": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Find the correct part number and description for a specific engine or machine from the spares catalogue.",
-            "Provide the current unit price of a specific part in USD from the catalogue.",
-            "Inform about the current stock quantity of a specific part from the catalogue.",
-            "Estimate the lead time for a specific part from the supplier terms.",
-            "Summarize the total cost of an order including all parts and quantities from the catalogue.",
-            "Identify the supplier terms and approval rules for a specific part from the supplier terms.",
-            "Provide an estimated delivery date for a specific part if ordered today from the supplier terms.",
-            "Monitor the progress of an order from the time it is placed until it is delivered from the supplier terms.",
-            "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round.",
-            "If the CONTEXT answers only part of the question, answer that part and say plainly which part is not covered."
-          ]
-        }
-      }
-    },
-    "score_before": {
-      "overall": 0.696,
-      "dev": 0.778,
-      "holdout": 0.4
-    },
-    "score_after": {
-      "overall": 0.783,
-      "dev": 0.889,
-      "holdout": 0.4
-    },
-    "fixed": [
-      "amb-21",
-      "ans-02"
-    ],
-    "broken": [],
-    "tokens": 44758
+    "tokens": 110922
   }
 ]

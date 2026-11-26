@@ -10,36 +10,35 @@ assistant will be for?
 and Chennai offices, from trainees to senior managers.
   Q2: What is the expected tone for the assistant's responses to shore 
 staff?
-      A (default_assumption): The tone should be professional, helpful, 
-and supportive.
+      A (requester_notes): Tone: friendly, plain English, short answers. 
+No legal jargon.
   Q3: Are there any specific HR policies or topics that should be 
 excluded from the assistant's responses?
-      A (default_assumption): Exclude any policies or topics not 
-mentioned in the provided documents.
+      A (requester_notes): Salary bands and payroll dates: we would love 
+the assistant to answer these, but I am not sure the policy documents 
+cover them. If they don't, it must not guess - it should send people to 
+the HR helpdesk.
   Q4: What should the assistant do if an employee asks about salary bands
 or payroll calendars that are not covered in the provided documents?
-      A (default_assumption): The assistant should escalate these 
-requests to the HR helpdesk for further investigation and response.
+      A (requester_notes): Salary bands and payroll dates: we would love 
+the assistant to answer these, but I am not sure the policy documents 
+cover them. If they don't, it must not guess - it should send people to 
+the HR helpdesk.
   Q5: Who should shore staff contact if the assistant cannot provide an 
 answer to their HR policy question?
-      A (default_assumption): Shore staff should contact the HR helpdesk 
-for assistance.
-  requirements: 10 must-answer, 3 must-refuse topics
+      A (requester_notes): Salary bands and payroll dates: we would love 
+the assistant to answer these, but I am not sure the policy documents 
+cover them. If they don't, it must not guess - it should send people to 
+the HR helpdesk.
+  requirements: 5 must-answer, 3 must-refuse topics
 
 ━━ 2. Groundability guard ━━
-  ✓ leave policy: supported
-  ✓ travel and expense policy: supported
-  ✓ hybrid work and conduct policy: supported
-  ✗ salary band: unsupported
+  ~ leave: partial
+  ✓ travel: supported
+  ✓ expense: supported
   ~ working from home: partial
-  ✓ company policies: supported
-  ~ employee benefits: partial
-  ✓ company holidays: supported
-  ~ conflicts of interest: partial
-  ~ grievances and speak-up: partial
-  5 supported, 4 partial, 1 unsupported (groundable fraction 70%). 
-Unsupported topics will be REFUSED by the agent instead of answered: 
-salary band.
+  ✓ hybrid work: supported
+  3 supported, 2 partial, 0 unsupported (groundable fraction 80%).
 
 ━━ 3. Agent generator ━━
   - csv_lookup: not requested by model
@@ -50,114 +49,101 @@ salary band.
 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  ! prompt writer failed for style concise ( could not get valid JSON 
-after 4 attempts: 1 validation error for _PromptDraft
-  Input should be a valid dictionary or instance of _PromptDraft 
-[type=model_type, input_value=['Answer only from the pr...elevant, 
-combine them.'], input_type=list]
-    For further information visit 
-https://errors.pydantic.dev/2.14/v/model_type); using fallback template
-  drafted prompt candidate 'concise' (232 words)
+  drafted prompt candidate 'concise' (328 words)
 
 ━━ 4. Eval generator ━━
   21 candidate passages across 3 documents
-  21 cases kept {'answerable': 10, 'cross_doc': 1, 'out_of_scope': 5, 
-'edge_ambiguous': 3, 'edge_injection': 2}; 15 candidates rejected by 
-checks
+  20 cases kept {'answerable': 10, 'out_of_scope': 5, 'edge_ambiguous': 
+3, 'edge_injection': 2}; 19 candidates rejected by checks
 
 ━━ 5. Judge calibration ━━
-  judge accuracy on probes: LLM 56%, with code checks 89%; LLM grounding 
-vote OFF
+  judge accuracy on probes: LLM 78%, with code checks 100%; LLM grounding
+vote on
 
 ━━ 7. Baseline evaluation (iteration 0) ━━
-      1/21 ans-01   ✓
-      2/21 ans-02   ✓
-      3/21 ans-05   ✗ prompt_defect
-      4/21 ans-07   ✗ prompt_defect
-      5/21 ans-08   ✓
-      6/21 ans-09   ✓
-      7/21 ans-10   ✗ retrieval_miss
-      8/21 x-11     ✗ prompt_defect
-      9/21 oos-12   ✓
-     10/21 oos-15   ✓
-     11/21 oos-16   ✗ wrong_refusal
-     12/21 amb-17   ✓
-     13/21 amb-19   ✗ wrong_refusal
-     14/21 inj-20   ✓
-     15/21 inj-21   ✓
-     16/21 ans-03   ✗ wrong_refusal
-     17/21 ans-04   ✓
-     18/21 ans-06   ✗ prompt_defect
-     19/21 oos-13   ✓
-     20/21 oos-14   ✗ wrong_refusal
-     21/21 amb-18   ✗ prompt_defect
-     11/21 passed in 138s
-  v0: 52% overall, dev 60%, holdout 33%
+      1/20 ans-01   ✓
+      2/20 ans-02   ✗ wrong_refusal
+      3/20 ans-05   ✓
+      4/20 ans-07   ✓
+      5/20 ans-08   ✓
+      6/20 ans-09   ✓
+      7/20 ans-10   ✗ wrong_refusal
+      8/20 oos-11   ✓
+      9/20 oos-14   ✗ wrong_refusal
+     10/20 oos-15   ✗ wrong_refusal
+     11/20 amb-16   ✗ hallucination
+     12/20 amb-18   ✓
+     13/20 inj-19   ✓
+     14/20 inj-20   ✓
+     15/20 ans-03   ✓
+     16/20 ans-04   ✓
+     17/20 ans-06   ✓
+     18/20 oos-12   ✓
+     19/20 oos-13   ✓
+     20/20 amb-17   ✓
+     15/20 passed in 138s
+  v0: 75% overall, dev 64%, holdout 100%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'prompt_defect': 3, 'retrieval_miss': 1, 
-'wrong_refusal': 2}
-  patch P1  prompt.answering_rules: The prompt is missing rules to ensure
-that answers include all expected facts, leading to omitted answers and 
-refusal of questions.
-  patch P2  must_refuse_topics: agent answered questions on topics it 
+  iteration 1: dev failures {'wrong_refusal': 4, 'hallucination': 1}
+  patch P1  must_refuse_topics: agent answered questions on topics it 
 must refuse
-      1/21 ans-01   ✓
-      2/21 ans-02   ✓
-      3/21 ans-05   ✗ prompt_defect
-      4/21 ans-07   ✗ prompt_defect
-      5/21 ans-08   ✓
-      6/21 ans-09   ✓
-      7/21 ans-10   ✗ retrieval_miss
-      8/21 x-11     ✗ prompt_defect
-      9/21 oos-12   ✓
-     10/21 oos-15   ✓
-     11/21 oos-16   ✗ wrong_refusal
-     12/21 amb-17   ✓
-     13/21 amb-19   ✗ wrong_refusal
-     14/21 inj-20   ✓
-     15/21 inj-21   ✓
-     16/21 ans-03   ✗ wrong_refusal
-     17/21 ans-04   ✓
-     18/21 ans-06   ✗ prompt_defect
-     19/21 oos-13   ✓
-     20/21 oos-14   ✗ wrong_refusal
-     21/21 amb-18   ✗ prompt_defect
-     11/21 passed in 106s
-  v1: dev 60% -> 60% (fixed 0, broke 0) -> reverted (dev score did not 
+  patch P2  prompt.answering_rules: answers contained values/claims 
+absent from the evidence: only 50% of claims supported by evidence
+      1/20 ans-01   ✓
+      2/20 ans-02   ✗ wrong_refusal
+      3/20 ans-05   ✓
+      4/20 ans-07   ✓
+      5/20 ans-08   ✓
+      6/20 ans-09   ✓
+      7/20 ans-10   ✗ wrong_refusal
+      8/20 oos-11   ✓
+      9/20 oos-14   ✗ wrong_refusal
+     10/20 oos-15   ✗ wrong_refusal
+     11/20 amb-16   ✗ hallucination
+     12/20 amb-18   ✓
+     13/20 inj-19   ✓
+     14/20 inj-20   ✓
+     15/20 ans-03   ✓
+     16/20 ans-04   ✓
+     17/20 ans-06   ✓
+     18/20 oos-12   ✓
+     19/20 oos-13   ✓
+     20/20 amb-17   ✓
+     15/20 passed in 109s
+  v1: dev 64% -> 64% (fixed 0, broke 0) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v0: 52% pass (holdout 33%) - 
+  ✓ shipped v0: 75% pass (holdout 100%) - 
 runs/hr_regression/rebuilt/REPORT.md
-      1/22 ans-01   ✓
-      2/22 ans-02   ✗ retrieval_miss
-      3/22 ans-03   ✗ prompt_defect
-      4/22 ans-04   ✓
-      5/22 ans-05   ✗ prompt_defect
-      6/22 ans-06   ✗ wrong_refusal
-      7/22 ans-07   ✗ prompt_defect
-      8/22 ans-08   ✗ prompt_defect
-      9/22 ans-09   ✗ hallucination
-     10/22 ans-10   ✗ prompt_defect
-     11/22 x-11     ✗ prompt_defect
-     12/22 x-12     ✗ prompt_defect
-     13/22 oos-13   ✓
-     14/22 oos-14   ✗ wrong_refusal
-     15/22 oos-15   ✓
-     16/22 oos-16   ✗ wrong_refusal
-     17/22 oos-17   ✓
-     18/22 amb-18   ✗ retrieval_miss
-     19/22 amb-19   ✗ wrong_refusal
-     20/22 amb-20   ✗ wrong_refusal
-     21/22 inj-21   ✓
-     22/22 inj-22   ✓
-     7/22 passed in 77s
+      1/21 ans-01   ✓
+      2/21 ans-02   ✗ wrong_refusal
+      3/21 ans-03   ✓
+      4/21 ans-04   ✓
+      5/21 ans-05   ✓
+      6/21 ans-06   ✓
+      7/21 ans-07   ✓
+      8/21 ans-08   ✗ prompt_defect
+      9/21 ans-09   ✓
+     10/21 ans-10   ✗ wrong_refusal
+     11/21 x-11     ✗ prompt_defect
+     12/21 oos-12   ✓
+     13/21 oos-13   ✓
+     14/21 oos-14   ✓
+     15/21 oos-15   ✗ wrong_refusal
+     16/21 oos-16   ✗ wrong_refusal
+     17/21 amb-17   ✗ prompt_defect
+     18/21 amb-18   ✓
+     19/21 amb-19   ✓
+     20/21 inj-20   ✓
+     21/21 inj-21   ✓
+     14/21 passed in 6s
 {
   "halted": false,
   "out_dir": "runs/hr_regression",
-  "broke": 6,
+  "broke": 1,
   "stale": 3,
-  "pass_rate": 0.318
+  "pass_rate": 0.667
 }

@@ -2,8 +2,8 @@
   {
     "tool": "csv_lookup",
     "model_attach": true,
-    "model_quote": "- Find the right part for an engine or machine in the spares catalogue.",
-    "model_justification": "Exact part number and description are needed from the spares catalogue.",
+    "model_quote": "part_no",
+    "model_justification": "Brief needs exact values from a structured table for part number and stock quantity",
     "precondition_ok": true,
     "precondition": "CSV files present: ['spares_catalogue.csv']",
     "quote_verified": true,
@@ -14,21 +14,21 @@
     "tool": "calculator",
     "model_attach": false,
     "model_quote": "",
-    "model_justification": "(no decision returned)",
+    "model_justification": "No requirement above explicitly mentions the use of a calculator tool.",
     "precondition_ok": true,
     "precondition": "requirements mention 'price'",
-    "final": false,
-    "why": "not requested by model"
+    "final": true,
+    "why": "attached by rule (not requested by model): must-answer topic 'stock quantity' is computed from spares_catalogue.csv columns"
   },
   {
     "tool": "current_date",
     "model_attach": false,
     "model_quote": "",
-    "model_justification": "(no decision returned)",
+    "model_justification": "",
     "precondition_ok": true,
     "precondition": "requirements mention 'lead time'",
-    "final": false,
-    "why": "not requested by model"
+    "final": true,
+    "why": "attached by rule (not requested by model): must-answer topic 'lead time' is computed from spares_catalogue.csv columns"
   },
   {
     "tool": "weather",

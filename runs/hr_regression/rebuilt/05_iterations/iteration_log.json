@@ -4,55 +4,57 @@
     "definition_version": 1,
     "decision": "reverted (dev score did not improve)",
     "failures_in": {
-      "prompt_defect": 3,
-      "retrieval_miss": 1,
-      "wrong_refusal": 2
+      "wrong_refusal": 4,
+      "hallucination": 1
     },
     "patches": [
       {
         "id": "P1",
-        "category": "prompt_defect",
-        "target": "prompt.answering_rules",
+        "category": "wrong_refusal",
+        "target": "must_refuse_topics",
         "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Cite the ids of the passages you used.",
-          "Copy numbers and dates exactly."
+          "salary band",
+          "payroll dates",
+          "personal data"
         ],
         "after": [
-          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional expected facts. Never use outside knowledge.",
-          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-          "Cite the ids of the passages you used.",
-          "Copy numbers and dates exactly."
+          "salary band",
+          "payroll dates",
+          "personal data",
+          "leave",
+          "working from home"
         ],
-        "rationale": "The prompt is missing rules to ensure that answers include all expected facts, leading to omitted answers and refusal of questions.",
+        "rationale": "agent answered questions on topics it must refuse",
         "addressed_cases": [
-          "ans-05",
-          "ans-07",
-          "x-11"
+          "oos-14",
+          "oos-15"
         ],
         "evidence": {}
       },
       {
         "id": "P2",
-        "category": "wrong_refusal",
-        "target": "must_refuse_topics",
+        "category": "hallucination",
+        "target": "prompt.answering_rules",
         "before": [
-          "personal data",
-          "salary details",
-          "advice on personal matters",
-          "salary band"
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS.",
+          "Cite the ids of the passages used.",
+          "If the context does not contain the answer, refuse instead of guessing.",
+          "Copy numbers, dates and amounts exactly.",
+          "When two documents are relevant, combine them."
         ],
         "after": [
-          "personal data",
-          "salary details",
-          "advice on personal matters",
-          "salary band",
-          "working from home"
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS.",
+          "Cite the ids of the passages used.",
+          "If the context does not contain the answer, refuse instead of guessing.",
+          "Copy numbers, dates and amounts exactly.",
+          "When two documents are relevant, combine them.",
+          "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
         ],
-        "rationale": "agent answered questions on topics it must refuse",
+        "rationale": "answers contained values/claims absent from the evidence: only 50% of claims supported by evidence",
         "addressed_cases": [
-          "oos-16"
+          "amb-16"
         ],
         "evidence": {}
       }
@@ -62,46 +64,50 @@
         "answering_rules": {
           "before": [
             "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Cite the ids of the passages you used.",
-            "Copy numbers and dates exactly."
+            "Answer only from the CONTEXT / TOOL RESULTS.",
+            "Cite the ids of the passages used.",
+            "If the context does not contain the answer, refuse instead of guessing.",
+            "Copy numbers, dates and amounts exactly.",
+            "When two documents are relevant, combine them."
           ],
           "after": [
-            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional expected facts. Never use outside knowledge.",
-            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
-            "Cite the ids of the passages you used.",
-            "Copy numbers and dates exactly."
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Answer only from the CONTEXT / TOOL RESULTS.",
+            "Cite the ids of the passages used.",
+            "If the context does not contain the answer, refuse instead of guessing.",
+            "Copy numbers, dates and amounts exactly.",
+            "When two documents are relevant, combine them.",
+            "Copy every number, amount, date and duration exactly as it is written in the CONTEXT or TOOL RESULTS; never estimate or round."
           ]
         }
       },
       "must_refuse_topics": {
         "before": [
-          "personal data",
-          "salary details",
-          "advice on personal matters",
-          "salary band"
+          "salary band",
+          "payroll dates",
+          "personal data"
         ],
         "after": [
-          "personal data",
-          "salary details",
-          "advice on personal matters",
           "salary band",
+          "payroll dates",
+          "personal data",
+          "leave",
           "working from home"
         ]
       }
     },
     "score_before": {
-      "overall": 0.524,
-      "dev": 0.6,
-      "holdout": 0.333
+      "overall": 0.75,
+      "dev": 0.643,
+      "holdout": 1.0
     },
     "score_after": {
-      "overall": 0.524,
-      "dev": 0.6,
-      "holdout": 0.333
+      "overall": 0.75,
+      "dev": 0.643,
+      "holdout": 1.0
     },
     "fixed": [],
     "broken": [],
-    "tokens": 29454
+    "tokens": 34622
   }
 ]

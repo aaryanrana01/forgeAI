@@ -1,18 +1,14 @@
 # ForgeAI report - HRPolicyAssistant
 
-**Shipped definition v0: 68% of 22 generated cases pass** (95% CI 47%-84%; dev 62%, untouched holdout 83%).
+**Shipped definition v0: 67% of 21 generated cases pass** (95% CI 45%-83%; dev 60%, untouched holdout 83%).
 
-Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 1: -6.3 pp dev gain for 34,901 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect).
+Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 1: +0.0 pp dev gain for 41,348 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal).
 
 ## 1. Requirements and groundability
 
-Scope: Answers HR policy questions for shore staff at BlueWake Shipping, including leave, travel, expense claims, working from home, and salary band inquiries.
+Scope: Answers HR policy questions for shore staff at BlueWake Shipping, including leave, travel, expense claims, and working from home, but not salary bands or payroll dates.
 
-Groundability: 5 supported, 3 partial, 2 unsupported (groundable fraction 65%). Unsupported topics will be REFUSED by the agent instead of answered: salary band; grievances and speak-up.
-
-Flagged gaps (requested in the brief, NOT supported by the documents, so the agent refuses them):
-- salary band
-- grievances and speak-up
+Groundability: 4 supported, 1 partial, 0 unsupported (groundable fraction 90%).
 
 ## 2. Tool selection
 
@@ -29,43 +25,39 @@ Flagged gaps (requested in the brief, NOT supported by the documents, so the age
 
 | Candidate | Dev pass | Fact recall | Prompt words |
 |---|---|---|---|
-| concise | 7/12 | 73% | 323 |
-| procedural **(winner)** | 7/12 | 73% | 315 |
-| persona | 6/12 | 53% | 348 |
+| concise **(winner)** | 6/12 | 60% | 379 |
+| procedural | 4/12 | 40% | 288 |
+| persona | 6/12 | 50% | 302 |
 
-Winner 'procedural'. Spread between best and worst candidate: 1 case(s) of 12 - within noise for this sample size; the choice is weakly supported.
+Winner 'concise'. Spread between best and worst candidate: 2 case(s) of 12.
 
 ## 4. Scorecard per iteration
 
 | Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | cross_doc | edge_ambiguous | edge_injection | out_of_scope | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| iter 0 | v0 | **68%** (15/22) | 47%-84% | 62% | 83% | 8/10 | 0/2 | 1/3 | 2/2 | 4/5 | 93% | 78% | 100% | 86% | 13% |
-| iter 1 (reverted) | v1 | **64%** (14/22) | 43%-80% | 56% | 83% | 7/10 | 0/2 | 1/3 | 2/2 | 4/5 | 93% | 65% | 100% | 86% | 7% |
+| iter 0 | v0 | **67%** (14/21) | 45%-83% | 60% | 83% | 8/10 | 0/1 | 1/3 | 2/2 | 3/5 | 100% | 75% | 100% | 71% | 14% |
+| iter 1 (reverted) | v1 | **71%** (15/21) | 50%-86% | 60% | 100% | 8/10 | 0/1 | 2/3 | 2/2 | 3/5 | 100% | 83% | 100% | 71% | 14% |
 
 ## 5. What changed
 
-- **Iteration 1** (reverted (dev score did not improve)): P1 prompt_defect -> prompt.answering_rules (The common cause for the failures is that the assistant is omitting expected facts without providing a comprehensive answer, leading to refusal due to lack of i); P2 wrong_refusal -> prompt.refusal_rules (The current refusal rules do not cover questions about reporting conflicts of interest, leading to a refusal instead of a refusal to answer.). Dev 62% -> 56%. Fixed 0, broke 1.
+- **Iteration 1** (reverted (dev score did not improve)): P1 wrong_refusal -> must_refuse_topics (agent answered questions on topics it must refuse); P2 prompt_defect -> prompt.answering_rules (The common cause for the failures is that the assistant is missing expected facts in the answer and is unable to provide the necessary context to fully address ). Dev 60% -> 60%. Fixed 1, broke 0.
 
-## 6. What still fails and why (7 of 22)
+## 6. What still fails and why (7 of 21)
 
-### prompt_defect - 4 case(s)
-_the facts were available but the agent's instructions led to an incomplete or malformed reply_
-
-- `ans-10` (answerable, dev) "How many days of annual leave do new joiners start using after their probation period?" -> missing_facts: answer omitted expected facts: ['three months']
-- `x-11` (cross_doc, dev) "What is the purpose of the HR Policy and what does it cover?" -> missing_facts: answer omitted expected facts: ['Purpose', 'Scope']
-- `x-12` (cross_doc, dev) "What is the standard economy class travel option for employees, and how many public holidays are observed by the office?" -> missing_facts: answer omitted expected facts: ['All bookings are made through the company travel desk.', '3. Air Travel Economy class is the standard for all employees.']
-- `ans-06` (answerable, holdout) "What is the maximum hotel rate for Tier-1 cities?" -> missing_facts: answer omitted expected facts: ['Tier-1 cities']
-
-### wrong_refusal - 2 case(s)
+### wrong_refusal - 4 case(s)
 _the agent refused when it should answer, or answered when it should refuse_
 
-- `oos-14` (out_of_scope, dev) "How do I report a conflict of interest to HR?" -> under_refusal: answered a question it must refuse
-- `amb-20` (edge_ambiguous, dev) "Could you please inform me how many days of paid sick leave do employees receive, considering an interesting personal anecdote about my gran" -> over_refusal: refused although the retrieved context contained the answer
+- `ans-01` (answerable, dev) "What is the home office allowance for eligible employees?" -> over_refusal: refused although the retrieved context contained the answer
+- `ans-02` (answerable, dev) "What are the effective dates for the leave policy?" -> over_refusal: refused although the retrieved context contained the answer
+- `oos-15` (out_of_scope, dev) "How many days of leave can shore staff take in a year?" -> under_refusal: answered a question it must refuse
+- `oos-16` (out_of_scope, dev) "What is the policy on working from home for shore staff at BlueWake Shipping?" -> under_refusal: answered a question it must refuse
 
-### retrieval_miss - 1 case(s)
-_the search step never put the needed passage in front of the model_
+### prompt_defect - 3 case(s)
+_the facts were available but the agent's instructions led to an incomplete or malformed reply_
 
-- `amb-18` (edge_ambiguous, dev) "Ngl, what's the v of the leave pol? typo: v instead of ver" -> refused_without_context: refused because retrieval did not surface the source passage
+- `x-11` (cross_doc, dev) "What is the standard economy class travel option for employees, and what compensatory off day policy applies to public holidays that fall on" -> missing_facts: answer omitted expected facts: ['All bookings are made through the company travel desk.', 'Each office observes 12 public holidays per calendar year.']
+- `amb-17` (edge_ambiguous, dev) "When's the leave policy's start date tho? #typo" -> missing_facts: answer omitted expected facts: ['Effective 1 April 2026']
+- `amb-18` (edge_ambiguous, holdout) "How many days it that thing be submitted after the trip?" -> missing_facts: answer omitted expected facts: ['30 days']
 
 ## 7. How far to trust the judge
 
@@ -75,15 +67,15 @@ Defences in use: per-fact yes/no grading against document-extracted facts; numbe
 
 ## 8. Limitations of this evaluation
 
-- 22 cases is a small sample: the 95% interval above is wide on purpose.
+- 21 cases is a small sample: the 95% interval above is wide on purpose.
 - Cases were generated by the factory model from sampled passages: topics in unsampled passages are untested.
 - Paraphrase edge cases share facts with their parent case, so they are not independent evidence.
-- 15 generated candidates were rejected by verification (see 04_evals/dropped_cases.json) - evidence that the generator is imperfect.
+- 18 generated candidates were rejected by verification (see 04_evals/dropped_cases.json) - evidence that the generator is imperfect.
 - Dates in tool cases are resolved against the day the eval runs.
 
 ## 9. Cost
 
-174 model calls (47 served from cache), 164,085 tokens, 651.2 s wall-clock. Per stage: see run_meta.json.
+153 model calls (59 served from cache), 162,279 tokens, 794.5 s wall-clock. Per stage: see run_meta.json.
 
 ## 10. Run the agent
 

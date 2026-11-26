@@ -45,7 +45,7 @@
       "probe": "padded_with_fabrication",
       "case": "ans-02",
       "expected_grounded": false,
-      "llm_ratio": 0.0,
+      "llm_ratio": 0.5,
       "llm_correct": true,
       "deterministic_flags": [
         4750.0,
@@ -60,7 +60,7 @@
       "llm_ratio": 0.0,
       "llm_correct": true,
       "deterministic_flags": [
-        11.4
+        5.0
       ],
       "combined_correct": true
     },

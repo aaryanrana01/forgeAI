@@ -1,123 +1,99 @@
 {
   "topics": [
     {
-      "topic": "Find the right part for an engine or machine in the spares catalogue.",
-      "verdict": "supported",
+      "topic": "part number",
+      "verdict": "partial",
       "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
+        "supplier_terms_poseidon.pdf#2"
       ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: catalogue, description, part, spar)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Check the price of a part.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: part, price, unit)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Check the stock quantity of a part.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: part, stock)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Estimate the lead time for a part.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: lead, part, time)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Calculate order totals.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: order, part)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Determine which supplier terms apply.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: part, supplier)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Estimate the date parts will arrive if ordered today.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: order, part)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Track the live shipment status of orders already placed.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: order, time)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Handle critical spares and emergency procurement procedures.",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
-      ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: spar, supplier)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
-    },
-    {
-      "topic": "Use USD as the currency and the units specified in the documents.",
-      "verdict": "unsupported",
-      "evidence_chunk_ids": [],
-      "note": "guard: model said 'supported' but cited no valid excerpt. none",
+      "note": "guard: model said 'supported' without citing; excerpt supplier_terms_poseidon.pdf#2 contains the topic, so kept as partial. none",
       "lexical_overlap": 0.0,
       "adjusted_by_guard": true
     },
     {
-      "topic": "Handle legal and privacy concerns as per Nordmarine's and Poseidon's policies, and the procurement policy.",
+      "topic": "price",
       "verdict": "supported",
       "evidence_chunk_ids": [
-        "procurement_policy.pdf#4",
-        "procurement_policy.pdf#0",
-        "procurement_policy.pdf#2",
-        "procurement_policy.pdf#3",
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: part, price)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "stock quantity",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "computed from spares_catalogue.csv columns with the calculator tool",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "lead time",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "computed from spares_catalogue.csv columns with the current_date tool",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "order total",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "computed from spares_catalogue.csv columns with the calculator tool",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "supplier terms",
+      "verdict": "partial",
+      "evidence_chunk_ids": [
+        "supplier_terms_nordmarine.pdf#0"
+      ],
+      "note": "guard: model said 'supported' without citing; excerpt supplier_terms_nordmarine.pdf#0 contains the topic, so kept as partial. none",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": true
+    },
+    {
+      "topic": "approval rules",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
         "procurement_policy.pdf#1",
-        "supplier_terms_poseidon.pdf#0"
+        "procurement_policy.pdf#0"
       ],
       "note": "none",
-      "lexical_overlap": 0.27,
+      "lexical_overlap": 0.4,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "estimated delivery date",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "computed from spares_catalogue.csv columns with the current_date tool",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "live shipment status",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "live shipment status",
+      "lexical_overlap": 0.0,
       "adjusted_by_guard": false
     }
   ],
   "flagged_gaps": [
-    "Use USD as the currency and the units specified in the documents."
+    "live shipment status"
   ],
-  "groundable_fraction": 0.909,
+  "groundable_fraction": 0.778,
   "blocking": false,
-  "summary": "10 supported, 0 partial, 1 unsupported (groundable fraction 91%). Unsupported topics will be REFUSED by the agent instead of answered: Use USD as the currency and the units specified in the documents.."
+  "summary": "6 supported, 2 partial, 1 unsupported (groundable fraction 78%). Unsupported topics will be REFUSED by the agent instead of answered: live shipment status."
 }
