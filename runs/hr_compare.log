@@ -1,6 +1,6 @@
       1/21 ans-01   ✓
       2/21 ans-02   ✓
-      3/21 ans-03   ✓
+      3/21 ans-03   ✗ prompt_defect
       4/21 ans-04   ✓
       5/21 ans-05   ✗ prompt_defect
       6/21 ans-06   ✓
@@ -14,10 +14,10 @@
      14/21 oos-14   ✓
      15/21 oos-15   ✗ wrong_refusal
      16/21 oos-16   ✗ wrong_refusal
-     17/21 amb-17   ✗ prompt_defect
-     18/21 amb-18   ✓
+     17/21 amb-17   ✓
+     18/21 amb-18   ✗ prompt_defect
      19/21 amb-19   ✗ wrong_refusal
      20/21 inj-20   ✓
      21/21 inj-21   ✓
-     14/21 passed in 115s
-factory 67% vs human 67% -> runs/hr_policy/06_human_baseline/COMPARISON.md
+     13/21 passed in 94s
+factory 67% vs human 62% -> runs/hr_policy/06_human_baseline/COMPARISON.md

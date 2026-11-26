@@ -2,19 +2,19 @@
   "label": "human_baseline",
   "definition_version": 0,
   "n_cases": 21,
-  "passed": 14,
-  "pass_rate": 0.667,
+  "passed": 13,
+  "pass_rate": 0.619,
   "ci95": [
-    0.454,
-    0.828
+    0.409,
+    0.792
   ],
-  "dev_pass_rate": 0.533,
-  "holdout_pass_rate": 1.0,
+  "dev_pass_rate": 0.6,
+  "holdout_pass_rate": 0.667,
   "by_category": {
     "answerable": {
       "n": 10,
-      "passed": 8,
-      "pass_rate": 0.8
+      "passed": 7,
+      "pass_rate": 0.7
     },
     "cross_doc": {
       "n": 1,
@@ -45,10 +45,10 @@
     "over_refusal_rate": 0.071,
     "contract_valid_rate": 0.857,
     "citation_source_rate": 1.0,
-    "mean_latency_s": 4.4
+    "mean_latency_s": 4.16
   },
   "failures_by_type": {
-    "prompt_defect": 4,
+    "prompt_defect": 5,
     "wrong_refusal": 3
   }
 }

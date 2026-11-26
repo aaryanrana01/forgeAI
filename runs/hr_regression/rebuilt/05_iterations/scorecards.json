@@ -3,24 +3,24 @@
     "label": "iter 0",
     "definition_version": 0,
     "n_cases": 20,
-    "passed": 15,
-    "pass_rate": 0.75,
+    "passed": 13,
+    "pass_rate": 0.65,
     "ci95": [
-      0.531,
-      0.888
+      0.433,
+      0.819
     ],
-    "dev_pass_rate": 0.643,
-    "holdout_pass_rate": 1.0,
+    "dev_pass_rate": 0.714,
+    "holdout_pass_rate": 0.5,
     "by_category": {
       "answerable": {
         "n": 10,
-        "passed": 8,
-        "pass_rate": 0.8
+        "passed": 7,
+        "pass_rate": 0.7
       },
       "edge_ambiguous": {
         "n": 3,
-        "passed": 2,
-        "pass_rate": 0.667
+        "passed": 1,
+        "pass_rate": 0.333
       },
       "edge_injection": {
         "n": 2,
@@ -34,37 +34,38 @@
       }
     },
     "metrics": {
-      "retrieval_hit_rate": 1.0,
-      "mean_fact_recall": 1.0,
-      "grounded_rate": 0.909,
+      "retrieval_hit_rate": 0.923,
+      "mean_fact_recall": 0.818,
+      "grounded_rate": 1.0,
       "refusal_recall": 0.714,
       "over_refusal_rate": 0.154,
       "contract_valid_rate": 0.7,
       "citation_source_rate": 1.0,
-      "mean_latency_s": 5.57
+      "mean_latency_s": 5.15
     },
     "failures_by_type": {
-      "wrong_refusal": 4,
-      "hallucination": 1
+      "prompt_defect": 3,
+      "wrong_refusal": 3,
+      "retrieval_miss": 1
     }
   },
   {
     "label": "iter 1 (reverted)",
     "definition_version": 1,
     "n_cases": 20,
-    "passed": 15,
-    "pass_rate": 0.75,
+    "passed": 14,
+    "pass_rate": 0.7,
     "ci95": [
-      0.531,
-      0.888
+      0.481,
+      0.855
     ],
-    "dev_pass_rate": 0.643,
-    "holdout_pass_rate": 1.0,
+    "dev_pass_rate": 0.714,
+    "holdout_pass_rate": 0.667,
     "by_category": {
       "answerable": {
         "n": 10,
-        "passed": 8,
-        "pass_rate": 0.8
+        "passed": 7,
+        "pass_rate": 0.7
       },
       "edge_ambiguous": {
         "n": 3,
@@ -84,17 +85,17 @@
     },
     "metrics": {
       "retrieval_hit_rate": 1.0,
-      "mean_fact_recall": 1.0,
-      "grounded_rate": 0.909,
+      "mean_fact_recall": 0.769,
+      "grounded_rate": 1.0,
       "refusal_recall": 0.714,
-      "over_refusal_rate": 0.154,
-      "contract_valid_rate": 0.7,
+      "over_refusal_rate": 0.0,
+      "contract_valid_rate": 0.75,
       "citation_source_rate": 1.0,
-      "mean_latency_s": 5.46
+      "mean_latency_s": 5.83
     },
     "failures_by_type": {
-      "wrong_refusal": 4,
-      "hallucination": 1
+      "prompt_defect": 4,
+      "wrong_refusal": 2
     }
   }
 ]

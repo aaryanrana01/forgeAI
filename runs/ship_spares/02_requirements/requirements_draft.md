@@ -1,47 +1,43 @@
 # Requirements - SpareFinder
 
-**Scope.** An AI assistant for fleet technical superintendents to procure ship spares, manage orders, and track shipments.
+**Scope.** Help fleet technical superintendents procure ship spares by finding parts, checking prices, stock, and lead times, and providing order totals and supplier terms.
 
-**Audience.** Technical superintendents and purchasers who know the machinery well. Tone: concise and technical. Exact numbers, always with currency (USD) and part numbers.  
+**Audience.** Technical superintendents of Nordmarine's fleet, concise and technical tone, USD currency and part numbers.  
 **Tone.** concise and technical  
 **Language.** English  
-**Escalation contact.** your technical procurement specialist
+**Escalation contact.** your fleet technical superintendents business partner
 
 ## Must answer
-- **part number** - Identify the correct part number for a specific engine or machine.
-- **price** - Provide the current price of a specific part.
-- **stock quantity** - Inform about the stock quantity of a specific part.
-- **lead time** - Estimate the time required for a specific part to be delivered.
-- **order total** - Calculate the total cost of a specific order.
-- **supplier terms** - Inform about the terms and conditions of a specific supplier.
-- **approval rules** - Inform about the approval rules for a specific order.
-- **estimated delivery date** - Estimate the date parts will arrive if ordered today.
-- **live shipment status** - Track the status of a specific order.
+- **part number lookup** - Find the right part for an engine or machine in the spares catalogue
+- **price inquiry** - Check the price of a part
+- **stock availability** - Check if a part is in stock
+- **lead time inquiry** - Find out the lead time for a part
+- **order total calculation** - Calculate the total cost of an order
+- **supplier terms** - Provide information on supplier terms and approval rules
+- **order status** - Estimate the date parts will arrive if ordered today
 
 ## Must refuse
-- **place purchase order** - It only advises; it does not place, approve or commit purchase orders.
-- **negotiate prices** - It does not negotiate prices; it only advises.
-- **give repair or overhaul procedures** - It does not give repair or overhaul procedures; it only advises.
-- **discuss crew matters** - It does not discuss crew matters; it only advises.
-- **guess prices of parts not in the catalogue** - It does not guess prices of parts not in the catalogue; it only advises.
+- **purchase orders** - Place, approve or commit purchase orders
+- **negotiate prices** - Negotiate prices
+- **repair or overhaul procedures** - Refer to the maker's manual
+- **crew matters** - Discuss crew matters
+- **guess prices** - Guess prices of parts not in the catalogue
 
 ## Success criteria
-- The assistant successfully provides the required information to the fleet technical superintendents and purchasers.
+- Users receive accurate and timely information on spares procurement
 
 ## Constraints
-- The assistant uses the spares catalogue.csv for part information.
-- The assistant uses the procurement_policy.pdf for policy information.
-- The assistant uses the supplier_terms_nordmarine.pdf and supplier_terms_poseidon.pdf for supplier information.
+- Handle all legal and privacy concerns as per Nordmarine's and Poseidon's policies and the procurement policy
 
 ## Assumptions
-- The assistant is provided with the spares catalogue.csv, procurement_policy.pdf, supplier_terms_nordmarine.pdf, and supplier_terms_poseidon.pdf.
+- The spares catalogue, supplier terms documents, and procurement policy are up-to-date and accessible.
 - Assumed (no reply): Are there any legal or privacy concerns that the assistant should be aware of and handle appropriately? -> The assistant should handle all legal and privacy concerns as per Nordmarine's and Poseidon's policies, and the procurement policy.
 
 ## Intake interview
 1. **Who are the primary users of the assistant and what is the expected tone for their interactions?**  
-   Users: about 25 technical superintendents and purchasers who know the machinery well.  _(source: requester_notes)_
+   Tone: concise and technical. Exact numbers, always with currency (USD) and part numbers.  _(source: requester_notes)_
 2. **Are there any specific technical or operational procedures that must be followed, and how will the assistant ensure compliance?**  
-   Users: about 25 technical superintendents and purchasers who know the machinery well.  _(source: requester_notes)_
+   The assistant must NOT: place, approve or commit purchase orders (it only advises); negotiate prices; give repair or overhaul procedures (refer to the maker's manual); discuss crew matters; guess prices of parts that are not in the catalogue.  _(source: requester_notes)_
 3. **Are there any critical spares or emergency procurement procedures that the assistant should be aware of and handle?**  
    The assistant must NOT: place, approve or commit purchase orders (it only advises); negotiate prices; give repair or overhaul procedures (refer to the maker's manual); discuss crew matters; guess prices of parts that are not in the catalogue.  _(source: requester_notes)_
 4. **Are there any specific units or currencies that should be used in the assistant's interactions with users and suppliers?**  

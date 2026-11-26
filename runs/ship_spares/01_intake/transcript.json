@@ -1,12 +1,12 @@
 [
   {
     "question": "Who are the primary users of the assistant and what is the expected tone for their interactions?",
-    "answer": "Users: about 25 technical superintendents and purchasers who know the machinery well.",
+    "answer": "Tone: concise and technical. Exact numbers, always with currency (USD) and part numbers.",
     "source": "requester_notes"
   },
   {
     "question": "Are there any specific technical or operational procedures that must be followed, and how will the assistant ensure compliance?",
-    "answer": "Users: about 25 technical superintendents and purchasers who know the machinery well.",
+    "answer": "The assistant must NOT: place, approve or commit purchase orders (it only advises); negotiate prices; give repair or overhaul procedures (refer to the maker's manual); discuss crew matters; guess prices of parts that are not in the catalogue.",
     "source": "requester_notes"
   },
   {

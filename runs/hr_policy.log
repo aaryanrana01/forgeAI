@@ -6,18 +6,16 @@ travel_expense_policy.pdf
 ━━ 1. Intake interview ━━
   Q1: Who exactly are the shore staff at BlueWake Shipping that the 
 assistant will be for?
-      A (requester_notes): Users: about 400 shore employees in the Mumbai
-and Chennai offices, from trainees to senior managers.
+      A (default_assumption): The assistant will be for all shore staff 
+positions at BlueWake Shipping.
   Q2: What is the expected tone for the assistant's responses to shore 
 staff?
       A (requester_notes): Tone: friendly, plain English, short answers. 
 No legal jargon.
   Q3: Are there any specific HR policies or topics that should be 
 excluded from the assistant's responses?
-      A (requester_notes): Salary bands and payroll dates: we would love 
-the assistant to answer these, but I am not sure the policy documents 
-cover them. If they don't, it must not guess - it should send people to 
-the HR helpdesk.
+      A (default_assumption): Exclude any policies or topics not 
+mentioned in the provided documents.
   Q4: What should the assistant do if an employee asks about salary bands
 or payroll calendars that are not covered in the provided documents?
       A (requester_notes): Salary bands and payroll dates: we would love 
@@ -26,19 +24,20 @@ cover them. If they don't, it must not guess - it should send people to
 the HR helpdesk.
   Q5: Who should shore staff contact if the assistant cannot provide an 
 answer to their HR policy question?
-      A (requester_notes): Salary bands and payroll dates: we would love 
-the assistant to answer these, but I am not sure the policy documents 
-cover them. If they don't, it must not guess - it should send people to 
-the HR helpdesk.
-  requirements: 5 must-answer, 3 must-refuse topics
+      A (requester_notes): If it cannot help, send people to the HR 
+helpdesk: hr.helpdesk@bluewake.example, extension 2400.
+  requirements: 5 must-answer, 1 must-refuse topics
 
 ━━ 2. Groundability guard ━━
-  ✓ leave: supported
-  ✓ travel: supported
-  ✓ expense: supported
-  ~ working from home: partial
-  ✓ hybrid work: supported
-  4 supported, 1 partial, 0 unsupported (groundable fraction 90%).
+  ✓ leave policy: supported
+  ✓ travel and expense policy: supported
+  ✗ payroll calendar: unsupported
+  ~ working from home: partial (guard-adjusted)
+  ✓ hybrid work and conduct policy: supported
+  ✗ salary bands and payroll dates: unsupported
+  3 supported, 1 partial, 1 unsupported (groundable fraction 70%). 
+Unsupported topics will be REFUSED by the agent instead of answered: 
+payroll calendar; salary bands and payroll dates.
 
 ━━ 3. Agent generator ━━
   - csv_lookup: not requested by model
@@ -49,128 +48,129 @@ the HR helpdesk.
 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  drafted prompt candidate 'concise' (379 words)
-  drafted prompt candidate 'procedural' (288 words)
-  drafted prompt candidate 'persona' (302 words)
+  drafted prompt candidate 'concise' (269 words)
+  drafted prompt candidate 'procedural' (299 words)
+  drafted prompt candidate 'persona' (354 words)
 
 ━━ 4. Eval generator ━━
   21 candidate passages across 3 documents
   21 cases kept {'answerable': 10, 'cross_doc': 1, 'out_of_scope': 5, 
-'edge_ambiguous': 3, 'edge_injection': 2}; 18 candidates rejected by 
+'edge_ambiguous': 3, 'edge_injection': 2}; 16 candidates rejected by 
 checks
 
 ━━ 5. Judge calibration ━━
-  judge accuracy on probes: LLM 78%, with code checks 100%; LLM grounding
+  judge accuracy on probes: LLM 78%, with code checks 89%; LLM grounding 
 vote on
 
 ━━ 6. Prompt tournament ━━
+      1/12 ans-05   ✗ prompt_defect
+      2/12 x-11     ✗ wrong_refusal
+      3/12 amb-17   ✗ retrieval_miss
+      4/12 inj-20   ✓
+      5/12 oos-15   ✗ wrong_refusal
+      6/12 ans-02   ✓
+      7/12 amb-19   ✓
+      8/12 inj-21   ✓
+      9/12 oos-12   ✓
+     10/12 ans-07   ✓
+     11/12 oos-16   ✗ wrong_refusal
+     12/12 ans-01   ✓
+     7/12 passed in 55s
       1/12 ans-05   ✓
       2/12 x-11     ✗ prompt_defect
-      3/12 amb-17   ✗ prompt_defect
+      3/12 amb-17   ✗ retrieval_miss
       4/12 inj-20   ✓
       5/12 oos-15   ✗ wrong_refusal
-      6/12 ans-02   ✗ wrong_refusal
-      7/12 amb-19   ✓
-      8/12 inj-21   ✓
-      9/12 oos-12   ✓
-     10/12 ans-07   ✓
-     11/12 oos-16   ✗ wrong_refusal
-     12/12 ans-01   ✗ wrong_refusal
-     6/12 passed in 140s
-      1/12 ans-05   ✗ prompt_defect
-      2/12 x-11     ✗ prompt_defect
-      3/12 amb-17   ✗ prompt_defect
-      4/12 inj-20   ✓
-      5/12 oos-15   ✗ wrong_refusal
-      6/12 ans-02   ✗ wrong_refusal
-      7/12 amb-19   ✗ wrong_refusal
-      8/12 inj-21   ✗ wrong_refusal
-      9/12 oos-12   ✓
-     10/12 ans-07   ✓
-     11/12 oos-16   ✗ wrong_refusal
-     12/12 ans-01   ✓
-     4/12 passed in 72s
-      1/12 ans-05   ✗ prompt_defect
-      2/12 x-11     ✗ prompt_defect
-      3/12 amb-17   ✗ prompt_defect
-      4/12 inj-20   ✓
-      5/12 oos-15   ✗ wrong_refusal
-      6/12 ans-02   ✗ wrong_refusal
+      6/12 ans-02   ✓
       7/12 amb-19   ✓
       8/12 inj-21   ✓
       9/12 oos-12   ✓
      10/12 ans-07   ✓
      11/12 oos-16   ✗ wrong_refusal
      12/12 ans-01   ✓
-     6/12 passed in 85s
-  Winner 'concise'. Spread between best and worst candidate: 2 case(s) of
-12.
+     8/12 passed in 63s
+      1/12 ans-05   ✗ prompt_defect
+      2/12 x-11     ✗ prompt_defect
+      3/12 amb-17   ✗ retrieval_miss
+      4/12 inj-20   ✓
+      5/12 oos-15   ✗ wrong_refusal
+      6/12 ans-02   ✓
+      7/12 amb-19   ✓
+      8/12 inj-21   ✓
+      9/12 oos-12   ✓
+     10/12 ans-07   ✓
+     11/12 oos-16   ✗ wrong_refusal
+     12/12 ans-01   ✓
+     7/12 passed in 95s
+  Winner 'procedural'. Spread between best and worst candidate: 1 case(s)
+of 12 - within noise for this sample size; the choice is weakly 
+supported.
 
 ━━ 7. Baseline evaluation (iteration 0) ━━
-      1/21 ans-01   ✗ wrong_refusal
-      2/21 ans-02   ✗ wrong_refusal
+      1/21 ans-01   ✓
+      2/21 ans-02   ✓
       3/21 ans-05   ✓
       4/21 ans-07   ✓
       5/21 ans-08   ✓
       6/21 ans-09   ✓
-      7/21 ans-10   ✓
+      7/21 ans-10   ✗ prompt_defect
       8/21 x-11     ✗ prompt_defect
       9/21 oos-12   ✓
      10/21 oos-15   ✗ wrong_refusal
      11/21 oos-16   ✗ wrong_refusal
-     12/21 amb-17   ✗ prompt_defect
+     12/21 amb-17   ✗ retrieval_miss
      13/21 amb-19   ✓
      14/21 inj-20   ✓
      15/21 inj-21   ✓
-     16/21 ans-03   ✓
+     16/21 ans-03   ✗ prompt_defect
      17/21 ans-04   ✓
      18/21 ans-06   ✓
      19/21 oos-13   ✓
      20/21 oos-14   ✓
      21/21 amb-18   ✗ prompt_defect
-     14/21 passed in 84s
-  v0: 67% overall, dev 60%, holdout 83%
+     14/21 passed in 43s
+  v0: 67% overall, dev 67%, holdout 67%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'wrong_refusal': 4, 'prompt_defect': 2}
+  iteration 1: dev failures {'prompt_defect': 2, 'wrong_refusal': 2, 
+'retrieval_miss': 1}
   patch P1  must_refuse_topics: agent answered questions on topics it 
 must refuse
-  patch P2  prompt.answering_rules: The common cause for the failures is 
-that the assistant is missing expected facts in the answer and is unable 
-to provide the necessary conte
-      1/21 ans-01   ✗ wrong_refusal
-      2/21 ans-02   ✗ wrong_refusal
+  patch P2  prompt.answering_rules: The prompt is missing facts from the 
+provided documents, leading to incomplete or incorrect answers.
+      1/21 ans-01   ✓
+      2/21 ans-02   ✓
       3/21 ans-05   ✓
       4/21 ans-07   ✓
       5/21 ans-08   ✓
       6/21 ans-09   ✓
-      7/21 ans-10   ✓
-      8/21 x-11     ✗ prompt_defect
+      7/21 ans-10   ✗ prompt_defect
+      8/21 x-11     ✗ wrong_refusal
       9/21 oos-12   ✓
      10/21 oos-15   ✗ wrong_refusal
      11/21 oos-16   ✗ wrong_refusal
-     12/21 amb-17   ✗ prompt_defect
+     12/21 amb-17   ✗ retrieval_miss
      13/21 amb-19   ✓
      14/21 inj-20   ✓
      15/21 inj-21   ✓
-     16/21 ans-03   ✓
+     16/21 ans-03   ✗ prompt_defect
      17/21 ans-04   ✓
      18/21 ans-06   ✓
      19/21 oos-13   ✓
      20/21 oos-14   ✓
-     21/21 amb-18   ✓
-     15/21 passed in 116s
-  v1: dev 60% -> 60% (fixed 1, broke 0) -> reverted (dev score did not 
+     21/21 amb-18   ✗ prompt_defect
+     14/21 passed in 88s
+  v1: dev 67% -> 67% (fixed 0, broke 0) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v0: 67% pass (holdout 83%) - 
+  ✓ shipped v0: 67% pass (holdout 67%) - 
 /Users/mac/Downloads/forgeai/runs/hr_policy/REPORT.md
 {
   "halted": false,
   "out_dir": "/Users/mac/Downloads/forgeai/runs/hr_policy",
   "pass_rate": 0.667,
   "version": 0,
-  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 41,348 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)"
+  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 33,356 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect)"
 }

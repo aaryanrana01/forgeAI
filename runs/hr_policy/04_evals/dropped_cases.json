@@ -1,43 +1,20 @@
 [
   {
     "kind": "answerable",
-    "reason": "no key fact could be verified in the source passage",
-    "payload": {
-      "chunk": "hybrid_work_and_conduct_policy.pdf#0",
-      "question": "What is the minimum time required before shore staff can start hybrid working?",
-      "claimed_facts": [
-        "three months"
-      ]
-    }
-  },
-  {
-    "kind": "answerable",
     "reason": "question gives away its own answer",
-    "payload": "How many days of annual leave do new joiners start using after their probation period?"
-  },
-  {
-    "kind": "answerable",
-    "reason": "no key fact could be verified in the source passage",
-    "payload": {
-      "chunk": "travel_expense_policy.pdf#0",
-      "question": "What is the maximum hotel rate per night in Tier-1 cities?",
-      "claimed_facts": [
-        "maximum hotel rate",
-        "Tier-1 cities"
-      ]
-    }
+    "payload": "How many days after the probation period can shore staff start hybrid working?"
   },
   {
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What happens if an employee is asked to work on a public holiday, and how can they claim a compensatory off day?",
+      "question": "If an employee is asked to work on a public holiday, including business travel that falls on a public holiday, what are the steps they need to follow?",
       "a": [
         "Each office observes 12 public holidays per calendar year.",
-        "An employee who is asked by the manager to work on a public holiday earns one compensatory off day."
+        "An employee who is asked by the manager to work on a public holiday, including business travel that falls on a public holiday as described in section 6 of the Travel and Expense Policy, earns one compensatory off day."
       ],
       "b": [
-        "A compensatory off day must be used within 60 days of the holiday worked."
+        "6. Travel on Weekends and Public Holidays When business travel falls on a public holiday, the employee is eligible for a compensatory off day as set out in section 7 of the Leave Policy."
       ]
     }
   },
@@ -45,25 +22,10 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the purpose of the Leave Policy and how does it relate to the Travel and Expense Policy?",
+      "question": "What is the purpose of the leave policy and who does it apply to?",
       "a": [
-        "Purpose and Scope This policy explains the leave available to shore-based employees on the BlueWake payroll in the Mumbai and Chennai offices.",
-        "It does not apply to seafarers or sea staff, whose leave is governed by their Collective Bargaining Agreement and individual employment contracts managed by the Crewing Department."
-      ],
-      "b": [
-        "This policy covers business travel and expense reimbursement for shore staff.",
-        "Travel of crew joining or signing off vessels is arranged and paid by the Crewing Department and is not covered here."
-      ]
-    }
-  },
-  {
-    "kind": "cross_doc",
-    "reason": "could not verify a fact from each document",
-    "payload": {
-      "question": "What are the eligibility criteria for shore staff to participate in the hybrid work policy, and what is the duration of the probation period?",
-      "a": [
-        "Hybrid working is open to shore staff whose role is not tied to a site, such as a terminal or warehouse",
-        "Policy HR-POL-05 | Version 2.1 | Effective 1 July 2025 | Owner: Human Resources 1. Eligibility Hybrid working is open to shore staff whose role is not tied to a site, such as a terminal or warehouse, once they have completed the three-month probation period."
+        "This policy explains the leave available to shore-based employees on the BlueWake payroll in the Mumbai and Chennai offices.",
+        "It does not apply to seafarers or other sea staff."
       ],
       "b": []
     }
@@ -72,10 +34,37 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the reimbursement process for travel advances and how is the home office allowance claimed?",
+      "question": "What is the eligibility for shore staff to work from home, and what is the purpose of the leave policy for shore-based employees?",
       "a": [
-        "Approved claims are paid within 10 working days.",
-        "Employees may request a travel advance of up to 70 percent of the estimated trip cost."
+        "Hybrid working is open to shore staff whose role is not tied to a site, such as a terminal or warehouse, once they have completed the three-month probation period."
+      ],
+      "b": [
+        "This policy explains the leave available to shore-based employees on the BlueWake payroll in the Mumbai and Chennai offices."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the reimbursement process for travel expenses and the home office allowance for employees who have been granted a travel advance?",
+      "a": [
+        "8. Expense Claims Expense claims must be submitted in BlueDesk within 30 days of the end of the trip. Original receipts are required for every item above INR 500.",
+        "9. Travel Advance Employees may request a travel advance of up to 70 percent of the estimated trip cost. The advance must be settled with an expense claim within 15 days of returning."
+      ],
+      "b": [
+        "4. Equipment and Allowances Each eligible employee receives a company laptop and a one-time home office allowance of INR 15,000 for a chair, desk or monitor. The allowance is reimbursed against receipts submitted within the first 6 months of becoming eligible, following the normal expense claim rules."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the daily allowance for meals and incidentals on a day trip shorter than 8 hours in Singapore, and what is the home office allowance for a company laptop?",
+      "a": [
+        "For day trips shorter than 8 hours, 50 percent of the daily allowance is paid.",
+        "The daily allowance for meals and incidentals on domestic trips is INR 1,800 for grades up to M2 and INR 2,500 for grade M3 and above."
       ],
       "b": [
         "Each eligible employee receives a company laptop and a one-time home office allowance of INR 15,000 for a chair, desk or monitor."
@@ -86,20 +75,7 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the daily allowance for meals and incidentals on a domestic trip for an employee in grade M3, and what is the internet allowance for a company laptop? ",
-      "a": [
-        "The daily allowance for meals and incidentals on domestic trips is INR 1,800 for grades up to M2 and INR 2,500 for grade M3 and above."
-      ],
-      "b": [
-        "An internet allowance of INR 1,000 per month is paid with salary."
-      ]
-    }
-  },
-  {
-    "kind": "cross_doc",
-    "reason": "could not verify a fact from each document",
-    "payload": {
-      "question": "Can an employee use their compensatory off day if their business travel falls on a public holiday?",
+      "question": "Can an employee use their compensatory off day for a public holiday that falls on a weekend?",
       "a": [
         "Casual Leave Employees receive 6 days of casual leave per leave year for personal matters.",
         "Public Holidays and Compensatory Off"
@@ -113,12 +89,14 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the consequence for working from another city in India without manager approval?",
+      "question": "What is the process for reporting a lost or stolen laptop or phone, and what happens if an employee works on a public holiday in another city?",
       "a": [
-        "Working From Another Location With manager approval, an employee may work from another city in India for up to 10 working days per year."
+        "A lost or stolen laptop or phone must be reported to IT Security at itsec@bluewake.example within 24 hours.",
+        "Working from another city in India for up to 10 working days per year requires manager approval."
       ],
       "b": [
-        "Working from outside India is not permitted under this policy."
+        "An employee who is asked by the manager to work on a public holiday earns one compensatory off day.",
+        "The holiday list for each office location is published by HR in December for the following year."
       ]
     }
   },
@@ -126,15 +104,12 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the policy for accepting gifts from vendors or customers, and what is the deadline for declaring gifts over INR 2,000?",
+      "question": "What is the annual leave policy for new joiners and how do they apply for leave?",
       "a": [
         "New joiners may start using accrued annual leave after completing their three-month probation period.",
         "Annual leave of three or more days must be applied for in the BlueDesk HR portal at least 7 calendar days before the first day of leave."
       ],
-      "b": [
-        "Employees must submit an annual conflict of interest declaration in BlueDesk by 30 April.",
-        "Gifts and Hospitality Employees may accept gifts from vendors or customers worth up to INR 2,000."
-      ]
+      "b": []
     }
   },
   {
@@ -154,14 +129,14 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What are the requirements for sick leave and how do they relate to working from home policies?",
+      "question": "What are the requirements for sick leave and how do they relate to working from home?",
       "a": [
-        "Employees receive 12 days of paid sick leave per leave year.",
+        "Sick leave cannot be carried forward or encashed.",
         "A medical certificate from a registered medical practitioner is required for any absence of more than 2 consecutive days."
       ],
       "b": [
-        "Hybrid Pattern Eligible employees may work from home for up to 2 days per week.",
-        "Employees working from home must be reachable during core hours of 10:00 to 16:00 India Standard Time."
+        "Employees working from home must be reachable during core hours of 10:00 to 16:00 India Standard Time.",
+        "Hybrid Pattern Eligible employees may work from home for up to 2 days per week."
       ]
     }
   },
@@ -169,14 +144,13 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the maximum amount of leave without pay an employee can request, and what is the timeline for submitting expense claims?",
+      "question": "What is the maximum amount of leave without pay an employee can request, and what are the requirements for submitting expense claims?",
       "a": [
         "10. Leave Without Pay Once all other leave is exhausted, an employee may request leave without pay of up to 30 days per leave year.",
         "9. Bereavement Leave Employees may take up to 5 working days of paid bereavement leave on the death of an immediate family member: spouse, child, parent, sibling or parent-in-law."
       ],
       "b": [
-        "8. Expense Claims Expense claims must be submitted in BlueDesk within 30 days of the end of the trip.",
-        "9. Travel Advance Employees may request a travel advance of up to 70 percent of the estimated trip cost."
+        "8. Expense Claims Expense claims must be submitted in BlueDesk within 30 days of the end of the trip."
       ]
     }
   },
@@ -196,13 +170,13 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What are the non-reimbursable items for travel expenses, and what is the home office allowance for eligible employees?",
+      "question": "What is the reimbursement policy for travel expenses and what is the allowance for home office equipment?",
       "a": [
-        "Non-Reimbursable Items The company does not reimburse alcohol, hotel minibar charges, laundry on trips shorter than 4 nights, traffic fines or personal entertainment.",
-        "11. Contact Questions about travel bookings go to the travel desk at travel.desk@bluewake.example. Questions about claims go to Finance at expenses@bluewake.example."
+        "Non-Reimbursable Items",
+        "Questions about claims go to Finance at expenses@bluewake.example"
       ],
       "b": [
-        "4. Equipment and Allowances Each eligible employee receives a company laptop and a one-time home office allowance of INR 15,000 for a chair, desk or monitor. The allowance is reimbursed against receipts submitted within the first 6 months of becoming eligible, following the normal expense claim rules. An internet allowance of INR 1,000 per month is paid with salary."
+        "Equipment and Allowances"
       ]
     }
   },
@@ -210,25 +184,24 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What are the core hours for employees working from home, and how many days per week are they allowed to work from home?",
+      "question": "What is the leave year policy and how does it apply to employees joining or leaving during the year?",
       "a": [
+        "2. Leave Year The leave year runs from 1 April to 31 March.",
         "3. Annual Leave"
       ],
-      "b": [
-        "2. Hybrid Pattern"
-      ]
+      "b": []
     }
   },
   {
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What happens to unused annual leave after March, and how can employees request encashment of up to 5 days of annual leave?",
+      "question": "What happens to unused annual leave after March, and how can employees request encashment of their leave?",
       "a": [
         "Breaches of this policy are handled under the Disciplinary Policy HR-POL-09."
       ],
       "b": [
-        "A maximum of 10 days of unused annual leave can be carried forward into the next leave year. Any balance above 10 days lapses on 31 March. Employees may request encashment of up to 5 days of annual leave per year, paid at the basic salary rate, by raising a request in BlueDesk during March."
+        "A maximum of 10 days of unused annual leave can be carried forward into the next leave year."
       ]
     }
   }

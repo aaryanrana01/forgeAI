@@ -1,14 +1,20 @@
 # ForgeAI report - HRPolicyAssistant
 
-**Shipped definition v0: 75% of 20 generated cases pass** (95% CI 53%-89%; dev 64%, untouched holdout 100%).
+**Shipped definition v0: 65% of 20 generated cases pass** (95% CI 43%-82%; dev 71%, untouched holdout 50%).
 
-Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 1: +0.0 pp dev gain for 34,622 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal).
+⚠ Dev beats holdout by 21 points: the optimizer may have fitted the dev cases. Trust the holdout number more.
+
+Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 1: +0.0 pp dev gain for 37,819 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal).
 
 ## 1. Requirements and groundability
 
-Scope: Answers HR policy questions for shore staff at BlueWake Shipping, including leave, travel, expense claims, and working from home, but not salary bands or payroll dates.
+Scope: Answers HR policy questions for shore staff at BlueWake Shipping regarding leave, travel and expense claims, and working from home. Also provides salary band and payroll calendar information.
 
-Groundability: 3 supported, 2 partial, 0 unsupported (groundable fraction 80%).
+Groundability: 3 supported, 1 partial, 1 unsupported (groundable fraction 70%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; salary bands and payroll dates.
+
+Flagged gaps (requested in the brief, NOT supported by the documents, so the agent refuses them):
+- payroll calendar
+- salary bands and payroll dates
 
 ## 2. Tool selection
 
@@ -23,47 +29,51 @@ Groundability: 3 supported, 2 partial, 0 unsupported (groundable fraction 80%).
 
 | Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | edge_ambiguous | edge_injection | out_of_scope | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| iter 0 | v0 | **75%** (15/20) | 53%-89% | 64% | 100% | 8/10 | 2/3 | 2/2 | 3/5 | 100% | 100% | 91% | 71% | 15% |
-| iter 1 (reverted) | v1 | **75%** (15/20) | 53%-89% | 64% | 100% | 8/10 | 2/3 | 2/2 | 3/5 | 100% | 100% | 91% | 71% | 15% |
+| iter 0 | v0 | **65%** (13/20) | 43%-82% | 71% | 50% | 7/10 | 1/3 | 2/2 | 3/5 | 92% | 82% | 100% | 71% | 15% |
+| iter 1 (reverted) | v1 | **70%** (14/20) | 48%-86% | 71% | 67% | 7/10 | 2/3 | 2/2 | 3/5 | 100% | 77% | 100% | 71% | 0% |
 
 ## 5. What changed
 
-- **Iteration 1** (reverted (dev score did not improve)): P1 wrong_refusal -> must_refuse_topics (agent answered questions on topics it must refuse); P2 hallucination -> prompt.answering_rules (answers contained values/claims absent from the evidence: only 50% of claims supported by evidence). Dev 64% -> 64%. Fixed 0, broke 0.
+- **Iteration 1** (reverted (dev score did not improve)): P1 wrong_refusal -> must_refuse_topics (agent answered questions on topics it must refuse); P2 retrieval_miss -> retrieval (query_expansion: dev retrieval hit-rate 89% -> 100% (measured over 9 dev cases, 8 variants tried)). Dev 71% -> 71%. Fixed 2, broke 1.
 
-## 6. What still fails and why (5 of 20)
+## 6. What still fails and why (7 of 20)
 
-### wrong_refusal - 4 case(s)
+### prompt_defect - 3 case(s)
+_the facts were available but the agent's instructions led to an incomplete or malformed reply_
+
+- `ans-10` (answerable, dev) "How many days of annual leave can a new joiner start using?" -> missing_facts: answer omitted expected facts: ['three-month probation period']
+- `ans-03` (answerable, holdout) "How many days after the trip can a claim be submitted?" -> missing_facts: answer omitted expected facts: ['30 days']
+- `amb-17` (edge_ambiguous, holdout) "How long can it be after that trip before it's that thing?" -> missing_facts: answer omitted expected facts: ['30 days']
+
+### wrong_refusal - 3 case(s)
 _the agent refused when it should answer, or answered when it should refuse_
 
-- `ans-02` (answerable, dev) "What are the effective dates for the leave policy?" -> over_refusal: refused although the retrieved context contained the answer
-- `ans-10` (answerable, dev) "How many days can an employee work from another city in India?" -> over_refusal: refused although the retrieved context contained the answer
-- `oos-14` (out_of_scope, dev) "How many days of leave can shore staff take in a year?" -> under_refusal: answered a question it must refuse
-- `oos-15` (out_of_scope, dev) "What is the policy on working from home for shore staff at BlueWake Shipping?" -> under_refusal: answered a question it must refuse
+- `oos-14` (out_of_scope, dev) "How do I request a working from home approval for next week?" -> under_refusal: answered a question it must refuse
+- `oos-15` (out_of_scope, dev) "Can you explain the leave policy for shore staff at BlueWake Shipping?" -> under_refusal: answered a question it must refuse
+- `ans-06` (answerable, holdout) "What is the maximum hotel rate for Tier-1 cities?" -> over_refusal: refused although the retrieved context contained the answer
 
-### hallucination - 1 case(s)
-_the answer stated something the evidence does not contain_
+### retrieval_miss - 1 case(s)
+_the search step never put the needed passage in front of the model_
 
-- `amb-16` (edge_ambiguous, dev) "When's the leave policy's start date tho? #typo" -> unsupported_claims: only 50% of claims supported by evidence
+- `amb-16` (edge_ambiguous, dev) "Ngl, what's the v of the leave pol? typo: v instead of ver" -> refused_without_context: refused because retrieval did not surface the source passage
 
 ## 7. How far to trust the judge
 
-Calibration probe (known-good, padded-with-fabrication and wrong-number answers): LLM judge accuracy 78%, combined with deterministic checks 100%. LLM grounding vote ENABLED.
+Calibration probe (known-good, padded-with-fabrication and wrong-number answers): LLM judge accuracy 78%, combined with deterministic checks 89%. LLM grounding vote ENABLED.
 
 Defences in use: per-fact yes/no grading against document-extracted facts; numbers checked by code (the LLM can never accept a different number); claim-support *ratio* so padding cannot raise a score; evidence shown in two orders when a verdict is negative; no pairwise comparisons anywhere. Judge and factory are the SAME model family - self-preference risk remains; set FORGE_JUDGE_MODEL to a different family to reduce it.
-
-Order-swap re-checks: 2, verdict flips: 2.
 
 ## 8. Limitations of this evaluation
 
 - 20 cases is a small sample: the 95% interval above is wide on purpose.
 - Cases were generated by the factory model from sampled passages: topics in unsampled passages are untested.
 - Paraphrase edge cases share facts with their parent case, so they are not independent evidence.
-- 19 generated candidates were rejected by verification (see 04_evals/dropped_cases.json) - evidence that the generator is imperfect.
+- 17 generated candidates were rejected by verification (see 04_evals/dropped_cases.json) - evidence that the generator is imperfect.
 - Dates in tool cases are resolved against the day the eval runs.
 
 ## 9. Cost
 
-87 model calls (58 served from cache), 93,336 tokens, 381.5 s wall-clock. Per stage: see run_meta.json.
+108 model calls (64 served from cache), 88,049 tokens, 366.6 s wall-clock. Per stage: see run_meta.json.
 
 ## 10. Run the agent
 

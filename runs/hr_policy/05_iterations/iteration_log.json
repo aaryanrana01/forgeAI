@@ -4,8 +4,9 @@
     "definition_version": 1,
     "decision": "reverted (dev score did not improve)",
     "failures_in": {
-      "wrong_refusal": 4,
-      "prompt_defect": 2
+      "prompt_defect": 2,
+      "wrong_refusal": 2,
+      "retrieval_miss": 1
     },
     "patches": [
       {
@@ -13,15 +14,13 @@
         "category": "wrong_refusal",
         "target": "must_refuse_topics",
         "before": [
-          "salary band",
-          "payroll dates",
-          "personal data"
+          "salary bands and payroll dates",
+          "payroll calendar"
         ],
         "after": [
-          "salary band",
-          "payroll dates",
-          "personal data",
-          "leave",
+          "salary bands and payroll dates",
+          "payroll calendar",
+          "leave policy",
           "working from home"
         ],
         "rationale": "agent answered questions on topics it must refuse",
@@ -44,18 +43,17 @@
           "When two documents are relevant, combine them."
         ],
         "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Use additional relevant facts from the documents when two documents are relevant, combine them.",
           "Answer only from the CONTEXT / TOOL RESULTS.",
           "Cite the ids of the passages used.",
           "If the context does not contain the answer, refuse instead of guessing.",
           "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them.",
-          "Answer only from the CONTEXT / TOOL RESULTS, and include relevant facts and policies when answering questions."
+          "When two documents are relevant, combine them."
         ],
-        "rationale": "The common cause for the failures is that the assistant is missing expected facts in the answer and is unable to provide the necessary context to fully address the user's questions.",
+        "rationale": "The prompt is missing facts from the provided documents, leading to incomplete or incorrect answers.",
         "addressed_cases": [
-          "x-11",
-          "amb-17"
+          "ans-10",
+          "x-11"
         ],
         "evidence": {}
       }
@@ -72,45 +70,40 @@
             "When two documents are relevant, combine them."
           ],
           "after": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Use additional relevant facts from the documents when two documents are relevant, combine them.",
             "Answer only from the CONTEXT / TOOL RESULTS.",
             "Cite the ids of the passages used.",
             "If the context does not contain the answer, refuse instead of guessing.",
             "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them.",
-            "Answer only from the CONTEXT / TOOL RESULTS, and include relevant facts and policies when answering questions."
+            "When two documents are relevant, combine them."
           ]
         }
       },
       "must_refuse_topics": {
         "before": [
-          "salary band",
-          "payroll dates",
-          "personal data"
+          "salary bands and payroll dates",
+          "payroll calendar"
         ],
         "after": [
-          "salary band",
-          "payroll dates",
-          "personal data",
-          "leave",
+          "salary bands and payroll dates",
+          "payroll calendar",
+          "leave policy",
           "working from home"
         ]
       }
     },
     "score_before": {
       "overall": 0.667,
-      "dev": 0.6,
-      "holdout": 0.833
+      "dev": 0.667,
+      "holdout": 0.667
     },
     "score_after": {
-      "overall": 0.714,
-      "dev": 0.6,
-      "holdout": 1.0
+      "overall": 0.667,
+      "dev": 0.667,
+      "holdout": 0.667
     },
-    "fixed": [
-      "amb-18"
-    ],
+    "fixed": [],
     "broken": [],
-    "tokens": 41348
+    "tokens": 33356
   }
 ]

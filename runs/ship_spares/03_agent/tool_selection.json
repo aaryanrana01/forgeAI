@@ -3,7 +3,7 @@
     "tool": "csv_lookup",
     "model_attach": true,
     "model_quote": "part_no",
-    "model_justification": "Brief needs exact values from a structured table for part number and stock quantity",
+    "model_justification": "Brief needs exact values from a structured table for part number lookup",
     "precondition_ok": true,
     "precondition": "CSV files present: ['spares_catalogue.csv']",
     "quote_verified": true,
@@ -14,21 +14,21 @@
     "tool": "calculator",
     "model_attach": false,
     "model_quote": "",
-    "model_justification": "No requirement above explicitly mentions the use of a calculator tool.",
+    "model_justification": "No requirement mentioned requires the calculation performed by the calculator tool.",
     "precondition_ok": true,
     "precondition": "requirements mention 'price'",
     "final": true,
-    "why": "attached by rule (not requested by model): must-answer topic 'stock quantity' is computed from spares_catalogue.csv columns"
+    "why": "attached by rule (not requested by model): must-answer topic 'order total calculation' is computed from spares_catalogue.csv columns"
   },
   {
     "tool": "current_date",
     "model_attach": false,
     "model_quote": "",
-    "model_justification": "",
+    "model_justification": "No requirement mentioned requires today's date or date arithmetic for spares procurement tasks.",
     "precondition_ok": true,
     "precondition": "requirements mention 'lead time'",
-    "final": true,
-    "why": "attached by rule (not requested by model): must-answer topic 'lead time' is computed from spares_catalogue.csv columns"
+    "final": false,
+    "why": "not requested by model"
   },
   {
     "tool": "weather",

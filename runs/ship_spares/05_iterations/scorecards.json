@@ -2,25 +2,20 @@
   {
     "label": "iter 0",
     "definition_version": 0,
-    "n_cases": 23,
-    "passed": 15,
-    "pass_rate": 0.652,
+    "n_cases": 20,
+    "passed": 10,
+    "pass_rate": 0.5,
     "ci95": [
-      0.449,
-      0.812
+      0.299,
+      0.701
     ],
-    "dev_pass_rate": 0.611,
+    "dev_pass_rate": 0.4,
     "holdout_pass_rate": 0.8,
     "by_category": {
       "answerable": {
-        "n": 8,
-        "passed": 5,
-        "pass_rate": 0.625
-      },
-      "cross_doc": {
-        "n": 1,
-        "passed": 0,
-        "pass_rate": 0.0
+        "n": 6,
+        "passed": 3,
+        "pass_rate": 0.5
       },
       "edge_ambiguous": {
         "n": 3,
@@ -34,68 +29,8 @@
       },
       "out_of_scope": {
         "n": 5,
-        "passed": 5,
-        "pass_rate": 1.0
-      },
-      "tool": {
-        "n": 4,
         "passed": 3,
-        "pass_rate": 0.75
-      }
-    },
-    "metrics": {
-      "retrieval_hit_rate": 0.938,
-      "mean_fact_recall": 0.607,
-      "grounded_rate": 1.0,
-      "refusal_recall": 1.0,
-      "over_refusal_rate": 0.125,
-      "contract_valid_rate": 0.826,
-      "citation_source_rate": 1.0,
-      "mean_latency_s": 6.22
-    },
-    "failures_by_type": {
-      "prompt_defect": 6,
-      "retrieval_miss": 1,
-      "wrong_refusal": 1
-    }
-  },
-  {
-    "label": "iter 1 (reverted)",
-    "definition_version": 1,
-    "n_cases": 23,
-    "passed": 13,
-    "pass_rate": 0.565,
-    "ci95": [
-      0.368,
-      0.744
-    ],
-    "dev_pass_rate": 0.556,
-    "holdout_pass_rate": 0.6,
-    "by_category": {
-      "answerable": {
-        "n": 8,
-        "passed": 3,
-        "pass_rate": 0.375
-      },
-      "cross_doc": {
-        "n": 1,
-        "passed": 0,
-        "pass_rate": 0.0
-      },
-      "edge_ambiguous": {
-        "n": 3,
-        "passed": 1,
-        "pass_rate": 0.333
-      },
-      "edge_injection": {
-        "n": 2,
-        "passed": 2,
-        "pass_rate": 1.0
-      },
-      "out_of_scope": {
-        "n": 5,
-        "passed": 5,
-        "pass_rate": 1.0
+        "pass_rate": 0.6
       },
       "tool": {
         "n": 4,
@@ -104,18 +39,130 @@
       }
     },
     "metrics": {
-      "retrieval_hit_rate": 1.0,
-      "mean_fact_recall": 0.591,
+      "retrieval_hit_rate": 0.923,
+      "mean_fact_recall": 0.556,
       "grounded_rate": 1.0,
-      "refusal_recall": 1.0,
-      "over_refusal_rate": 0.312,
-      "contract_valid_rate": 0.652,
-      "citation_source_rate": 1.0,
-      "mean_latency_s": 13.62
+      "refusal_recall": 0.714,
+      "over_refusal_rate": 0.308,
+      "contract_valid_rate": 0.7,
+      "citation_source_rate": 0.778,
+      "mean_latency_s": 4.69
     },
     "failures_by_type": {
-      "prompt_defect": 5,
-      "wrong_refusal": 5
+      "wrong_refusal": 6,
+      "prompt_defect": 3,
+      "retrieval_miss": 1
+    }
+  },
+  {
+    "label": "iter 1",
+    "definition_version": 1,
+    "n_cases": 20,
+    "passed": 12,
+    "pass_rate": 0.6,
+    "ci95": [
+      0.387,
+      0.781
+    ],
+    "dev_pass_rate": 0.467,
+    "holdout_pass_rate": 1.0,
+    "by_category": {
+      "answerable": {
+        "n": 6,
+        "passed": 4,
+        "pass_rate": 0.667
+      },
+      "edge_ambiguous": {
+        "n": 3,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "edge_injection": {
+        "n": 2,
+        "passed": 2,
+        "pass_rate": 1.0
+      },
+      "out_of_scope": {
+        "n": 5,
+        "passed": 4,
+        "pass_rate": 0.8
+      },
+      "tool": {
+        "n": 4,
+        "passed": 2,
+        "pass_rate": 0.5
+      }
+    },
+    "metrics": {
+      "retrieval_hit_rate": 0.923,
+      "mean_fact_recall": 0.667,
+      "grounded_rate": 1.0,
+      "refusal_recall": 0.857,
+      "over_refusal_rate": 0.308,
+      "contract_valid_rate": 0.8,
+      "citation_source_rate": 0.778,
+      "mean_latency_s": 6.08
+    },
+    "failures_by_type": {
+      "wrong_refusal": 5,
+      "prompt_defect": 2,
+      "retrieval_miss": 1
+    }
+  },
+  {
+    "label": "iter 2 (reverted)",
+    "definition_version": 2,
+    "n_cases": 20,
+    "passed": 10,
+    "pass_rate": 0.5,
+    "ci95": [
+      0.299,
+      0.701
+    ],
+    "dev_pass_rate": 0.4,
+    "holdout_pass_rate": 0.8,
+    "by_category": {
+      "answerable": {
+        "n": 6,
+        "passed": 3,
+        "pass_rate": 0.5
+      },
+      "edge_ambiguous": {
+        "n": 3,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "edge_injection": {
+        "n": 2,
+        "passed": 2,
+        "pass_rate": 1.0
+      },
+      "out_of_scope": {
+        "n": 5,
+        "passed": 3,
+        "pass_rate": 0.6
+      },
+      "tool": {
+        "n": 4,
+        "passed": 2,
+        "pass_rate": 0.5
+      }
+    },
+    "metrics": {
+      "retrieval_hit_rate": 0.923,
+      "mean_fact_recall": 0.667,
+      "grounded_rate": 0.889,
+      "refusal_recall": 0.714,
+      "over_refusal_rate": 0.308,
+      "contract_valid_rate": 0.7,
+      "citation_source_rate": 0.778,
+      "mean_latency_s": 12.8
+    },
+    "failures_by_type": {
+      "hallucination": 1,
+      "prompt_defect": 2,
+      "wrong_refusal": 6,
+      "retrieval_miss": 1
     }
   }
 ]

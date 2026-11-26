@@ -2,6 +2,16 @@
   {
     "kind": "answerable",
     "reason": "near-duplicate question",
+    "payload": "How long do spares need to be inspected?"
+  },
+  {
+    "kind": "answerable",
+    "reason": "near-duplicate question",
+    "payload": "What is the minimum order value for NordMarine Parts?"
+  },
+  {
+    "kind": "answerable",
+    "reason": "near-duplicate question",
     "payload": "What is the minimum order value for NordMarine Parts?"
   },
   {
@@ -9,23 +19,22 @@
     "reason": "no key fact could be verified in the source passage",
     "payload": {
       "chunk": "procurement_policy.pdf#0",
-      "question": "What is the policy for purchasing spare parts for engine room machinery on vessels managed by Meridian Fleet Management?",
+      "question": "What is the currency used for the order totals?",
       "claimed_facts": [
-        "Meridian Fleet Management",
-        "engine room machinery"
+        "USD currency"
       ]
     }
   },
   {
     "kind": "answerable",
     "reason": "near-duplicate question",
-    "payload": "What is the minimum order value for orders placed with NordMarine Parts AS?"
+    "payload": "What is the minimum order value for placing orders with NordMarine Parts?"
   },
   {
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the surcharge for urgent orders and how does it compare between Nordmarine and Poseidon?",
+      "question": "What is the surcharge for urgent orders and how does it differ between Nordmarine and Poseidon?",
       "a": [
         "Expedited Dispatch Urgent orders are dispatched within 72 hours for a surcharge of 20 percent of the order value."
       ],
@@ -38,19 +47,20 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What types of spare parts does NordMarine Parts AS provide, and what are the payment terms for their orders?",
+      "question": "What types of spare parts does NordMarine Parts AS supply, and what are the payment terms for Poseidon Marine Supply?",
       "a": [
-        "Products NordMarine Parts supplies OEM spare parts for turbochargers, main engines, boilers and air compressors, and reconditioned exchange units for turbocharger cartridges.",
-        "Payment Terms Invoices are payable within 45 days of the invoice date."
+        "Products NordMarine Parts supplies OEM spare parts for turbochargers, main engines, boilers and air compressors,"
       ],
-      "b": []
+      "b": [
+        "Products Poseidon Marine Supply provides genuine OEM and OEM-approved spare parts for main engines, auxiliary engines, purifiers, compressors and pumps."
+      ]
     }
   },
   {
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the minimum order value and the delivery fee for orders above USD 5,000 for SpareFinder, and what volume discount does NordMarine offer for orders above USD 20,000?",
+      "question": "What is the minimum order value and the delivery fee for orders above USD 5,000 with SpareFinder, and what volume discount does NordMarine offer for orders above USD 20,000?",
       "a": [
         "The minimum order value is USD 500 per purchase order.",
         "The delivery fee for orders above USD 5,000 is USD 150."
@@ -64,10 +74,10 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the approval process for purchase orders above USD 20,000, and what volume discount does SpareFinder offer?",
+      "question": "What is the approval process for purchase orders above USD 20,000, and what is the discount for orders above USD 20,000?",
       "a": [
         "Orders above USD 25,000 need approval from the fleet director.",
-        "Orders with a value above USD 20,000 receive a discount of 5 percent on the catalogue price."
+        "Purchase orders up to USD 25,000 can be approved by the vessel's technical superintendent."
       ],
       "b": [
         "Orders with a value above USD 20,000 receive a discount of 5 percent on the catalogue price."
@@ -81,11 +91,11 @@
       "question": "What is the delivery policy for orders placed with Poseidon Marine Supply, and what is the payment term for orders placed with Meridian?",
       "a": [
         "Orders for delivery in Singapore should be placed with Poseidon Marine Supply.",
-        "The minimum order value is USD 500 per purchase order."
+        "A non-preferred supplier may be used when the preferred supplier cannot meet the required delivery date."
       ],
       "b": [
-        "Prices quoted to Meridian are valid for 90 days from the date of the quotation.",
-        "The minimum order value is USD 500 per purchase order."
+        "Payment Terms Invoices are payable within 30 days of the invoice date.",
+        "Prices quoted to Meridian are valid for 90 days from the date of the quotation."
       ]
     }
   },
@@ -93,14 +103,26 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the procedure for ordering critical spare parts and how are payment terms handled if the order value is below the minimum?",
+      "question": "What are the payment terms for purchasing spare parts from NordMarine Parts AS, and what are the minimum order values?",
+      "a": [
+        "Purchases of provisions, crew services and dry-dock contracts follow separate procedures."
+      ],
+      "b": [
+        "Payment Terms - NordMarine Parts AS: Invoices are payable within 45 days of the invoice date. The minimum order value is USD 1,000 per purchase order."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What are the critical spare requirements and what happens when the onboard stock falls below the minimum? Also, how long are the prices quoted to Meridian valid for?",
       "a": [
         "Spares classed as category A in the catalogue are critical for safe operation.",
         "When on-board stock falls below this minimum, a replenishment order must be raised within 7 days."
       ],
       "b": [
-        "The minimum order value is USD 500 per purchase order.",
-        "Delivery alongside the vessel in Singapore is free of charge for orders above USD 5,000; smaller orders are charged a flat delivery fee of USD 150."
+        "Prices quoted to Meridian are valid for 90 days from the date of the quotation."
       ]
     }
   },
@@ -108,14 +130,12 @@
     "kind": "cross_doc",
     "reason": "could not verify a fact from each document",
     "payload": {
-      "question": "What is the procedure for inspecting delivered spares and what is the warranty period for urgent parts?",
+      "question": "What is the lead time for spares delivered by Poseidon and how much is the surcharge for urgent orders?",
       "a": [
-        "8. Receiving and Inspection Delivered spares must be inspected within 3 days of delivery on board or at the warehouse.",
-        "9. Contact Questions about this policy go to procurement@meridianfleet.example."
+        "8. Receiving and Inspection Delivered spares must be inspected within 3 days of delivery on board or at the warehouse."
       ],
       "b": [
-        "5. Expedited Dispatch For urgent orders Poseidon dispatches within 48 hours of the purchase order for a surcharge of 15 percent of the order value.",
-        "6. Warranty Parts carry a warranty of 12 months from installation or 18 months from delivery, whichever comes first."
+        "5. Expedited Dispatch For urgent orders Poseidon dispatches within 48 hours of the purchase order for a surcharge of 15 percent of the order value."
       ]
     }
   }

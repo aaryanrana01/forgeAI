@@ -1,80 +1,81 @@
 {
   "topics": [
     {
-      "topic": "leave",
+      "topic": "leave policy",
       "verdict": "supported",
       "evidence_chunk_ids": [
         "leave_policy.pdf#4",
         "leave_policy.pdf#2",
-        "leave_policy.pdf#3",
         "leave_policy.pdf#5",
-        "leave_policy.pdf#1"
+        "leave_policy.pdf#3",
+        "leave_policy.pdf#1",
+        "leave_policy.pdf#0"
       ],
       "note": "none",
-      "lexical_overlap": 0.43,
+      "lexical_overlap": 0.5,
       "adjusted_by_guard": false
     },
     {
-      "topic": "travel",
+      "topic": "travel and expense policy",
       "verdict": "supported",
       "evidence_chunk_ids": [
         "travel_expense_policy.pdf#2",
         "travel_expense_policy.pdf#3",
         "travel_expense_policy.pdf#1",
+        "travel_expense_policy.pdf#0",
         "leave_policy.pdf#3",
-        "travel_expense_policy.pdf#0"
+        "hybrid_work_and_conduct_policy.pdf#1"
       ],
       "note": "none",
       "lexical_overlap": 0.62,
       "adjusted_by_guard": false
     },
     {
-      "topic": "expense",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "travel_expense_policy.pdf#2",
-        "travel_expense_policy.pdf#3",
-        "travel_expense_policy.pdf#0",
-        "leave_policy.pdf#3",
-        "travel_expense_policy.pdf#1"
-      ],
-      "note": "none",
-      "lexical_overlap": 1.0,
+      "topic": "payroll calendar",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "None of the provided excerpts contain any information related to payroll calendars or date salary is credited each month.",
+      "lexical_overlap": 0.0,
       "adjusted_by_guard": false
     },
     {
       "topic": "working from home",
       "verdict": "partial",
       "evidence_chunk_ids": [
-        "hybrid_work_and_conduct_policy.pdf#2",
-        "hybrid_work_and_conduct_policy.pdf#0",
-        "hybrid_work_and_conduct_policy.pdf#1",
-        "hybrid_work_and_conduct_policy.pdf#3",
-        "leave_policy.pdf#3",
-        "leave_policy.pdf#4"
+        "hybrid_work_and_conduct_policy.pdf#0"
       ],
-      "note": "9. Casual Leave, 10. Parental Leave, 10. Bereavement Leave",
-      "lexical_overlap": 0.86,
+      "note": "guard: model said unsupported, but excerpt hybrid_work_and_conduct_policy.pdf#0 contains every word of the topic - changed to partial. working from home policies, such as core hours, equipment and allowances, and information security measures.",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": true
+    },
+    {
+      "topic": "hybrid work and conduct policy",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "hybrid_work_and_conduct_policy.pdf#1",
+        "hybrid_work_and_conduct_policy.pdf#2",
+        "hybrid_work_and_conduct_policy.pdf#3",
+        "hybrid_work_and_conduct_policy.pdf#0",
+        "hybrid_work_and_conduct_policy.pdf#1"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.47,
       "adjusted_by_guard": false
     },
     {
-      "topic": "hybrid work",
-      "verdict": "supported",
-      "evidence_chunk_ids": [
-        "hybrid_work_and_conduct_policy.pdf#2",
-        "hybrid_work_and_conduct_policy.pdf#3",
-        "hybrid_work_and_conduct_policy.pdf#1",
-        "hybrid_work_and_conduct_policy.pdf#0",
-        "leave_policy.pdf#3",
-        "leave_policy.pdf#4"
-      ],
-      "note": "none",
-      "lexical_overlap": 0.53,
+      "topic": "salary bands and payroll dates",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "requested in the brief; intake already set it to REFUSE. salary bands and payroll dates",
+      "lexical_overlap": 0.0,
       "adjusted_by_guard": false
     }
   ],
-  "flagged_gaps": [],
-  "groundable_fraction": 0.9,
+  "flagged_gaps": [
+    "payroll calendar",
+    "salary bands and payroll dates"
+  ],
+  "groundable_fraction": 0.7,
   "blocking": false,
-  "summary": "4 supported, 1 partial, 0 unsupported (groundable fraction 90%)."
+  "summary": "3 supported, 1 partial, 1 unsupported (groundable fraction 70%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; salary bands and payroll dates."
 }

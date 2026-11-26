@@ -1,8 +1,8 @@
 [
   {
     "question": "Who exactly are the shore staff at BlueWake Shipping that the assistant will be for?",
-    "answer": "Users: about 400 shore employees in the Mumbai and Chennai offices, from trainees to senior managers.",
-    "source": "requester_notes"
+    "answer": "The assistant will be for all shore staff positions at BlueWake Shipping.",
+    "source": "default_assumption"
   },
   {
     "question": "What is the expected tone for the assistant's responses to shore staff?",
@@ -11,8 +11,8 @@
   },
   {
     "question": "Are there any specific HR policies or topics that should be excluded from the assistant's responses?",
-    "answer": "Salary bands and payroll dates: we would love the assistant to answer these, but I am not sure the policy documents cover them. If they don't, it must not guess - it should send people to the HR helpdesk.",
-    "source": "requester_notes"
+    "answer": "Exclude any policies or topics not mentioned in the provided documents.",
+    "source": "default_assumption"
   },
   {
     "question": "What should the assistant do if an employee asks about salary bands or payroll calendars that are not covered in the provided documents?",
@@ -21,7 +21,7 @@
   },
   {
     "question": "Who should shore staff contact if the assistant cannot provide an answer to their HR policy question?",
-    "answer": "Salary bands and payroll dates: we would love the assistant to answer these, but I am not sure the policy documents cover them. If they don't, it must not guess - it should send people to the HR helpdesk.",
+    "answer": "If it cannot help, send people to the HR helpdesk: hr.helpdesk@bluewake.example, extension 2400.",
     "source": "requester_notes"
   }
 ]

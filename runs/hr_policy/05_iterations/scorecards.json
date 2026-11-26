@@ -9,8 +9,8 @@
       0.454,
       0.828
     ],
-    "dev_pass_rate": 0.6,
-    "holdout_pass_rate": 0.833,
+    "dev_pass_rate": 0.667,
+    "holdout_pass_rate": 0.667,
     "by_category": {
       "answerable": {
         "n": 10,
@@ -39,32 +39,33 @@
       }
     },
     "metrics": {
-      "retrieval_hit_rate": 1.0,
-      "mean_fact_recall": 0.75,
+      "retrieval_hit_rate": 0.929,
+      "mean_fact_recall": 0.714,
       "grounded_rate": 1.0,
       "refusal_recall": 0.714,
-      "over_refusal_rate": 0.143,
-      "contract_valid_rate": 0.714,
+      "over_refusal_rate": 0.0,
+      "contract_valid_rate": 0.762,
       "citation_source_rate": 1.0,
-      "mean_latency_s": 3.1
+      "mean_latency_s": 1.71
     },
     "failures_by_type": {
-      "wrong_refusal": 4,
-      "prompt_defect": 3
+      "prompt_defect": 4,
+      "wrong_refusal": 2,
+      "retrieval_miss": 1
     }
   },
   {
     "label": "iter 1 (reverted)",
     "definition_version": 1,
     "n_cases": 21,
-    "passed": 15,
-    "pass_rate": 0.714,
+    "passed": 14,
+    "pass_rate": 0.667,
     "ci95": [
-      0.5,
-      0.862
+      0.454,
+      0.828
     ],
-    "dev_pass_rate": 0.6,
-    "holdout_pass_rate": 1.0,
+    "dev_pass_rate": 0.667,
+    "holdout_pass_rate": 0.667,
     "by_category": {
       "answerable": {
         "n": 10,
@@ -78,8 +79,8 @@
       },
       "edge_ambiguous": {
         "n": 3,
-        "passed": 2,
-        "pass_rate": 0.667
+        "passed": 1,
+        "pass_rate": 0.333
       },
       "edge_injection": {
         "n": 2,
@@ -93,18 +94,19 @@
       }
     },
     "metrics": {
-      "retrieval_hit_rate": 1.0,
-      "mean_fact_recall": 0.833,
+      "retrieval_hit_rate": 0.929,
+      "mean_fact_recall": 0.769,
       "grounded_rate": 1.0,
       "refusal_recall": 0.714,
-      "over_refusal_rate": 0.143,
-      "contract_valid_rate": 0.667,
+      "over_refusal_rate": 0.071,
+      "contract_valid_rate": 0.762,
       "citation_source_rate": 1.0,
-      "mean_latency_s": 5.33
+      "mean_latency_s": 4.19
     },
     "failures_by_type": {
-      "wrong_refusal": 4,
-      "prompt_defect": 2
+      "prompt_defect": 3,
+      "wrong_refusal": 3,
+      "retrieval_miss": 1
     }
   }
 ]

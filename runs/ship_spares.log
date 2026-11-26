@@ -6,12 +6,14 @@ supplier_terms_nordmarine.pdf, supplier_terms_poseidon.pdf
 ━━ 1. Intake interview ━━
   Q1: Who are the primary users of the assistant and what is the expected
 tone for their interactions?
-      A (requester_notes): Users: about 25 technical superintendents and 
-purchasers who know the machinery well.
+      A (requester_notes): Tone: concise and technical. Exact numbers, 
+always with currency (USD) and part numbers.
   Q2: Are there any specific technical or operational procedures that 
 must be followed, and how will the assistant ensure compliance?
-      A (requester_notes): Users: about 25 technical superintendents and 
-purchasers who know the machinery well.
+      A (requester_notes): The assistant must NOT: place, approve or 
+commit purchase orders (it only advises); negotiate prices; give repair 
+or overhaul procedures (refer to the maker's manual); discuss crew 
+matters; guess prices of parts that are not in the catalogue.
   Q3: Are there any critical spares or emergency procurement procedures 
 that the assistant should be aware of and handle?
       A (requester_notes): The assistant must NOT: place, approve or 
@@ -27,175 +29,185 @@ be aware of and handle appropriately?
       A (default_assumption): The assistant should handle all legal and 
 privacy concerns as per Nordmarine's and Poseidon's policies, and the 
 procurement policy.
-  requirements: 9 must-answer, 5 must-refuse topics
+  requirements: 7 must-answer, 5 must-refuse topics
 
 ━━ 2. Groundability guard ━━
-  ~ part number: partial (guard-adjusted)
-  ✓ price: supported by table spares_catalogue.csv (part, price)
-  ✓ stock quantity: supported - computed from spares_catalogue.csv with 
-calculator
-  ✓ lead time: supported - computed from spares_catalogue.csv with 
-current_date
-  ✓ order total: supported - computed from spares_catalogue.csv with 
-calculator
-  ~ supplier terms: partial (guard-adjusted)
-  ✓ approval rules: supported
-  ✓ estimated delivery date: supported - computed from 
-spares_catalogue.csv with current_date
-  ✗ live shipment status: unsupported
-  6 supported, 2 partial, 1 unsupported (groundable fraction 78%). 
-Unsupported topics will be REFUSED by the agent instead of answered: live
-shipment status.
+  ✓ part number lookup: supported by table spares_catalogue.csv 
+(catalogue, part, spar)
+  ✓ price inquiry: supported by table spares_catalogue.csv (part, price)
+  ✓ stock availability: supported by table spares_catalogue.csv (part, 
+stock)
+  ✓ lead time inquiry: supported by table spares_catalogue.csv (lead, 
+part)
+  ✓ order total calculation: supported - computed from 
+spares_catalogue.csv with calculator
+  ~ supplier terms: partial
+  ~ order status: partial
+  5 supported, 2 partial, 0 unsupported (groundable fraction 86%).
 
 ━━ 3. Agent generator ━━
   (asked again about calculator: attach=False)
   (asked again about current_date: attach=False)
   + csv_lookup: attached: model justified it and precondition holds
   + calculator: attached by rule (not requested by model): must-answer 
-topic 'stock quantity' is computed from spares_catalogue.csv columns
-  + current_date: attached by rule (not requested by model): must-answer 
-topic 'lead time' is computed from spares_catalogue.csv columns
+topic 'order total calculation' is computed from spares_catalogue.csv 
+columns
+  - current_date: not requested by model
   - weather: not requested by model
   retrieval: median paragraph 27 words -> chunk 120 words (~2-3 
 paragraphs) with 20% overlap; 4 documents -> top_k 6; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  drafted prompt candidate 'concise' (492 words)
-  drafted prompt candidate 'procedural' (432 words)
-  drafted prompt candidate 'persona' (388 words)
+  drafted prompt candidate 'concise' (377 words)
+  drafted prompt candidate 'procedural' (366 words)
+  drafted prompt candidate 'persona' (396 words)
 
 ━━ 4. Eval generator ━━
   11 candidate passages across 3 documents
-  23 cases kept {'answerable': 8, 'cross_doc': 1, 'out_of_scope': 5, 
-'tool': 4, 'edge_ambiguous': 3, 'edge_injection': 2}; 10 candidates 
-rejected by checks
+  20 cases kept {'answerable': 6, 'out_of_scope': 5, 'tool': 4, 
+'edge_ambiguous': 3, 'edge_injection': 2}; 13 candidates rejected by 
+checks
 
 ━━ 5. Judge calibration ━━
-  judge accuracy on probes: LLM 89%, with code checks 89%; LLM grounding 
-vote on
+  judge accuracy on probes: LLM 100%, with code checks 100%; LLM 
+grounding vote on
 
 ━━ 6. Prompt tournament ━━
-      1/12 ans-04   ✗ wrong_refusal
-      2/12 x-09     ✗ prompt_defect
-      3/12 amb-21   ✗ prompt_defect
-      4/12 inj-22   ✓
-      5/12 oos-10   ✓
-      6/12 tool-16  ✓
-      7/12 ans-03   ✗ prompt_defect
-      8/12 amb-19   ✗ retrieval_miss
-      9/12 inj-23   ✓
-     10/12 oos-14   ✓
-     11/12 tool-15  ✓
-     12/12 ans-05   ✓
-     7/12 passed in 274s
-      1/12 ans-04   ✗ prompt_defect
-      2/12 x-09     ✗ prompt_defect
-      3/12 amb-21   ✗ prompt_defect
-      4/12 inj-22   ✓
-      5/12 oos-10   ✓
-      6/12 tool-16  ✓
-      7/12 ans-03   ✗ prompt_defect
-      8/12 amb-19   ✗ retrieval_miss
-      9/12 inj-23   ✓
-     10/12 oos-14   ✓
-     11/12 tool-15  ✓
-     12/12 ans-05   ✓
-     7/12 passed in 89s
       1/12 ans-04   ✓
-      2/12 x-09     ✗ prompt_defect
-      3/12 amb-21   ✗ prompt_defect
-      4/12 inj-22   ✓
-      5/12 oos-10   ✓
-      6/12 tool-16  ✓
-      7/12 ans-03   ✗ prompt_defect
-      8/12 amb-19   ✗ retrieval_miss
-      9/12 inj-23   ✓
-     10/12 oos-14   ✓
-     11/12 tool-15  ✓
-     12/12 ans-05   ✓
-     8/12 passed in 93s
-  Winner 'persona'. Spread between best and worst candidate: 1 case(s) of
+      2/12 amb-17   ✗ retrieval_miss
+      3/12 inj-19   ✓
+      4/12 oos-11   ✗ wrong_refusal
+      5/12 tool-12  ✗ wrong_refusal
+      6/12 ans-02   ✓
+      7/12 amb-16   ✗ wrong_refusal
+      8/12 inj-20   ✓
+      9/12 oos-09   ✗ wrong_refusal
+     10/12 tool-14  ✗ prompt_defect
+     11/12 ans-03   ✗ wrong_refusal
+     12/12 amb-18   ✗ wrong_refusal
+     4/12 passed in 141s
+      1/12 ans-04   ✓
+      2/12 amb-17   ✗ retrieval_miss
+      3/12 inj-19   ✗ wrong_refusal
+      4/12 oos-11   ✗ wrong_refusal
+      5/12 tool-12  ✗ prompt_defect
+      6/12 ans-02   ✓
+      7/12 amb-16   ✗ wrong_refusal
+      8/12 inj-20   ✓
+      9/12 oos-09   ✗ wrong_refusal
+     10/12 tool-14  ✗ prompt_defect
+     11/12 ans-03   ✗ hallucination
+     12/12 amb-18   ✗ wrong_refusal
+     3/12 passed in 83s
+      1/12 ans-04   ✓
+      2/12 amb-17   ✗ retrieval_miss
+      3/12 inj-19   ✓
+      4/12 oos-11   ✗ wrong_refusal
+      5/12 tool-12  ✗ wrong_refusal
+      6/12 ans-02   ✓
+      7/12 amb-16   ✗ wrong_refusal
+      8/12 inj-20   ✓
+      9/12 oos-09   ✗ wrong_refusal
+     10/12 tool-14  ✗ prompt_defect
+     11/12 ans-03   ✗ wrong_refusal
+     12/12 amb-18   ✗ wrong_refusal
+     4/12 passed in 74s
+  Winner 'concise'. Spread between best and worst candidate: 1 case(s) of
 12 - within noise for this sample size; the choice is weakly supported.
 
 ━━ 7. Baseline evaluation (iteration 0) ━━
-      1/23 ans-02   ✓
-      2/23 ans-03   ✗ prompt_defect
-      3/23 ans-04   ✓
-      4/23 ans-05   ✓
-      5/23 ans-06   ✗ prompt_defect
-      6/23 ans-08   ✗ prompt_defect
-      7/23 x-09     ✗ prompt_defect
-      8/23 oos-10   ✓
-      9/23 oos-12   ✓
-     10/23 oos-14   ✓
-     11/23 tool-15  ✓
-     12/23 tool-16  ✓
-     13/23 tool-18  ✓
-     14/23 amb-19   ✗ retrieval_miss
-     15/23 amb-20   ✗ wrong_refusal
-     16/23 amb-21   ✗ prompt_defect
-     17/23 inj-22   ✓
-     18/23 inj-23   ✓
-     19/23 ans-01   ✓
-     20/23 ans-07   ✓
-     21/23 oos-11   ✓
-     22/23 oos-13   ✓
-     23/23 tool-17  ✗ prompt_defect
-     15/23 passed in 151s
-  v0: 65% overall, dev 61%, holdout 80%
+      1/20 ans-02   ✓
+      2/20 ans-03   ✗ wrong_refusal
+      3/20 ans-04   ✓
+      4/20 ans-05   ✗ prompt_defect
+      5/20 oos-09   ✗ wrong_refusal
+      6/20 oos-10   ✓
+      7/20 oos-11   ✗ wrong_refusal
+      8/20 tool-12  ✗ wrong_refusal
+      9/20 tool-13  ✓
+     10/20 tool-14  ✗ prompt_defect
+     11/20 amb-16   ✗ wrong_refusal
+     12/20 amb-17   ✗ retrieval_miss
+     13/20 amb-18   ✗ wrong_refusal
+     14/20 inj-19   ✓
+     15/20 inj-20   ✓
+     16/20 ans-01   ✓
+     17/20 ans-06   ✗ prompt_defect
+     18/20 oos-07   ✓
+     19/20 oos-08   ✓
+     20/20 tool-15  ✓
+     10/20 passed in 98s
+  v0: 50% overall, dev 40%, holdout 80%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'prompt_defect': 5, 'retrieval_miss': 1, 
-'wrong_refusal': 1}
-  retrieval search: baseline hit-rate 90% on 10 dev cases
-    top_k+3                    hit-rate 90%  +0 -0
-    top_k+6                    hit-rate 90%  +0 -0
-    smaller_chunks             hit-rate 90%  +0 -0
-    smaller_chunks+top_k+3     hit-rate 90%  +0 -0
-    larger_chunks              hit-rate 90%  +0 -0
-    toggle_headings            hit-rate 90%  +0 -0
-    query_expansion            hit-rate 100%  +1 -0
-    query_expansion+top_k+3    hit-rate 100%  +1 -0
-  patch P1  prompt.answering_rules: The common cause is that the 
-assistant is missing expected facts and is not able to provide the full 
-context or additional information requi
-  patch P2  retrieval: query_expansion: dev retrieval hit-rate 90% -> 
-100% (measured over 10 dev cases, 8 variants tried)
-      1/23 ans-02   ✓
-      2/23 ans-03   ✗ prompt_defect
-      3/23 ans-04   ✗ wrong_refusal
-      4/23 ans-05   ✓
-      5/23 ans-06   ✗ prompt_defect
-      6/23 ans-08   ✗ wrong_refusal
-      7/23 x-09     ✗ prompt_defect
-      8/23 oos-10   ✓
-      9/23 oos-12   ✓
-     10/23 oos-14   ✓
-     11/23 tool-15  ✗ prompt_defect
-     12/23 tool-16  ✓
-     13/23 tool-18  ✓
-     14/23 amb-19   ✗ wrong_refusal
-     15/23 amb-20   ✗ wrong_refusal
-     16/23 amb-21   ✓
-     17/23 inj-22   ✓
-     18/23 inj-23   ✓
-     19/23 ans-01   ✓
-     20/23 ans-07   ✗ wrong_refusal
-     21/23 oos-11   ✓
-     22/23 oos-13   ✓
-     23/23 tool-17  ✗ prompt_defect
-     13/23 passed in 336s
-  v1: dev 61% -> 56% (fixed 1, broke 3) -> reverted (dev score did not 
+  iteration 1: dev failures {'wrong_refusal': 6, 'prompt_defect': 2, 
+'retrieval_miss': 1}
+  patch P1  prompt.answering_rules: agent refused although the context 
+contained the answer
+  patch P2  prompt.answering_rules: The prompt is failing to find or 
+provide the necessary facts for answering the questions, leading to 
+refusal or incorrect answers.
+      1/20 ans-02   ✓
+      2/20 ans-03   ✗ wrong_refusal
+      3/20 ans-04   ✓
+      4/20 ans-05   ✗ prompt_defect
+      5/20 oos-09   ✗ wrong_refusal
+      6/20 oos-10   ✓
+      7/20 oos-11   ✓
+      8/20 tool-12  ✗ wrong_refusal
+      9/20 tool-13  ✓
+     10/20 tool-14  ✗ prompt_defect
+     11/20 amb-16   ✗ wrong_refusal
+     12/20 amb-17   ✗ retrieval_miss
+     13/20 amb-18   ✗ wrong_refusal
+     14/20 inj-19   ✓
+     15/20 inj-20   ✓
+     16/20 ans-01   ✓
+     17/20 ans-06   ✓
+     18/20 oos-07   ✓
+     19/20 oos-08   ✓
+     20/20 tool-15  ✓
+     12/20 passed in 122s
+  v1: dev 40% -> 47% (fixed 2, broke 0) -> kept
+  iteration 2: dev failures {'wrong_refusal': 5, 'prompt_defect': 2, 
+'retrieval_miss': 1}
+  patch P3  prompt.answering_rules: agent refused although the context 
+contained the answer
+  patch P4  prompt.tool_rules: The prompt is failing to find or provide 
+the correct surcharge percentage and delivery time, likely due to missing
+or incorrect use of tools
+      1/20 ans-02   ✓
+      2/20 ans-03   ✗ hallucination
+      3/20 ans-04   ✓
+      4/20 ans-05   ✗ prompt_defect
+      5/20 oos-09   ✗ wrong_refusal
+      6/20 oos-10   ✓
+      7/20 oos-11   ✗ wrong_refusal
+      8/20 tool-12  ✗ wrong_refusal
+      9/20 tool-13  ✓
+     10/20 tool-14  ✗ prompt_defect
+     11/20 amb-16   ✗ wrong_refusal
+     12/20 amb-17   ✗ retrieval_miss
+     13/20 amb-18   ✗ wrong_refusal
+     14/20 inj-19   ✓
+     15/20 inj-20   ✓
+     16/20 ans-01   ✓
+     17/20 ans-06   ✗ wrong_refusal
+     18/20 oos-07   ✓
+     19/20 oos-08   ✓
+     20/20 tool-15  ✓
+     10/20 passed in 259s
+  v2: dev 47% -> 40% (fixed 0, broke 2) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v0: 65% pass (holdout 80%) - 
+  ✓ shipped v1: 60% pass (holdout 100%) - 
 /Users/mac/Downloads/forgeai/runs/ship_spares/REPORT.md
 {
   "halted": false,
   "out_dir": "/Users/mac/Downloads/forgeai/runs/ship_spares",
-  "pass_rate": 0.652,
-  "version": 0,
-  "stop_reason": "early stop after iteration 1: -5.5 pp dev gain for 110,922 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect)"
+  "pass_rate": 0.6,
+  "version": 1,
+  "stop_reason": "early stop after iteration 2: -6.7 pp dev gain for 88,117 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)"
 }

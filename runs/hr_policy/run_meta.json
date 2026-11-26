@@ -1,5 +1,5 @@
 {
-  "started": "2026-11-26T23:58:32",
+  "started": "2026-11-27T00:49:25",
   "settings": {
     "backend": "ollama",
     "model": "qwen2.5:3b-instruct",
@@ -17,18 +17,18 @@
   "intake_mode": "notes",
   "brief": "/Users/mac/Downloads/forgeai/demos/hr_policy/brief.md",
   "docs": "/Users/mac/Downloads/forgeai/demos/hr_policy/docs",
-  "finished": "2026-11-27T00:11:46",
-  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 41,348 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)",
+  "finished": "2026-11-27T00:58:54",
+  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 33,356 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect)",
   "final_version": 0,
   "final_pass_rate": 0.667,
-  "final_holdout_pass_rate": 0.833,
+  "final_holdout_pass_rate": 0.667,
   "usage": {
-    "llm_calls": 153,
-    "cached_calls": 59,
-    "prompt_tokens": 151143,
-    "completion_tokens": 11136,
-    "total_tokens": 162279,
-    "elapsed_seconds": 794.5,
+    "llm_calls": 145,
+    "cached_calls": 58,
+    "prompt_tokens": 128586,
+    "completion_tokens": 10666,
+    "total_tokens": 139252,
+    "elapsed_seconds": 569.1,
     "budget": {
       "max_tokens": 4000000,
       "max_seconds": 14400,
@@ -36,58 +36,58 @@
     },
     "by_task": {
       "agent_answer": {
-        "calls": 107,
-        "tokens": 117405,
-        "seconds": 449.8,
-        "cached": 17
+        "calls": 100,
+        "tokens": 101418,
+        "seconds": 328.9,
+        "cached": 15
       },
       "evalgen_answerable": {
-        "calls": 13,
-        "tokens": 7895,
-        "seconds": 48.7,
+        "calls": 11,
+        "tokens": 6415,
+        "seconds": 35.7,
         "cached": 0
       },
       "evalgen_crossdoc": {
         "calls": 16,
-        "tokens": 10121,
-        "seconds": 114.1,
+        "tokens": 10024,
+        "seconds": 86.0,
         "cached": 0
       },
       "evalgen_injection": {
         "calls": 2,
-        "tokens": 398,
-        "seconds": 3.9,
+        "tokens": 400,
+        "seconds": 3.1,
         "cached": 0
       },
       "evalgen_out_of_scope": {
         "calls": 1,
-        "tokens": 572,
-        "seconds": 12.1,
+        "tokens": 590,
+        "seconds": 9.3,
         "cached": 0
       },
       "evalgen_paraphrase": {
         "calls": 3,
-        "tokens": 156,
-        "seconds": 1.3,
-        "cached": 2
+        "tokens": 330,
+        "seconds": 3.2,
+        "cached": 1
       },
       "evalgen_refusal_check": {
         "calls": 5,
-        "tokens": 2605,
-        "seconds": 13.1,
+        "tokens": 2502,
+        "seconds": 12.2,
         "cached": 0
       },
       "groundability": {
-        "calls": 5,
-        "tokens": 6600,
-        "seconds": 26.7,
-        "cached": 0
+        "calls": 6,
+        "tokens": 5163,
+        "seconds": 18.2,
+        "cached": 2
       },
       "intake_answer_from_notes": {
-        "calls": 9,
-        "tokens": 0,
-        "seconds": 0.0,
-        "cached": 9
+        "calls": 5,
+        "tokens": 1556,
+        "seconds": 3.4,
+        "cached": 0
       },
       "intake_questions": {
         "calls": 1,
@@ -97,50 +97,50 @@
       },
       "intake_requirements": {
         "calls": 1,
-        "tokens": 1726,
-        "seconds": 16.9,
+        "tokens": 1593,
+        "seconds": 15.1,
         "cached": 0
       },
       "judge_claims": {
-        "calls": 36,
-        "tokens": 9025,
-        "seconds": 49.6,
-        "cached": 24
+        "calls": 40,
+        "tokens": 3692,
+        "seconds": 13.3,
+        "cached": 35
       },
       "judge_fact": {
-        "calls": 8,
-        "tokens": 285,
-        "seconds": 4.4,
-        "cached": 6
+        "calls": 7,
+        "tokens": 430,
+        "seconds": 1.9,
+        "cached": 4
       },
       "optimizer_patch": {
         "calls": 1,
-        "tokens": 981,
-        "seconds": 8.8,
+        "tokens": 850,
+        "seconds": 4.9,
         "cached": 0
       },
       "prompt_writer_concise": {
         "calls": 1,
-        "tokens": 1189,
-        "seconds": 15.2,
+        "tokens": 1026,
+        "seconds": 8.7,
         "cached": 0
       },
       "prompt_writer_persona": {
         "calls": 1,
-        "tokens": 1082,
-        "seconds": 9.7,
+        "tokens": 1136,
+        "seconds": 10.9,
         "cached": 0
       },
       "prompt_writer_procedural": {
         "calls": 1,
-        "tokens": 1057,
-        "seconds": 8.5,
+        "tokens": 1080,
+        "seconds": 8.7,
         "cached": 0
       },
       "tool_selection": {
         "calls": 1,
-        "tokens": 1182,
-        "seconds": 8.0,
+        "tokens": 1047,
+        "seconds": 3.7,
         "cached": 0
       }
     }
@@ -158,43 +158,43 @@
     },
     {
       "stage": "2. Groundability guard",
-      "tokens": 1726,
-      "t": 17.0
+      "tokens": 3149,
+      "t": 18.6
     },
     {
       "stage": "3. Agent generator",
-      "tokens": 8326,
-      "t": 43.8
+      "tokens": 8312,
+      "t": 36.9
     },
     {
       "stage": "4. Eval generator",
-      "tokens": 12836,
-      "t": 85.4
+      "tokens": 12601,
+      "t": 69.0
     },
     {
       "stage": "5. Judge calibration",
-      "tokens": 34583,
-      "t": 278.9
+      "tokens": 32862,
+      "t": 218.9
     },
     {
       "stage": "6. Prompt tournament",
-      "tokens": 35605,
-      "t": 287.7
+      "tokens": 33180,
+      "t": 220.6
     },
     {
       "stage": "7. Baseline evaluation (iteration 0)",
-      "tokens": 104006,
-      "t": 585.4
+      "tokens": 90949,
+      "t": 433.3
     },
     {
       "stage": "8. Critic-optimizer loop",
-      "tokens": 120931,
-      "t": 669.7
+      "tokens": 105896,
+      "t": 476.0
     },
     {
       "stage": "9. Report",
-      "tokens": 162279,
-      "t": 794.5
+      "tokens": 139252,
+      "t": 569.1
     }
   ]
 }

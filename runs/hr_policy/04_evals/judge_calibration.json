@@ -45,7 +45,7 @@
       "probe": "padded_with_fabrication",
       "case": "ans-02",
       "expected_grounded": false,
-      "llm_ratio": 0.5,
+      "llm_ratio": 0.0,
       "llm_correct": true,
       "deterministic_flags": [
         4750.0,
@@ -60,7 +60,7 @@
       "llm_ratio": 0.0,
       "llm_correct": true,
       "deterministic_flags": [
-        5.0
+        11.4
       ],
       "combined_correct": true
     },
@@ -68,10 +68,10 @@
       "probe": "good",
       "case": "ans-03",
       "expected_grounded": true,
-      "llm_ratio": 1.0,
-      "llm_correct": true,
+      "llm_ratio": 0.0,
+      "llm_correct": false,
       "deterministic_flags": [],
-      "combined_correct": true
+      "combined_correct": false
     },
     {
       "probe": "padded_with_fabrication",
@@ -88,8 +88,8 @@
       "probe": "wrong_number",
       "case": "ans-03",
       "expected_grounded": false,
-      "llm_ratio": 1.0,
-      "llm_correct": false,
+      "llm_ratio": 0.0,
+      "llm_correct": true,
       "deterministic_flags": [
         63.0
       ],
@@ -97,7 +97,7 @@
     }
   ],
   "llm_judge_accuracy": 0.78,
-  "combined_accuracy": 1.0,
+  "combined_accuracy": 0.89,
   "llm_grounding_vote_enabled": true,
   "judge_model": "qwen2.5:3b-instruct",
   "factory_model": "qwen2.5:3b-instruct",

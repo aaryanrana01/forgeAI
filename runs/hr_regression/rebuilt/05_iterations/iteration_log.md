@@ -1,14 +1,16 @@
 # Critic-optimizer iteration log
 
 ## Iteration 1 - reverted (dev score did not improve)
-Dev pass-rate 64% -> 64%; holdout 100% -> 100%; overall 75% -> 75%. Tokens spent: 34,622.
+Dev pass-rate 71% -> 71%; holdout 50% -> 67%; overall 65% -> 70%. Tokens spent: 37,819.
 
-Dev failures going in: {'wrong_refusal': 4, 'hallucination': 1}
+Dev failures going in: {'prompt_defect': 1, 'wrong_refusal': 2, 'retrieval_miss': 1}
 - **P1 [wrong_refusal] must_refuse_topics** - agent answered questions on topics it must refuse  
   addresses: oos-14, oos-15  
-  before: `['salary band', 'payroll dates', 'personal data']`  
-  after: `['salary band', 'payroll dates', 'personal data', 'leave', 'working from home']`
-- **P2 [hallucination] prompt.answering_rules** - answers contained values/claims absent from the evidence: only 50% of claims supported by evidence  
+  before: `['salary bands and payroll dates', 'payroll calendar']`  
+  after: `['salary bands and payroll dates', 'payroll calendar', 'leave policy', 'working from home']`
+- **P2 [retrieval_miss] retrieval** - query_expansion: dev retrieval hit-rate 89% -> 100% (measured over 9 dev cases, 8 variants tried)  
   addresses: amb-16  
-  before: `['Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.', 'Answer only from the CONTEXT / TOOL RESULTS.', 'Cite the ids of the passages used.', 'If the context does not contain the answer, refuse instead of guessing.', 'Co ...`  
-  after: `['Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.', 'Answer only from the CONTEXT / TOOL RESULTS.', 'Cite the ids of the passages used.', 'If the context does not contain the answer, refuse instead of guessing.', 'Co ...`
+  before: `{'chunk_size': 120, 'chunk_overlap': 24, 'prepend_headings': True, 'top_k': 5, 'mode': 'bm25', 'query_expansion': False, 'min_relevance': 0.0}`  
+  after: `{'chunk_size': 120, 'chunk_overlap': 24, 'prepend_headings': True, 'top_k': 5, 'mode': 'bm25', 'query_expansion': True, 'min_relevance': 0.0}`
+- now passing: amb-16, ans-06
+- newly failing: ans-05
