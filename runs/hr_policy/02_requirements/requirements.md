@@ -12,10 +12,12 @@
 - **travel and expense policy** - Air travel, hotel limits, per diem, travel on weekends and public holidays, local conveyance, expense claims, travel advance, non-reimbursable items
 - **working from home** - Hybrid work and conduct policy, working from another location
 - **hybrid work and conduct policy** - Eligibility, hybrid pattern, core hours, equipment and allowances, information security, gifts and hospitality, conflicts of interest, speak-up and grievances, breaches
+- **answer leave policy questions** - requested in the brief (restored by coverage check)
 
 ## Must refuse
 - **salary bands and payroll dates** - Cannot provide without policy documents covering these topics
 - **payroll calendar** - Requested in the brief but NOT covered by the documents (flagged by groundability guard) - refuse and redirect.
+- **tell employees their salary band** - Requested in the brief but NOT covered by the documents (flagged by groundability guard) - refuse and redirect.
 
 ## Success criteria
 - HR staff can find the information they need from the assistant
@@ -24,9 +26,12 @@
 - No legal jargon
 - Salary bands and payroll dates: send people to the HR helpdesk if they are not covered in the provided documents
 - Topic 'working from home' is only partly documented; answer only what the documents state and refuse the rest. Missing: guard: model said unsupported, but excerpt hybrid_work_and_conduct_policy.pdf#0 contains every word of the topic - changed to partial. working from home policies, such as core hours, equipment and allowances, and information security measures.
+- Topic 'answer leave policy questions' is only partly documented; answer only what the documents state and refuse the rest. Missing: 6. Travel on Weekends and Public Holidays, 9. Travel Advance, 10. Non-Reimbursable Items, 4. Carry Forward and Encashment, 5. Sick Leave, 3. Annual Leave, 7. Local Conveyance, 8. Expense Claims
 
 ## Assumptions
 - The assistant will be for all shore staff positions at BlueWake Shipping
+- Restored from the brief by the coverage check: answer leave policy questions
+- Restored from the brief by the coverage check: tell employees their salary band
 - Assumed (no reply): Who exactly are the shore staff at BlueWake Shipping that the assistant will be for? -> The assistant will be for all shore staff positions at BlueWake Shipping.
 - Assumed (no reply): Are there any specific HR policies or topics that should be excluded from the assistant's responses? -> Exclude any policies or topics not mentioned in the provided documents.
 

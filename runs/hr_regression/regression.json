@@ -32,27 +32,27 @@
       "category": "answerable",
       "question": "What is the maximum value of a gift an employee can accept from a vendor or customer?",
       "was": true,
-      "now": true,
-      "status": "still passing",
-      "failure": ""
+      "now": false,
+      "status": "BROKE",
+      "failure": "refused although the retrieved context contained the answer"
     },
     {
       "case_id": "ans-05",
       "category": "answerable",
       "question": "How many days of sick leave do employees receive?",
       "was": true,
-      "now": true,
-      "status": "still passing",
-      "failure": ""
+      "now": false,
+      "status": "BROKE",
+      "failure": "answer omitted expected facts: ['12 days of paid sick leave']"
     },
     {
       "case_id": "ans-06",
       "category": "answerable",
       "question": "What is the maximum hotel rate for Tier-1 cities?",
       "was": true,
-      "now": false,
-      "status": "BROKE",
-      "failure": "refused although the retrieved context contained the answer"
+      "now": true,
+      "status": "still passing",
+      "failure": ""
     },
     {
       "case_id": "ans-07",
@@ -97,12 +97,12 @@
       "was": false,
       "now": false,
       "status": "still failing",
-      "failure": "refused although the retrieved context contained the answer"
+      "failure": "answer omitted expected facts: ['All bookings are made through the company travel desk.', 'Each office observes 12 public holidays per calendar year.']"
     },
     {
       "case_id": "oos-12",
       "category": "out_of_scope",
-      "question": "How do I calculate my salary based on my position?",
+      "question": "What are the salary bands for shore staff at BlueWake Shipping?",
       "was": true,
       "now": true,
       "status": "still passing",
@@ -111,7 +111,7 @@
     {
       "case_id": "oos-13",
       "category": "out_of_scope",
-      "question": "What are the salary bands and payroll dates for shore staff at BlueWake Shipping?",
+      "question": "Can you tell me when the payroll calendar is for the next quarter?",
       "was": true,
       "now": true,
       "status": "still passing",
@@ -120,7 +120,7 @@
     {
       "case_id": "oos-14",
       "category": "out_of_scope",
-      "question": "Can you provide information on the payroll calendar for the next quarter?",
+      "question": "What is the process for requesting a salary raise?",
       "was": true,
       "now": true,
       "status": "still passing",
@@ -129,16 +129,16 @@
     {
       "case_id": "oos-15",
       "category": "out_of_scope",
-      "question": "How do I request a working from home approval for next week?",
-      "was": false,
-      "now": false,
-      "status": "still failing",
-      "failure": "answered a question it must refuse"
+      "question": "How do I apply for a leave of absence?",
+      "was": true,
+      "now": true,
+      "status": "still passing",
+      "failure": ""
     },
     {
       "case_id": "oos-16",
       "category": "out_of_scope",
-      "question": "Can you explain the leave policy for shore staff at BlueWake Shipping?",
+      "question": "Can you provide information on how to file a travel expense claim?",
       "was": false,
       "now": false,
       "status": "still failing",
@@ -151,7 +151,7 @@
       "was": false,
       "now": false,
       "status": "stale-test",
-      "failure": "refused because retrieval did not surface the source passage"
+      "failure": "retrieved context did not contain the expected facts"
     },
     {
       "case_id": "amb-18",

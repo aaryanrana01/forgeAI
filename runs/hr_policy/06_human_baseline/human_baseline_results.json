@@ -141,7 +141,7 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['30 days']",
-    "latency_s": 5.36
+    "latency_s": 0.0
   },
   {
     "case_id": "ans-04",
@@ -234,7 +234,7 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['12 days of paid sick leave']",
-    "latency_s": 4.59
+    "latency_s": 0.0
   },
   {
     "case_id": "ans-06",
@@ -331,7 +331,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 0.01
+    "latency_s": 0.0
   },
   {
     "case_id": "ans-08",
@@ -427,7 +427,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.39
+    "latency_s": 0.0
   },
   {
     "case_id": "ans-10",
@@ -471,7 +471,7 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['3 months']",
-    "latency_s": 5.28
+    "latency_s": 0.0
   },
   {
     "case_id": "x-11",
@@ -517,23 +517,31 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['All bookings are made through the company travel desk.', 'Each office observes 12 public holidays per calendar year.']",
-    "latency_s": 8.44
+    "latency_s": 0.0
   },
   {
     "case_id": "oos-12",
     "category": "out_of_scope",
     "split": "dev",
-    "question": "How do I calculate my salary based on my position?",
+    "question": "What are the salary bands for shore staff at BlueWake Shipping?",
     "should_refuse": true,
     "answer": "Sorry, I can't answer that from the HR policies. Please contact the HR helpdesk at hr.helpdesk@bluewake.example or extension 2400.",
     "refused": true,
     "citations": [
+      "hybrid_work_and_conduct_policy.pdf#0",
       "hybrid_work_and_conduct_policy.pdf#1",
-      "leave_policy.pdf#2"
+      "leave_policy.pdf#0",
+      "leave_policy.pdf#1",
+      "leave_policy.pdf#2",
+      "travel_expense_policy.pdf#0"
     ],
     "retrieved_ids": [
+      "hybrid_work_and_conduct_policy.pdf#0",
+      "leave_policy.pdf#0",
+      "travel_expense_policy.pdf#0",
       "hybrid_work_and_conduct_policy.pdf#1",
-      "leave_policy.pdf#2"
+      "leave_policy.pdf#2",
+      "leave_policy.pdf#1"
     ],
     "tool_calls": [],
     "checks": {
@@ -549,29 +557,32 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 5.92
+    "latency_s": 0.0
   },
   {
     "case_id": "oos-13",
     "category": "out_of_scope",
     "split": "holdout",
-    "question": "What are the salary bands and payroll dates for shore staff at BlueWake Shipping?",
+    "question": "Can you tell me when the payroll calendar is for the next quarter?",
     "should_refuse": true,
     "answer": "Sorry, I can't answer that from the HR policies. Please contact the HR helpdesk at hr.helpdesk@bluewake.example or extension 2400.",
     "refused": true,
-    "citations": [],
+    "citations": [
+      "leave_policy.pdf#0",
+      "leave_policy.pdf#1"
+    ],
     "retrieved_ids": [
       "leave_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#0",
-      "travel_expense_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#1",
       "leave_policy.pdf#2",
+      "leave_policy.pdf#3",
       "leave_policy.pdf#1"
     ],
     "tool_calls": [],
     "checks": {
-      "contract_valid": true,
-      "contract_errors": [],
+      "contract_valid": false,
+      "contract_errors": [
+        "answer is empty"
+      ],
       "refused_effective": true,
       "retrieval_hit": true,
       "refusal_correct": true
@@ -580,28 +591,31 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 7.13
+    "latency_s": 6.3
   },
   {
     "case_id": "oos-14",
     "category": "out_of_scope",
     "split": "holdout",
-    "question": "Can you provide information on the payroll calendar for the next quarter?",
+    "question": "What is the process for requesting a salary raise?",
     "should_refuse": true,
     "answer": "Sorry, I can't answer that from the HR policies. Please contact the HR helpdesk at hr.helpdesk@bluewake.example or extension 2400.",
     "refused": true,
     "citations": [],
     "retrieved_ids": [
-      "hybrid_work_and_conduct_policy.pdf#2",
-      "leave_policy.pdf#0",
       "leave_policy.pdf#2",
-      "leave_policy.pdf#3",
-      "leave_policy.pdf#1"
+      "hybrid_work_and_conduct_policy.pdf#1",
+      "leave_policy.pdf#5",
+      "travel_expense_policy.pdf#4",
+      "travel_expense_policy.pdf#2",
+      "travel_expense_policy.pdf#0"
     ],
     "tool_calls": [],
     "checks": {
-      "contract_valid": true,
-      "contract_errors": [],
+      "contract_valid": false,
+      "contract_errors": [
+        "answer is empty"
+      ],
       "refused_effective": true,
       "retrieval_hit": true,
       "refusal_correct": true
@@ -610,60 +624,22 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 6.15
+    "latency_s": 5.5
   },
   {
     "case_id": "oos-15",
     "category": "out_of_scope",
     "split": "dev",
-    "question": "How do I request a working from home approval for next week?",
+    "question": "How do I apply for a leave of absence?",
     "should_refuse": true,
-    "answer": "You must register your work-from-home days for the coming week in BlueDesk by the Friday of the previous week.",
-    "refused": false,
-    "citations": [
-      "hybrid_work_and_conduct_policy.pdf#1"
-    ],
+    "answer": "Sorry, I can't answer that from the HR policies. Please contact the HR helpdesk at hr.helpdesk@bluewake.example or extension 2400.",
+    "refused": true,
+    "citations": [],
     "retrieved_ids": [
-      "hybrid_work_and_conduct_policy.pdf#0",
-      "leave_policy.pdf#4",
-      "hybrid_work_and_conduct_policy.pdf#1",
+      "leave_policy.pdf#0",
       "leave_policy.pdf#2",
-      "leave_policy.pdf#5",
-      "leave_policy.pdf#1"
-    ],
-    "tool_calls": [],
-    "checks": {
-      "contract_valid": true,
-      "contract_errors": [],
-      "refused_effective": false,
-      "retrieval_hit": true,
-      "refusal_correct": false
-    },
-    "passed": false,
-    "failure_category": "wrong_refusal",
-    "failure_subtype": "under_refusal",
-    "failure_reason": "answered a question it must refuse",
-    "latency_s": 6.39
-  },
-  {
-    "case_id": "oos-16",
-    "category": "out_of_scope",
-    "split": "dev",
-    "question": "Can you explain the leave policy for shore staff at BlueWake Shipping?",
-    "should_refuse": true,
-    "answer": "Shore staff at BlueWake Shipping are entitled to 21 working days of annual leave per leave year, accruing at 1.75 days per month of service. Casual leave is 6 days per leave year for personal matters, with a maximum of 2 consecutive days. Public holidays earn one compensatory off day, which must be used within 60 days. Leave without pay is up to 30 days per leave year, requiring approval from the department head and HR.",
-    "refused": false,
-    "citations": [
-      "leave_policy.pdf#0",
       "leave_policy.pdf#1",
-      "leave_policy.pdf#3",
-      "leave_policy.pdf#5"
-    ],
-    "retrieved_ids": [
-      "leave_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#0",
-      "travel_expense_policy.pdf#0",
-      "leave_policy.pdf#1",
+      "leave_policy.pdf#4",
       "leave_policy.pdf#5",
       "leave_policy.pdf#3"
     ],
@@ -671,6 +647,39 @@
     "checks": {
       "contract_valid": true,
       "contract_errors": [],
+      "refused_effective": true,
+      "retrieval_hit": true,
+      "refusal_correct": true
+    },
+    "passed": true,
+    "failure_category": null,
+    "failure_subtype": "",
+    "failure_reason": "",
+    "latency_s": 9.27
+  },
+  {
+    "case_id": "oos-16",
+    "category": "out_of_scope",
+    "split": "dev",
+    "question": "Can you provide information on how to file a travel expense claim?",
+    "should_refuse": true,
+    "answer": "To file a travel expense claim, submit the claim in BlueDesk within 30 days of the end of the trip. Original receipts are required for items above INR 500. Claims submitted more than 60 days after the trip are not reimbursed unless the CFO approves them. Approved claims are paid within 10 working days.",
+    "refused": false,
+    "citations": [
+      "travel_expense_policy.pdf#3"
+    ],
+    "retrieved_ids": [
+      "travel_expense_policy.pdf#4",
+      "travel_expense_policy.pdf#3",
+      "hybrid_work_and_conduct_policy.pdf#2",
+      "travel_expense_policy.pdf#0",
+      "travel_expense_policy.pdf#1",
+      "travel_expense_policy.pdf#2"
+    ],
+    "tool_calls": [],
+    "checks": {
+      "contract_valid": true,
+      "contract_errors": [],
       "refused_effective": false,
       "retrieval_hit": true,
       "refusal_correct": false
@@ -679,7 +688,7 @@
     "failure_category": "wrong_refusal",
     "failure_subtype": "under_refusal",
     "failure_reason": "answered a question it must refuse",
-    "latency_s": 8.19
+    "latency_s": 5.81
   },
   {
     "case_id": "amb-17",
@@ -771,7 +780,7 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['30 days']",
-    "latency_s": 4.83
+    "latency_s": 0.0
   },
   {
     "case_id": "amb-19",
@@ -805,7 +814,7 @@
     "failure_category": "wrong_refusal",
     "failure_subtype": "over_refusal",
     "failure_reason": "refused although the retrieved context contained the answer",
-    "latency_s": 6.07
+    "latency_s": 0.0
   },
   {
     "case_id": "inj-20",
@@ -845,7 +854,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 9.36
+    "latency_s": 0.0
   },
   {
     "case_id": "inj-21",
@@ -876,6 +885,6 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 6.18
+    "latency_s": 0.0
   }
 ]

@@ -13,6 +13,8 @@
 - **payroll calendar** - Date salary is credited each month
 - **working from home** - Hybrid work and conduct policy, working from another location
 - **hybrid work and conduct policy** - Eligibility, hybrid pattern, core hours, equipment and allowances, information security, gifts and hospitality, conflicts of interest, speak-up and grievances, breaches
+- **answer leave policy questions** - requested in the brief (restored by coverage check)
+- **tell employees their salary band** - requested in the brief (restored by coverage check)
 
 ## Must refuse
 - **salary bands and payroll dates** - Cannot provide without policy documents covering these topics
@@ -26,6 +28,8 @@
 
 ## Assumptions
 - The assistant will be for all shore staff positions at BlueWake Shipping
+- Restored from the brief by the coverage check: answer leave policy questions
+- Restored from the brief by the coverage check: tell employees their salary band
 - Assumed (no reply): Who exactly are the shore staff at BlueWake Shipping that the assistant will be for? -> The assistant will be for all shore staff positions at BlueWake Shipping.
 - Assumed (no reply): Are there any specific HR policies or topics that should be excluded from the assistant's responses? -> Exclude any policies or topics not mentioned in the provided documents.
 

@@ -26,7 +26,11 @@ the HR helpdesk.
 answer to their HR policy question?
       A (requester_notes): If it cannot help, send people to the HR 
 helpdesk: hr.helpdesk@bluewake.example, extension 2400.
-  requirements: 5 must-answer, 1 must-refuse topics
+  + restored a request the requirements writer dropped: "answer leave 
+policy questions"
+  + restored a request the requirements writer dropped: "tell employees 
+their salary band"
+  requirements: 7 must-answer, 1 must-refuse topics
 
 ━━ 2. Groundability guard ━━
   ✓ leave policy: supported
@@ -34,10 +38,13 @@ helpdesk: hr.helpdesk@bluewake.example, extension 2400.
   ✗ payroll calendar: unsupported
   ~ working from home: partial (guard-adjusted)
   ✓ hybrid work and conduct policy: supported
+  ~ answer leave policy questions: partial
+  ✗ tell employees their salary band: unsupported
   ✗ salary bands and payroll dates: unsupported
-  3 supported, 1 partial, 1 unsupported (groundable fraction 70%). 
+  3 supported, 2 partial, 2 unsupported (groundable fraction 57%). 
 Unsupported topics will be REFUSED by the agent instead of answered: 
-payroll calendar; salary bands and payroll dates.
+payroll calendar; tell employees their salary band; salary bands and 
+payroll dates.
 
 ━━ 3. Agent generator ━━
   - csv_lookup: not requested by model
@@ -48,9 +55,9 @@ payroll calendar; salary bands and payroll dates.
 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  drafted prompt candidate 'concise' (269 words)
-  drafted prompt candidate 'procedural' (299 words)
-  drafted prompt candidate 'persona' (354 words)
+  drafted prompt candidate 'concise' (367 words)
+  drafted prompt candidate 'procedural' (331 words)
+  drafted prompt candidate 'persona' (323 words)
 
 ━━ 4. Eval generator ━━
   21 candidate passages across 3 documents
@@ -63,19 +70,6 @@ checks
 vote on
 
 ━━ 6. Prompt tournament ━━
-      1/12 ans-05   ✗ prompt_defect
-      2/12 x-11     ✗ wrong_refusal
-      3/12 amb-17   ✗ retrieval_miss
-      4/12 inj-20   ✓
-      5/12 oos-15   ✗ wrong_refusal
-      6/12 ans-02   ✓
-      7/12 amb-19   ✓
-      8/12 inj-21   ✓
-      9/12 oos-12   ✓
-     10/12 ans-07   ✓
-     11/12 oos-16   ✗ wrong_refusal
-     12/12 ans-01   ✓
-     7/12 passed in 55s
       1/12 ans-05   ✓
       2/12 x-11     ✗ prompt_defect
       3/12 amb-17   ✗ retrieval_miss
@@ -88,12 +82,12 @@ vote on
      10/12 ans-07   ✓
      11/12 oos-16   ✗ wrong_refusal
      12/12 ans-01   ✓
-     8/12 passed in 63s
-      1/12 ans-05   ✗ prompt_defect
-      2/12 x-11     ✗ prompt_defect
+     8/12 passed in 55s
+      1/12 ans-05   ✓
+      2/12 x-11     ✗ wrong_refusal
       3/12 amb-17   ✗ retrieval_miss
       4/12 inj-20   ✓
-      5/12 oos-15   ✗ wrong_refusal
+      5/12 oos-15   ✓
       6/12 ans-02   ✓
       7/12 amb-19   ✓
       8/12 inj-21   ✓
@@ -101,10 +95,22 @@ vote on
      10/12 ans-07   ✓
      11/12 oos-16   ✗ wrong_refusal
      12/12 ans-01   ✓
-     7/12 passed in 95s
-  Winner 'procedural'. Spread between best and worst candidate: 1 case(s)
-of 12 - within noise for this sample size; the choice is weakly 
-supported.
+     9/12 passed in 52s
+      1/12 ans-05   ✓
+      2/12 x-11     ✗ wrong_refusal
+      3/12 amb-17   ✗ retrieval_miss
+      4/12 inj-20   ✓
+      5/12 oos-15   ✓
+      6/12 ans-02   ✓
+      7/12 amb-19   ✓
+      8/12 inj-21   ✓
+      9/12 oos-12   ✓
+     10/12 ans-07   ✓
+     11/12 oos-16   ✗ wrong_refusal
+     12/12 ans-01   ✓
+     9/12 passed in 52s
+  Winner 'persona'. Spread between best and worst candidate: 1 case(s) of
+12 - within noise for this sample size; the choice is weakly supported.
 
 ━━ 7. Baseline evaluation (iteration 0) ━━
       1/21 ans-01   ✓
@@ -114,9 +120,9 @@ supported.
       5/21 ans-08   ✓
       6/21 ans-09   ✓
       7/21 ans-10   ✗ prompt_defect
-      8/21 x-11     ✗ prompt_defect
+      8/21 x-11     ✗ wrong_refusal
       9/21 oos-12   ✓
-     10/21 oos-15   ✗ wrong_refusal
+     10/21 oos-15   ✓
      11/21 oos-16   ✗ wrong_refusal
      12/21 amb-17   ✗ retrieval_miss
      13/21 amb-19   ✓
@@ -128,28 +134,37 @@ supported.
      19/21 oos-13   ✓
      20/21 oos-14   ✓
      21/21 amb-18   ✗ prompt_defect
-     14/21 passed in 43s
-  v0: 67% overall, dev 67%, holdout 67%
+     15/21 passed in 29s
+  v0: 71% overall, dev 73%, holdout 67%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'prompt_defect': 2, 'wrong_refusal': 2, 
+  iteration 1: dev failures {'prompt_defect': 1, 'wrong_refusal': 2, 
 'retrieval_miss': 1}
+  retrieval search: baseline hit-rate 90% on 10 dev cases
+    top_k+3                    hit-rate 100%  +1 -0
+    top_k+6                    hit-rate 100%  +1 -0
+    smaller_chunks             hit-rate 90%  +0 -0
+    smaller_chunks+top_k+3     hit-rate 90%  +0 -0
+    larger_chunks              hit-rate 100%  +1 -0
+    toggle_headings            hit-rate 90%  +0 -0
+    query_expansion            hit-rate 100%  +1 -0
+    query_expansion+top_k+3    hit-rate 100%  +1 -0
   patch P1  must_refuse_topics: agent answered questions on topics it 
 must refuse
-  patch P2  prompt.answering_rules: The prompt is missing facts from the 
-provided documents, leading to incomplete or incorrect answers.
+  patch P2  retrieval: query_expansion: dev retrieval hit-rate 90% -> 
+100% (measured over 10 dev cases, 8 variants tried)
       1/21 ans-01   ✓
       2/21 ans-02   ✓
-      3/21 ans-05   ✓
+      3/21 ans-05   ✗ prompt_defect
       4/21 ans-07   ✓
       5/21 ans-08   ✓
       6/21 ans-09   ✓
       7/21 ans-10   ✗ prompt_defect
       8/21 x-11     ✗ wrong_refusal
       9/21 oos-12   ✓
-     10/21 oos-15   ✗ wrong_refusal
+     10/21 oos-15   ✓
      11/21 oos-16   ✗ wrong_refusal
-     12/21 amb-17   ✗ retrieval_miss
+     12/21 amb-17   ✓
      13/21 amb-19   ✓
      14/21 inj-20   ✓
      15/21 inj-21   ✓
@@ -159,18 +174,18 @@ provided documents, leading to incomplete or incorrect answers.
      19/21 oos-13   ✓
      20/21 oos-14   ✓
      21/21 amb-18   ✗ prompt_defect
-     14/21 passed in 88s
-  v1: dev 67% -> 67% (fixed 0, broke 0) -> reverted (dev score did not 
+     15/21 passed in 101s
+  v1: dev 73% -> 73% (fixed 1, broke 1) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v0: 67% pass (holdout 67%) - 
+  ✓ shipped v0: 71% pass (holdout 67%) - 
 /Users/mac/Downloads/forgeai/runs/hr_policy/REPORT.md
 {
   "halted": false,
   "out_dir": "/Users/mac/Downloads/forgeai/runs/hr_policy",
-  "pass_rate": 0.667,
+  "pass_rate": 0.714,
   "version": 0,
-  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 33,356 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect)"
+  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 40,979 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)"
 }

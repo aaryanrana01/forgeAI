@@ -4,7 +4,7 @@
     "definition_version": 1,
     "decision": "reverted (dev score did not improve)",
     "failures_in": {
-      "prompt_defect": 2,
+      "prompt_defect": 1,
       "wrong_refusal": 2,
       "retrieval_miss": 1
     },
@@ -15,95 +15,161 @@
         "target": "must_refuse_topics",
         "before": [
           "salary bands and payroll dates",
-          "payroll calendar"
+          "payroll calendar",
+          "tell employees their salary band"
         ],
         "after": [
           "salary bands and payroll dates",
           "payroll calendar",
-          "leave policy",
-          "working from home"
+          "tell employees their salary band",
+          "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
         ],
         "rationale": "agent answered questions on topics it must refuse",
         "addressed_cases": [
-          "oos-15",
           "oos-16"
         ],
         "evidence": {}
       },
       {
         "id": "P2",
-        "category": "prompt_defect",
-        "target": "prompt.answering_rules",
-        "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them."
-        ],
-        "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Use additional relevant facts from the documents when two documents are relevant, combine them.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them."
-        ],
-        "rationale": "The prompt is missing facts from the provided documents, leading to incomplete or incorrect answers.",
+        "category": "retrieval_miss",
+        "target": "retrieval",
+        "before": {
+          "chunk_size": 120,
+          "chunk_overlap": 24,
+          "prepend_headings": true,
+          "top_k": 5,
+          "mode": "bm25",
+          "query_expansion": false,
+          "min_relevance": 0.0
+        },
+        "after": {
+          "chunk_size": 120,
+          "chunk_overlap": 24,
+          "prepend_headings": true,
+          "top_k": 5,
+          "mode": "bm25",
+          "query_expansion": true,
+          "min_relevance": 0.0
+        },
+        "rationale": "query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)",
         "addressed_cases": [
-          "ans-10",
-          "x-11"
+          "amb-17"
         ],
-        "evidence": {}
+        "evidence": {
+          "trials": [
+            {
+              "variant": "top_k+3",
+              "hit_rate": 1.0,
+              "context_words": 960.0,
+              "lost": [],
+              "gained": [
+                "amb-17"
+              ]
+            },
+            {
+              "variant": "top_k+6",
+              "hit_rate": 1.0,
+              "context_words": 1320.0,
+              "lost": [],
+              "gained": [
+                "amb-17"
+              ]
+            },
+            {
+              "variant": "smaller_chunks",
+              "hit_rate": 0.9,
+              "context_words": 400.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "smaller_chunks+top_k+3",
+              "hit_rate": 0.9,
+              "context_words": 640.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "larger_chunks",
+              "hit_rate": 1.0,
+              "context_words": 900.0,
+              "lost": [],
+              "gained": [
+                "amb-17"
+              ]
+            },
+            {
+              "variant": "toggle_headings",
+              "hit_rate": 0.9,
+              "context_words": 600.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "query_expansion",
+              "hit_rate": 1.0,
+              "context_words": 780.0,
+              "lost": [],
+              "gained": [
+                "amb-17"
+              ]
+            },
+            {
+              "variant": "query_expansion+top_k+3",
+              "hit_rate": 1.0,
+              "context_words": 1248.0,
+              "lost": [],
+              "gained": [
+                "amb-17"
+              ]
+            }
+          ],
+          "baseline_hit_rate": 0.9
+        }
       }
     ],
     "diff": {
-      "prompt": {
-        "answering_rules": {
-          "before": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "Answer only from the CONTEXT / TOOL RESULTS.",
-            "Cite the ids of the passages used.",
-            "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them."
-          ],
-          "after": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Use additional relevant facts from the documents when two documents are relevant, combine them.",
-            "Answer only from the CONTEXT / TOOL RESULTS.",
-            "Cite the ids of the passages used.",
-            "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them."
-          ]
+      "retrieval": {
+        "query_expansion": {
+          "before": false,
+          "after": true
+        },
+        "rationale": {
+          "before": "median paragraph 32 words -> chunk 120 words (~2-3 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings prefixed so keyword search sees the section a chunk came from; mode=bm25 (no embedding model configured)",
+          "after": "query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)"
         }
       },
       "must_refuse_topics": {
         "before": [
           "salary bands and payroll dates",
-          "payroll calendar"
+          "payroll calendar",
+          "tell employees their salary band"
         ],
         "after": [
           "salary bands and payroll dates",
           "payroll calendar",
-          "leave policy",
-          "working from home"
+          "tell employees their salary band",
+          "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
         ]
       }
     },
     "score_before": {
-      "overall": 0.667,
-      "dev": 0.667,
+      "overall": 0.714,
+      "dev": 0.733,
       "holdout": 0.667
     },
     "score_after": {
-      "overall": 0.667,
-      "dev": 0.667,
+      "overall": 0.714,
+      "dev": 0.733,
       "holdout": 0.667
     },
-    "fixed": [],
-    "broken": [],
-    "tokens": 33356
+    "fixed": [
+      "amb-17"
+    ],
+    "broken": [
+      "ans-05"
+    ],
+    "tokens": 40979
   }
 ]

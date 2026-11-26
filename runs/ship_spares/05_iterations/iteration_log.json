@@ -2,233 +2,188 @@
   {
     "iteration": 1,
     "definition_version": 1,
-    "decision": "kept",
+    "decision": "reverted (dev score did not improve)",
     "failures_in": {
-      "wrong_refusal": 6,
-      "prompt_defect": 2,
-      "retrieval_miss": 1
+      "prompt_defect": 5,
+      "retrieval_miss": 1,
+      "wrong_refusal": 1
     },
     "patches": [
       {
         "id": "P1",
-        "category": "wrong_refusal",
+        "category": "prompt_defect",
         "target": "prompt.answering_rules",
         "before": [
           "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them."
+          "answer only from the CONTEXT / TOOL RESULTS",
+          "cite the ids of the passages used",
+          "if the context does not contain the answer, refuse instead of guessing",
+          "copy numbers, dates and amounts exactly",
+          "when two documents are relevant, combine them"
         ],
         "after": [
           "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them.",
-          "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant."
+          "answer only from the CONTEXT / TOOL RESULTS",
+          "cite the ids of the passages used",
+          "if the context does not contain the answer, refuse instead of guessing",
+          "copy numbers, dates and amounts exactly",
+          "when two documents are relevant, combine them",
+          "cite the ids of the passages used and the expected facts required for the answer"
         ],
-        "rationale": "agent refused although the context contained the answer",
+        "rationale": "The common cause is that the assistant is missing expected facts and is not able to provide the full context or additional information required by the user's question.",
         "addressed_cases": [
           "ans-03",
-          "tool-12",
-          "amb-16",
-          "amb-18"
+          "ans-06",
+          "ans-08",
+          "x-09",
+          "amb-21"
         ],
         "evidence": {}
       },
       {
         "id": "P2",
-        "category": "prompt_defect",
-        "target": "prompt.answering_rules",
-        "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them.",
-          "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant."
-        ],
-        "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them.",
-          "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant.",
-          "When answering questions, cite the ids of the passages used and any additional facts found through the use of csv_lookup and current_date."
-        ],
-        "rationale": "The prompt is failing to find or provide the necessary facts for answering the questions, leading to refusal or incorrect answers.",
+        "category": "retrieval_miss",
+        "target": "retrieval",
+        "before": {
+          "chunk_size": 120,
+          "chunk_overlap": 24,
+          "prepend_headings": true,
+          "top_k": 6,
+          "mode": "bm25",
+          "query_expansion": false,
+          "min_relevance": 0.0
+        },
+        "after": {
+          "chunk_size": 120,
+          "chunk_overlap": 24,
+          "prepend_headings": true,
+          "top_k": 6,
+          "mode": "bm25",
+          "query_expansion": true,
+          "min_relevance": 0.0
+        },
+        "rationale": "query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)",
         "addressed_cases": [
-          "ans-05",
-          "tool-14"
+          "amb-19"
         ],
-        "evidence": {}
+        "evidence": {
+          "trials": [
+            {
+              "variant": "top_k+3",
+              "hit_rate": 0.9,
+              "context_words": 1080.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "top_k+6",
+              "hit_rate": 0.9,
+              "context_words": 1440.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "smaller_chunks",
+              "hit_rate": 0.9,
+              "context_words": 480.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "smaller_chunks+top_k+3",
+              "hit_rate": 0.9,
+              "context_words": 720.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "larger_chunks",
+              "hit_rate": 0.9,
+              "context_words": 1080.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "toggle_headings",
+              "hit_rate": 0.9,
+              "context_words": 720.0,
+              "lost": [],
+              "gained": []
+            },
+            {
+              "variant": "query_expansion",
+              "hit_rate": 1.0,
+              "context_words": 936.0,
+              "lost": [],
+              "gained": [
+                "amb-19"
+              ]
+            },
+            {
+              "variant": "query_expansion+top_k+3",
+              "hit_rate": 1.0,
+              "context_words": 1404.0,
+              "lost": [],
+              "gained": [
+                "amb-19"
+              ]
+            }
+          ],
+          "baseline_hit_rate": 0.9
+        }
       }
     ],
     "diff": {
+      "retrieval": {
+        "query_expansion": {
+          "before": false,
+          "after": true
+        },
+        "rationale": {
+          "before": "median paragraph 27 words -> chunk 120 words (~2-3 paragraphs) with 20% overlap; 4 documents -> top_k 6; section headings prefixed so keyword search sees the section a chunk came from; mode=bm25 (no embedding model configured)",
+          "after": "query_expansion: dev retrieval hit-rate 90% -> 100% (measured over 10 dev cases, 8 variants tried)"
+        }
+      },
       "prompt": {
         "answering_rules": {
           "before": [
             "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "Answer only from the CONTEXT / TOOL RESULTS.",
-            "Cite the ids of the passages used.",
-            "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them."
+            "answer only from the CONTEXT / TOOL RESULTS",
+            "cite the ids of the passages used",
+            "if the context does not contain the answer, refuse instead of guessing",
+            "copy numbers, dates and amounts exactly",
+            "when two documents are relevant, combine them"
           ],
           "after": [
             "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "Answer only from the CONTEXT / TOOL RESULTS.",
-            "Cite the ids of the passages used.",
-            "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them.",
-            "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant.",
-            "When answering questions, cite the ids of the passages used and any additional facts found through the use of csv_lookup and current_date."
+            "answer only from the CONTEXT / TOOL RESULTS",
+            "cite the ids of the passages used",
+            "if the context does not contain the answer, refuse instead of guessing",
+            "copy numbers, dates and amounts exactly",
+            "when two documents are relevant, combine them",
+            "cite the ids of the passages used and the expected facts required for the answer"
           ]
         }
       }
     },
     "score_before": {
-      "overall": 0.5,
-      "dev": 0.4,
+      "overall": 0.652,
+      "dev": 0.611,
       "holdout": 0.8
     },
     "score_after": {
-      "overall": 0.6,
-      "dev": 0.467,
-      "holdout": 1.0
+      "overall": 0.565,
+      "dev": 0.556,
+      "holdout": 0.6
     },
     "fixed": [
-      "ans-06",
-      "oos-11"
+      "amb-21"
     ],
-    "broken": [],
-    "tokens": 41279
-  },
-  {
-    "iteration": 2,
-    "definition_version": 2,
-    "decision": "reverted (dev score did not improve)",
-    "failures_in": {
-      "wrong_refusal": 5,
-      "prompt_defect": 2,
-      "retrieval_miss": 1
-    },
-    "patches": [
-      {
-        "id": "P3",
-        "category": "wrong_refusal",
-        "target": "prompt.answering_rules",
-        "before": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them.",
-          "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant.",
-          "When answering questions, cite the ids of the passages used and any additional facts found through the use of csv_lookup and current_date."
-        ],
-        "after": [
-          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-          "Answer only from the CONTEXT / TOOL RESULTS.",
-          "Cite the ids of the passages used.",
-          "If the context does not contain the answer, refuse instead of guessing.",
-          "Copy numbers, dates and amounts exactly.",
-          "When two documents are relevant, combine them.",
-          "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant.",
-          "When answering questions, cite the ids of the passages used and any additional facts found through the use of csv_lookup and current_date.",
-          "Interpret everyday wording generously (for example 'time off' can mean leave) and match it to the policy terms used in the CONTEXT."
-        ],
-        "rationale": "agent refused although the context contained the answer",
-        "addressed_cases": [
-          "ans-03",
-          "tool-12",
-          "amb-16",
-          "amb-18"
-        ],
-        "evidence": {}
-      },
-      {
-        "id": "P4",
-        "category": "prompt_defect",
-        "target": "prompt.tool_rules",
-        "before": [
-          "Use csv_lookup when needed: Brief needs exact values from a structured table (catalogue, price list, inventory, roster).",
-          "Use calculator when needed: Brief needs arithmetic: totals, costs, quantities, percentages, conversions."
-        ],
-        "after": [
-          "Use csv_lookup when needed: Brief needs exact values from a structured table (catalogue, price list, inventory, roster).",
-          "Use calculator when needed: Brief needs arithmetic: totals, costs, quantities, percentages, conversions.",
-          "Use csv_lookup and current_date when needed: Brief needs exact values from a structured table (catalogue, price list, inventory, roster) and a specific date."
-        ],
-        "rationale": "The prompt is failing to find or provide the correct surcharge percentage and delivery time, likely due to missing or incorrect use of tools.",
-        "addressed_cases": [
-          "ans-05",
-          "tool-14"
-        ],
-        "evidence": {}
-      }
-    ],
-    "diff": {
-      "prompt": {
-        "answering_rules": {
-          "before": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "Answer only from the CONTEXT / TOOL RESULTS.",
-            "Cite the ids of the passages used.",
-            "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them.",
-            "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant.",
-            "When answering questions, cite the ids of the passages used and any additional facts found through the use of csv_lookup and current_date."
-          ],
-          "after": [
-            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
-            "Answer only from the CONTEXT / TOOL RESULTS.",
-            "Cite the ids of the passages used.",
-            "If the context does not contain the answer, refuse instead of guessing.",
-            "Copy numbers, dates and amounts exactly.",
-            "When two documents are relevant, combine them.",
-            "If the CONTEXT contains information relevant to the question, answer it - even when the question is informal, vague or contains typos. Refuse only when the CONTEXT has nothing relevant.",
-            "When answering questions, cite the ids of the passages used and any additional facts found through the use of csv_lookup and current_date.",
-            "Interpret everyday wording generously (for example 'time off' can mean leave) and match it to the policy terms used in the CONTEXT."
-          ]
-        },
-        "tool_rules": {
-          "before": [
-            "Use csv_lookup when needed: Brief needs exact values from a structured table (catalogue, price list, inventory, roster).",
-            "Use calculator when needed: Brief needs arithmetic: totals, costs, quantities, percentages, conversions."
-          ],
-          "after": [
-            "Use csv_lookup when needed: Brief needs exact values from a structured table (catalogue, price list, inventory, roster).",
-            "Use calculator when needed: Brief needs arithmetic: totals, costs, quantities, percentages, conversions.",
-            "Use csv_lookup and current_date when needed: Brief needs exact values from a structured table (catalogue, price list, inventory, roster) and a specific date."
-          ]
-        }
-      }
-    },
-    "score_before": {
-      "overall": 0.6,
-      "dev": 0.467,
-      "holdout": 1.0
-    },
-    "score_after": {
-      "overall": 0.5,
-      "dev": 0.4,
-      "holdout": 0.8
-    },
-    "fixed": [],
     "broken": [
-      "ans-06",
-      "oos-11"
+      "ans-04",
+      "ans-07",
+      "tool-15"
     ],
-    "tokens": 88117
+    "tokens": 110922
   }
 ]

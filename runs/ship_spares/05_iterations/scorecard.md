@@ -1,7 +1,6 @@
 # Scorecard
 
-| Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | edge_ambiguous | edge_injection | out_of_scope | tool | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| iter 0 | v0 | **50%** (10/20) | 30%-70% | 40% | 80% | 3/6 | 0/3 | 2/2 | 3/5 | 2/4 | 92% | 56% | 100% | 71% | 31% |
-| iter 1 | v1 | **60%** (12/20) | 39%-78% | 47% | 100% | 4/6 | 0/3 | 2/2 | 4/5 | 2/4 | 92% | 67% | 100% | 86% | 31% |
-| iter 2 (reverted) | v2 | **50%** (10/20) | 30%-70% | 40% | 80% | 3/6 | 0/3 | 2/2 | 3/5 | 2/4 | 92% | 67% | 89% | 71% | 31% |
+| Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | cross_doc | edge_ambiguous | edge_injection | out_of_scope | tool | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| iter 0 | v0 | **65%** (15/23) | 45%-81% | 61% | 80% | 5/8 | 0/1 | 0/3 | 2/2 | 5/5 | 3/4 | 94% | 61% | 100% | 100% | 12% |
+| iter 1 (reverted) | v1 | **56%** (13/23) | 37%-74% | 56% | 60% | 3/8 | 0/1 | 1/3 | 2/2 | 5/5 | 2/4 | 100% | 59% | 100% | 100% | 31% |

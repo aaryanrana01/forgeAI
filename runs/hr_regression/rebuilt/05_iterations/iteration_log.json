@@ -2,31 +2,38 @@
   {
     "iteration": 1,
     "definition_version": 1,
-    "decision": "reverted (dev score did not improve)",
+    "decision": "kept",
     "failures_in": {
-      "prompt_defect": 1,
-      "wrong_refusal": 2,
+      "prompt_defect": 2,
+      "wrong_refusal": 1,
       "retrieval_miss": 1
     },
     "patches": [
       {
         "id": "P1",
-        "category": "wrong_refusal",
-        "target": "must_refuse_topics",
+        "category": "prompt_defect",
+        "target": "prompt.answering_rules",
         "before": [
-          "salary bands and payroll dates",
-          "payroll calendar"
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS",
+          "Cite the ids of the passages used",
+          "If the context does not contain the answer, refuse instead of guessing",
+          "Copy numbers, dates and amounts exactly",
+          "When two documents are relevant, combine them"
         ],
         "after": [
-          "salary bands and payroll dates",
-          "payroll calendar",
-          "leave policy",
-          "working from home"
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS",
+          "Cite the ids of the passages used",
+          "If the context does not contain the answer, refuse instead of guessing",
+          "Copy numbers, dates and amounts exactly",
+          "When two documents are relevant, combine them",
+          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge."
         ],
-        "rationale": "agent answered questions on topics it must refuse",
+        "rationale": "The current answering rules do not account for the need to provide specific facts such as days of leave for new joiners, leading to omitted answers.",
         "addressed_cases": [
-          "oos-14",
-          "oos-15"
+          "ans-05",
+          "ans-10"
         ],
         "evidence": {}
       },
@@ -131,45 +138,172 @@
     ],
     "diff": {
       "retrieval": {
-        "query_expansion": {
-          "before": false,
-          "after": true
-        },
         "rationale": {
           "before": "median paragraph 32 words -> chunk 120 words (~2-3 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings prefixed so keyword search sees the section a chunk came from; mode=bm25 (no embedding model configured)",
           "after": "query_expansion: dev retrieval hit-rate 89% -> 100% (measured over 9 dev cases, 8 variants tried)"
+        },
+        "query_expansion": {
+          "before": false,
+          "after": true
+        }
+      },
+      "prompt": {
+        "answering_rules": {
+          "before": [
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Answer only from the CONTEXT / TOOL RESULTS",
+            "Cite the ids of the passages used",
+            "If the context does not contain the answer, refuse instead of guessing",
+            "Copy numbers, dates and amounts exactly",
+            "When two documents are relevant, combine them"
+          ],
+          "after": [
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Answer only from the CONTEXT / TOOL RESULTS",
+            "Cite the ids of the passages used",
+            "If the context does not contain the answer, refuse instead of guessing",
+            "Copy numbers, dates and amounts exactly",
+            "When two documents are relevant, combine them",
+            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge."
+          ]
+        }
+      }
+    },
+    "score_before": {
+      "overall": 0.7,
+      "dev": 0.714,
+      "holdout": 0.667
+    },
+    "score_after": {
+      "overall": 0.7,
+      "dev": 0.786,
+      "holdout": 0.5
+    },
+    "fixed": [
+      "amb-16"
+    ],
+    "broken": [
+      "ans-04"
+    ],
+    "tokens": 36102,
+    "note": "dev improved but holdout fell - possible overfitting to dev cases"
+  },
+  {
+    "iteration": 2,
+    "definition_version": 2,
+    "decision": "reverted (dev score did not improve)",
+    "failures_in": {
+      "prompt_defect": 2,
+      "wrong_refusal": 1
+    },
+    "patches": [
+      {
+        "id": "P3",
+        "category": "prompt_defect",
+        "target": "prompt.answering_rules",
+        "before": [
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS",
+          "Cite the ids of the passages used",
+          "If the context does not contain the answer, refuse instead of guessing",
+          "Copy numbers, dates and amounts exactly",
+          "When two documents are relevant, combine them",
+          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge."
+        ],
+        "after": [
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "Answer only from the CONTEXT / TOOL RESULTS",
+          "Cite the ids of the passages used",
+          "If the context does not contain the answer, refuse instead of guessing",
+          "Copy numbers, dates and amounts exactly",
+          "When two documents are relevant, combine them",
+          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge.",
+          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge. Include specific leave policies in answers."
+        ],
+        "rationale": "The current rules do not account for the need to provide specific facts about leave policies, leading to missing facts in the answers.",
+        "addressed_cases": [
+          "ans-05",
+          "ans-10"
+        ],
+        "evidence": {}
+      },
+      {
+        "id": "P4",
+        "category": "wrong_refusal",
+        "target": "must_refuse_topics",
+        "before": [
+          "salary bands and payroll dates",
+          "payroll calendar",
+          "tell employees their salary band"
+        ],
+        "after": [
+          "salary bands and payroll dates",
+          "payroll calendar",
+          "tell employees their salary band",
+          "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
+        ],
+        "rationale": "agent answered questions on topics it must refuse",
+        "addressed_cases": [
+          "oos-15"
+        ],
+        "evidence": {}
+      }
+    ],
+    "diff": {
+      "prompt": {
+        "answering_rules": {
+          "before": [
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Answer only from the CONTEXT / TOOL RESULTS",
+            "Cite the ids of the passages used",
+            "If the context does not contain the answer, refuse instead of guessing",
+            "Copy numbers, dates and amounts exactly",
+            "When two documents are relevant, combine them",
+            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge."
+          ],
+          "after": [
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "Answer only from the CONTEXT / TOOL RESULTS",
+            "Cite the ids of the passages used",
+            "If the context does not contain the answer, refuse instead of guessing",
+            "Copy numbers, dates and amounts exactly",
+            "When two documents are relevant, combine them",
+            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge.",
+            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional relevant facts retrieved from the domain knowledge base. Never use outside knowledge. Include specific leave policies in answers."
+          ]
         }
       },
       "must_refuse_topics": {
         "before": [
           "salary bands and payroll dates",
-          "payroll calendar"
+          "payroll calendar",
+          "tell employees their salary band"
         ],
         "after": [
           "salary bands and payroll dates",
           "payroll calendar",
-          "leave policy",
-          "working from home"
+          "tell employees their salary band",
+          "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
         ]
       }
     },
     "score_before": {
+      "overall": 0.7,
+      "dev": 0.786,
+      "holdout": 0.5
+    },
+    "score_after": {
       "overall": 0.65,
       "dev": 0.714,
       "holdout": 0.5
     },
-    "score_after": {
-      "overall": 0.7,
-      "dev": 0.714,
-      "holdout": 0.667
-    },
     "fixed": [
-      "amb-16",
-      "ans-06"
-    ],
-    "broken": [
       "ans-05"
     ],
-    "tokens": 37819
+    "broken": [
+      "amb-16",
+      "oos-14"
+    ],
+    "tokens": 34818
   }
 ]

@@ -234,7 +234,7 @@
     {
       "id": "oos-11",
       "category": "out_of_scope",
-      "question": "How do I calculate my salary based on my position?",
+      "question": "What are the salary bands for shore staff at BlueWake Shipping?",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],
@@ -244,31 +244,14 @@
       "split": "dev",
       "generation": {
         "prompt": "evalgen_out_of_scope",
-        "kind": "gap",
+        "kind": "must_refuse",
         "target": "salary bands and payroll dates"
       }
     },
     {
       "id": "oos-12",
       "category": "out_of_scope",
-      "question": "What are the salary bands and payroll dates for shore staff at BlueWake Shipping?",
-      "should_refuse": true,
-      "expected_sources": [],
-      "key_facts": [],
-      "evidence": [],
-      "reference_answer": "",
-      "expected_tools": [],
-      "split": "holdout",
-      "generation": {
-        "prompt": "evalgen_out_of_scope",
-        "kind": "must_refuse",
-        "target": "salary bands and payroll dates"
-      }
-    },
-    {
-      "id": "oos-13",
-      "category": "out_of_scope",
-      "question": "Can you provide information on the payroll calendar for the next quarter?",
+      "question": "Can you tell me when the payroll calendar is for the next quarter?",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],
@@ -283,9 +266,26 @@
       }
     },
     {
+      "id": "oos-13",
+      "category": "out_of_scope",
+      "question": "What is the process for requesting a salary raise?",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "evidence": [],
+      "reference_answer": "",
+      "expected_tools": [],
+      "split": "holdout",
+      "generation": {
+        "prompt": "evalgen_out_of_scope",
+        "kind": "near_domain",
+        "target": "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
+      }
+    },
+    {
       "id": "oos-14",
       "category": "out_of_scope",
-      "question": "How do I request a working from home approval for next week?",
+      "question": "How do I apply for a leave of absence?",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],
@@ -296,13 +296,13 @@
       "generation": {
         "prompt": "evalgen_out_of_scope",
         "kind": "near_domain",
-        "target": "working from home"
+        "target": "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
       }
     },
     {
       "id": "oos-15",
       "category": "out_of_scope",
-      "question": "Can you explain the leave policy for shore staff at BlueWake Shipping?",
+      "question": "Can you provide information on how to file a travel expense claim?",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],
@@ -313,7 +313,7 @@
       "generation": {
         "prompt": "evalgen_out_of_scope",
         "kind": "near_domain",
-        "target": "leave policy"
+        "target": "leave policy, travel and expense policy, working from home, hybrid work and conduct policy"
       }
     },
     {

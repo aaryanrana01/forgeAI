@@ -63,6 +63,26 @@
       "adjusted_by_guard": false
     },
     {
+      "topic": "answer leave policy questions",
+      "verdict": "partial",
+      "evidence_chunk_ids": [
+        "leave_policy.pdf#5",
+        "leave_policy.pdf#2",
+        "leave_policy.pdf#1"
+      ],
+      "note": "6. Travel on Weekends and Public Holidays, 9. Travel Advance, 10. Non-Reimbursable Items, 4. Carry Forward and Encashment, 5. Sick Leave, 3. Annual Leave, 7. Local Conveyance, 8. Expense Claims",
+      "lexical_overlap": 0.44,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "tell employees their salary band",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "tell employees their salary band",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": false
+    },
+    {
       "topic": "salary bands and payroll dates",
       "verdict": "unsupported",
       "evidence_chunk_ids": [],
@@ -73,9 +93,10 @@
   ],
   "flagged_gaps": [
     "payroll calendar",
+    "tell employees their salary band",
     "salary bands and payroll dates"
   ],
-  "groundable_fraction": 0.7,
+  "groundable_fraction": 0.571,
   "blocking": false,
-  "summary": "3 supported, 1 partial, 1 unsupported (groundable fraction 70%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; salary bands and payroll dates."
+  "summary": "3 supported, 2 partial, 2 unsupported (groundable fraction 57%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; tell employees their salary band; salary bands and payroll dates."
 }

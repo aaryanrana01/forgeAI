@@ -20,6 +20,10 @@
     {
       "topic": "hybrid work and conduct policy",
       "description": "Eligibility, hybrid pattern, core hours, equipment and allowances, information security, gifts and hospitality, conflicts of interest, speak-up and grievances, breaches"
+    },
+    {
+      "topic": "answer leave policy questions",
+      "description": "requested in the brief (restored by coverage check)"
     }
   ],
   "must_refuse_topics": [
@@ -30,6 +34,10 @@
     {
       "topic": "payroll calendar",
       "reason": "Requested in the brief but NOT covered by the documents (flagged by groundability guard) - refuse and redirect."
+    },
+    {
+      "topic": "tell employees their salary band",
+      "reason": "Requested in the brief but NOT covered by the documents (flagged by groundability guard) - refuse and redirect."
     }
   ],
   "escalation_contact": "hr.helpdesk@bluewake.example, extension 2400",
@@ -39,10 +47,13 @@
   "constraints": [
     "No legal jargon",
     "Salary bands and payroll dates: send people to the HR helpdesk if they are not covered in the provided documents",
-    "Topic 'working from home' is only partly documented; answer only what the documents state and refuse the rest. Missing: working from home benefits, duration, and specific details about working from another location"
+    "Topic 'working from home' is only partly documented; answer only what the documents state and refuse the rest. Missing: working from home benefits, duration, and specific details about working from another location",
+    "Topic 'answer leave policy questions' is only partly documented; answer only what the documents state and refuse the rest. Missing: guard: broad request restored from the brief overlaps supported topics - kept as partial instead of being refused. leave policy questions"
   ],
   "assumptions": [
     "The assistant will be for all shore staff positions at BlueWake Shipping",
+    "Restored from the brief by the coverage check: answer leave policy questions",
+    "Restored from the brief by the coverage check: tell employees their salary band",
     "Assumed (no reply): Who exactly are the shore staff at BlueWake Shipping that the assistant will be for? -> The assistant will be for all shore staff positions at BlueWake Shipping.",
     "Assumed (no reply): Are there any specific HR policies or topics that should be excluded from the assistant's responses? -> Exclude any policies or topics not mentioned in the provided documents."
   ]

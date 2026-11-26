@@ -1,17 +1,17 @@
 {
   "topics": [
     {
-      "topic": "part number lookup",
-      "verdict": "supported",
+      "topic": "part number",
+      "verdict": "partial",
       "evidence_chunk_ids": [
-        "spares_catalogue.csv:columns"
+        "supplier_terms_poseidon.pdf#2"
       ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: catalogue, part, spar)",
-      "lexical_overlap": 1.0,
-      "adjusted_by_guard": false
+      "note": "guard: model said 'supported' without citing; excerpt supplier_terms_poseidon.pdf#2 contains the topic, so kept as partial. none",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": true
     },
     {
-      "topic": "price inquiry",
+      "topic": "price",
       "verdict": "supported",
       "evidence_chunk_ids": [
         "spares_catalogue.csv:columns"
@@ -21,27 +21,27 @@
       "adjusted_by_guard": false
     },
     {
-      "topic": "stock availability",
+      "topic": "stock quantity",
       "verdict": "supported",
       "evidence_chunk_ids": [
         "spares_catalogue.csv:columns"
       ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: part, stock)",
+      "note": "computed from spares_catalogue.csv columns with the calculator tool",
       "lexical_overlap": 1.0,
       "adjusted_by_guard": false
     },
     {
-      "topic": "lead time inquiry",
+      "topic": "lead time",
       "verdict": "supported",
       "evidence_chunk_ids": [
         "spares_catalogue.csv:columns"
       ],
-      "note": "answerable from table spares_catalogue.csv (columns matching: lead, part)",
+      "note": "computed from spares_catalogue.csv columns with the current_date tool",
       "lexical_overlap": 1.0,
       "adjusted_by_guard": false
     },
     {
-      "topic": "order total calculation",
+      "topic": "order total",
       "verdict": "supported",
       "evidence_chunk_ids": [
         "spares_catalogue.csv:columns"
@@ -54,33 +54,46 @@
       "topic": "supplier terms",
       "verdict": "partial",
       "evidence_chunk_ids": [
-        "procurement_policy.pdf#1",
-        "supplier_terms_nordmarine.pdf#2",
-        "supplier_terms_poseidon.pdf#1",
-        "supplier_terms_poseidon.pdf#2"
+        "supplier_terms_nordmarine.pdf#0"
       ],
-      "note": "3. Approval Rules, 4. Delivery Terms, 5. Expedited Dispatch, 6. Warranty",
-      "lexical_overlap": 0.33,
+      "note": "guard: model said 'supported' without citing; excerpt supplier_terms_nordmarine.pdf#0 contains the topic, so kept as partial. none",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": true
+    },
+    {
+      "topic": "approval rules",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "procurement_policy.pdf#1",
+        "procurement_policy.pdf#0"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.4,
       "adjusted_by_guard": false
     },
     {
-      "topic": "order status",
-      "verdict": "partial",
+      "topic": "estimated delivery date",
+      "verdict": "supported",
       "evidence_chunk_ids": [
-        "procurement_policy.pdf#0",
-        "procurement_policy.pdf#1",
-        "procurement_policy.pdf#2",
-        "supplier_terms_poseidon.pdf#0",
-        "supplier_terms_poseidon.pdf#1",
-        "supplier_terms_nordmarine.pdf#0"
+        "spares_catalogue.csv:columns"
       ],
-      "note": "order status, delivery times, and payment terms not specified in the provided excerpts",
-      "lexical_overlap": 0.43,
+      "note": "computed from spares_catalogue.csv columns with the current_date tool",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "live shipment status",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "live shipment status",
+      "lexical_overlap": 0.0,
       "adjusted_by_guard": false
     }
   ],
-  "flagged_gaps": [],
-  "groundable_fraction": 0.857,
+  "flagged_gaps": [
+    "live shipment status"
+  ],
+  "groundable_fraction": 0.778,
   "blocking": false,
-  "summary": "5 supported, 2 partial, 0 unsupported (groundable fraction 86%)."
+  "summary": "6 supported, 2 partial, 1 unsupported (groundable fraction 78%). Unsupported topics will be REFUSED by the agent instead of answered: live shipment status."
 }

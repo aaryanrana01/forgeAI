@@ -1,19 +1,20 @@
 # ForgeAI report - HRPolicyAssistant
 
-**Shipped definition v0: 65% of 20 generated cases pass** (95% CI 43%-82%; dev 71%, untouched holdout 50%).
+**Shipped definition v1: 70% of 20 generated cases pass** (95% CI 48%-86%; dev 79%, untouched holdout 50%).
 
-⚠ Dev beats holdout by 21 points: the optimizer may have fitted the dev cases. Trust the holdout number more.
+⚠ Dev beats holdout by 29 points: the optimizer may have fitted the dev cases. Trust the holdout number more.
 
-Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 1: +0.0 pp dev gain for 37,819 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal).
+Factory model `qwen2.5:3b-instruct`; judge model `qwen2.5:3b-instruct`; embeddings `none (BM25 only)`. Stop reason: early stop after iteration 2: -7.2 pp dev gain for 34,818 tokens (< 0.5 pp per 100k) and the next fix would target the same category (prompt_defect).
 
 ## 1. Requirements and groundability
 
 Scope: Answers HR policy questions for shore staff at BlueWake Shipping regarding leave, travel and expense claims, and working from home. Also provides salary band and payroll calendar information.
 
-Groundability: 3 supported, 1 partial, 1 unsupported (groundable fraction 70%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; salary bands and payroll dates.
+Groundability: 3 supported, 1 partial, 3 unsupported (groundable fraction 50%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; answer leave policy questions; tell employees their salary band; salary bands and payroll dates.
 
 Flagged gaps (requested in the brief, NOT supported by the documents, so the agent refuses them):
 - payroll calendar
+- tell employees their salary band
 - salary bands and payroll dates
 
 ## 2. Tool selection
@@ -29,33 +30,30 @@ Flagged gaps (requested in the brief, NOT supported by the documents, so the age
 
 | Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | edge_ambiguous | edge_injection | out_of_scope | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| iter 0 | v0 | **65%** (13/20) | 43%-82% | 71% | 50% | 7/10 | 1/3 | 2/2 | 3/5 | 92% | 82% | 100% | 71% | 15% |
-| iter 1 (reverted) | v1 | **70%** (14/20) | 48%-86% | 71% | 67% | 7/10 | 2/3 | 2/2 | 3/5 | 100% | 77% | 100% | 71% | 0% |
+| iter 0 | v0 | **70%** (14/20) | 48%-86% | 71% | 67% | 7/10 | 1/3 | 2/2 | 4/5 | 92% | 69% | 100% | 86% | 0% |
+| iter 1 | v1 | **70%** (14/20) | 48%-86% | 79% | 50% | 6/10 | 2/3 | 2/2 | 4/5 | 100% | 75% | 100% | 86% | 8% |
+| iter 2 (reverted) | v2 | **65%** (13/20) | 43%-82% | 71% | 50% | 7/10 | 1/3 | 2/2 | 3/5 | 100% | 82% | 100% | 71% | 15% |
 
 ## 5. What changed
 
-- **Iteration 1** (reverted (dev score did not improve)): P1 wrong_refusal -> must_refuse_topics (agent answered questions on topics it must refuse); P2 retrieval_miss -> retrieval (query_expansion: dev retrieval hit-rate 89% -> 100% (measured over 9 dev cases, 8 variants tried)). Dev 71% -> 71%. Fixed 2, broke 1.
+- **Iteration 1** (kept): P1 prompt_defect -> prompt.answering_rules (The current answering rules do not account for the need to provide specific facts such as days of leave for new joiners, leading to omitted answers.); P2 retrieval_miss -> retrieval (query_expansion: dev retrieval hit-rate 89% -> 100% (measured over 9 dev cases, 8 variants tried)). Dev 71% -> 79%. Fixed 1, broke 1.
+- **Iteration 2** (reverted (dev score did not improve)): P3 prompt_defect -> prompt.answering_rules (The current rules do not account for the need to provide specific facts about leave policies, leading to missing facts in the answers.); P4 wrong_refusal -> must_refuse_topics (agent answered questions on topics it must refuse). Dev 79% -> 71%. Fixed 1, broke 2.
 
-## 6. What still fails and why (7 of 20)
+## 6. What still fails and why (6 of 20)
 
-### prompt_defect - 3 case(s)
+### prompt_defect - 4 case(s)
 _the facts were available but the agent's instructions led to an incomplete or malformed reply_
 
+- `ans-05` (answerable, dev) "How many days of sick leave do employees receive?" -> missing_facts: answer omitted expected facts: ['12 days of paid sick leave']
 - `ans-10` (answerable, dev) "How many days of annual leave can a new joiner start using?" -> missing_facts: answer omitted expected facts: ['three-month probation period']
 - `ans-03` (answerable, holdout) "How many days after the trip can a claim be submitted?" -> missing_facts: answer omitted expected facts: ['30 days']
 - `amb-17` (edge_ambiguous, holdout) "How long can it be after that trip before it's that thing?" -> missing_facts: answer omitted expected facts: ['30 days']
 
-### wrong_refusal - 3 case(s)
+### wrong_refusal - 2 case(s)
 _the agent refused when it should answer, or answered when it should refuse_
 
-- `oos-14` (out_of_scope, dev) "How do I request a working from home approval for next week?" -> under_refusal: answered a question it must refuse
-- `oos-15` (out_of_scope, dev) "Can you explain the leave policy for shore staff at BlueWake Shipping?" -> under_refusal: answered a question it must refuse
-- `ans-06` (answerable, holdout) "What is the maximum hotel rate for Tier-1 cities?" -> over_refusal: refused although the retrieved context contained the answer
-
-### retrieval_miss - 1 case(s)
-_the search step never put the needed passage in front of the model_
-
-- `amb-16` (edge_ambiguous, dev) "Ngl, what's the v of the leave pol? typo: v instead of ver" -> refused_without_context: refused because retrieval did not surface the source passage
+- `oos-15` (out_of_scope, dev) "Can you provide information on how to file a travel expense claim?" -> under_refusal: answered a question it must refuse
+- `ans-04` (answerable, holdout) "What is the maximum value of a gift an employee can accept from a vendor or customer?" -> over_refusal: refused although the retrieved context contained the answer
 
 ## 7. How far to trust the judge
 
@@ -73,7 +71,7 @@ Defences in use: per-fact yes/no grading against document-extracted facts; numbe
 
 ## 9. Cost
 
-108 model calls (64 served from cache), 88,049 tokens, 366.6 s wall-clock. Per stage: see run_meta.json.
+90 model calls (142 served from cache), 110,111 tokens, 331.6 s wall-clock. Per stage: see run_meta.json.
 
 ## 10. Run the agent
 

@@ -67,6 +67,22 @@
       "adjusted_by_guard": false
     },
     {
+      "topic": "answer leave policy questions",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "leave policy questions",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "tell employees their salary band",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "tell employees their salary band",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": false
+    },
+    {
       "topic": "salary bands and payroll dates",
       "verdict": "unsupported",
       "evidence_chunk_ids": [],
@@ -77,9 +93,11 @@
   ],
   "flagged_gaps": [
     "payroll calendar",
+    "answer leave policy questions",
+    "tell employees their salary band",
     "salary bands and payroll dates"
   ],
-  "groundable_fraction": 0.7,
+  "groundable_fraction": 0.5,
   "blocking": false,
-  "summary": "3 supported, 1 partial, 1 unsupported (groundable fraction 70%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; salary bands and payroll dates."
+  "summary": "3 supported, 1 partial, 3 unsupported (groundable fraction 50%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; answer leave policy questions; tell employees their salary band; salary bands and payroll dates."
 }

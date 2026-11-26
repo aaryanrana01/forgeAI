@@ -29,7 +29,9 @@ be aware of and handle appropriately?
       A (default_assumption): The assistant should handle all legal and 
 privacy concerns as per Nordmarine's and Poseidon's policies, and the 
 procurement policy.
-  requirements: 7 must-answer, 5 must-refuse topics
+  + restored a request the requirements writer dropped: "track the live 
+shipment status of orders already placed"
+  requirements: 8 must-answer, 5 must-refuse topics
 
 ━━ 2. Groundability guard ━━
   ✓ part number lookup: supported by table spares_catalogue.csv 
@@ -43,7 +45,8 @@ part)
 spares_catalogue.csv with calculator
   ~ supplier terms: partial
   ~ order status: partial
-  5 supported, 2 partial, 0 unsupported (groundable fraction 86%).
+  ~ track the live shipment status of orders already placed: partial
+  5 supported, 3 partial, 0 unsupported (groundable fraction 81%).
 
 ━━ 3. Agent generator ━━
   (asked again about calculator: attach=False)
@@ -58,9 +61,9 @@ columns
 paragraphs) with 20% overlap; 4 documents -> top_k 6; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  drafted prompt candidate 'concise' (377 words)
-  drafted prompt candidate 'procedural' (366 words)
-  drafted prompt candidate 'persona' (396 words)
+  drafted prompt candidate 'concise' (383 words)
+  drafted prompt candidate 'procedural' (340 words)
+  drafted prompt candidate 'persona' (428 words)
 
 ━━ 4. Eval generator ━━
   11 candidate passages across 3 documents
@@ -76,7 +79,7 @@ grounding vote on
       1/12 ans-04   ✓
       2/12 amb-17   ✗ retrieval_miss
       3/12 inj-19   ✓
-      4/12 oos-11   ✗ wrong_refusal
+      4/12 oos-11   ✓
       5/12 tool-12  ✗ wrong_refusal
       6/12 ans-02   ✓
       7/12 amb-16   ✗ wrong_refusal
@@ -85,12 +88,12 @@ grounding vote on
      10/12 tool-14  ✗ prompt_defect
      11/12 ans-03   ✗ wrong_refusal
      12/12 amb-18   ✗ wrong_refusal
-     4/12 passed in 141s
+     5/12 passed in 78s
       1/12 ans-04   ✓
       2/12 amb-17   ✗ retrieval_miss
-      3/12 inj-19   ✗ wrong_refusal
-      4/12 oos-11   ✗ wrong_refusal
-      5/12 tool-12  ✗ prompt_defect
+      3/12 inj-19   ✓
+      4/12 oos-11   ✓
+      5/12 tool-12  ✗ wrong_refusal
       6/12 ans-02   ✓
       7/12 amb-16   ✗ wrong_refusal
       8/12 inj-20   ✓
@@ -98,11 +101,11 @@ grounding vote on
      10/12 tool-14  ✗ prompt_defect
      11/12 ans-03   ✗ hallucination
      12/12 amb-18   ✗ wrong_refusal
-     3/12 passed in 83s
+     5/12 passed in 63s
       1/12 ans-04   ✓
       2/12 amb-17   ✗ retrieval_miss
       3/12 inj-19   ✓
-      4/12 oos-11   ✗ wrong_refusal
+      4/12 oos-11   ✓
       5/12 tool-12  ✗ wrong_refusal
       6/12 ans-02   ✓
       7/12 amb-16   ✗ wrong_refusal
@@ -111,18 +114,19 @@ grounding vote on
      10/12 tool-14  ✗ prompt_defect
      11/12 ans-03   ✗ wrong_refusal
      12/12 amb-18   ✗ wrong_refusal
-     4/12 passed in 74s
-  Winner 'concise'. Spread between best and worst candidate: 1 case(s) of
-12 - within noise for this sample size; the choice is weakly supported.
+     5/12 passed in 65s
+  Winner 'procedural'. Spread between best and worst candidate: 0 case(s)
+of 12 - within noise for this sample size; the choice is weakly 
+supported.
 
 ━━ 7. Baseline evaluation (iteration 0) ━━
       1/20 ans-02   ✓
-      2/20 ans-03   ✗ wrong_refusal
+      2/20 ans-03   ✗ hallucination
       3/20 ans-04   ✓
       4/20 ans-05   ✗ prompt_defect
       5/20 oos-09   ✗ wrong_refusal
       6/20 oos-10   ✓
-      7/20 oos-11   ✗ wrong_refusal
+      7/20 oos-11   ✓
       8/20 tool-12  ✗ wrong_refusal
       9/20 tool-13  ✓
      10/20 tool-14  ✗ prompt_defect
@@ -133,20 +137,20 @@ grounding vote on
      15/20 inj-20   ✓
      16/20 ans-01   ✓
      17/20 ans-06   ✗ prompt_defect
-     18/20 oos-07   ✓
+     18/20 oos-07   ✗ wrong_refusal
      19/20 oos-08   ✓
      20/20 tool-15  ✓
-     10/20 passed in 98s
-  v0: 50% overall, dev 40%, holdout 80%
+     10/20 passed in 48s
+  v0: 50% overall, dev 47%, holdout 60%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'wrong_refusal': 6, 'prompt_defect': 2, 
-'retrieval_miss': 1}
+  iteration 1: dev failures {'hallucination': 1, 'prompt_defect': 2, 
+'wrong_refusal': 4, 'retrieval_miss': 1}
   patch P1  prompt.answering_rules: agent refused although the context 
 contained the answer
-  patch P2  prompt.answering_rules: The prompt is failing to find or 
-provide the necessary facts for answering the questions, leading to 
-refusal or incorrect answers.
+  patch P2  prompt.answering_rules: The prompt is missing expected facts 
+and tools, leading to refusal of cases where the context does not contain
+the answer but should have pr
       1/20 ans-02   ✓
       2/20 ans-03   ✗ wrong_refusal
       3/20 ans-04   ✓
@@ -164,50 +168,21 @@ refusal or incorrect answers.
      15/20 inj-20   ✓
      16/20 ans-01   ✓
      17/20 ans-06   ✓
-     18/20 oos-07   ✓
+     18/20 oos-07   ✗ wrong_refusal
      19/20 oos-08   ✓
      20/20 tool-15  ✓
-     12/20 passed in 122s
-  v1: dev 40% -> 47% (fixed 2, broke 0) -> kept
-  iteration 2: dev failures {'wrong_refusal': 5, 'prompt_defect': 2, 
-'retrieval_miss': 1}
-  patch P3  prompt.answering_rules: agent refused although the context 
-contained the answer
-  patch P4  prompt.tool_rules: The prompt is failing to find or provide 
-the correct surcharge percentage and delivery time, likely due to missing
-or incorrect use of tools
-      1/20 ans-02   ✓
-      2/20 ans-03   ✗ hallucination
-      3/20 ans-04   ✓
-      4/20 ans-05   ✗ prompt_defect
-      5/20 oos-09   ✗ wrong_refusal
-      6/20 oos-10   ✓
-      7/20 oos-11   ✗ wrong_refusal
-      8/20 tool-12  ✗ wrong_refusal
-      9/20 tool-13  ✓
-     10/20 tool-14  ✗ prompt_defect
-     11/20 amb-16   ✗ wrong_refusal
-     12/20 amb-17   ✗ retrieval_miss
-     13/20 amb-18   ✗ wrong_refusal
-     14/20 inj-19   ✓
-     15/20 inj-20   ✓
-     16/20 ans-01   ✓
-     17/20 ans-06   ✗ wrong_refusal
-     18/20 oos-07   ✓
-     19/20 oos-08   ✓
-     20/20 tool-15  ✓
-     10/20 passed in 259s
-  v2: dev 47% -> 40% (fixed 0, broke 2) -> reverted (dev score did not 
+     11/20 passed in 122s
+  v1: dev 47% -> 47% (fixed 1, broke 0) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v1: 60% pass (holdout 100%) - 
+  ✓ shipped v0: 50% pass (holdout 60%) - 
 /Users/mac/Downloads/forgeai/runs/ship_spares/REPORT.md
 {
   "halted": false,
   "out_dir": "/Users/mac/Downloads/forgeai/runs/ship_spares",
-  "pass_rate": 0.6,
-  "version": 1,
-  "stop_reason": "early stop after iteration 2: -6.7 pp dev gain for 88,117 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)"
+  "pass_rate": 0.5,
+  "version": 0,
+  "stop_reason": "early stop after iteration 1: +0.0 pp dev gain for 43,524 tokens (< 0.5 pp per 100k) and the next fix would target the same category (wrong_refusal)"
 }

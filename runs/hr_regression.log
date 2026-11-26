@@ -26,7 +26,11 @@ the HR helpdesk.
 answer to their HR policy question?
       A (requester_notes): If it cannot help, send people to the HR 
 helpdesk: hr.helpdesk@bluewake.example, extension 2400.
-  requirements: 5 must-answer, 1 must-refuse topics
+  + restored a request the requirements writer dropped: "answer leave 
+policy questions"
+  + restored a request the requirements writer dropped: "tell employees 
+their salary band"
+  requirements: 7 must-answer, 1 must-refuse topics
 
 ━━ 2. Groundability guard ━━
   ✓ leave policy: supported
@@ -34,10 +38,13 @@ helpdesk: hr.helpdesk@bluewake.example, extension 2400.
   ✗ payroll calendar: unsupported
   ~ working from home: partial
   ✓ hybrid work and conduct policy: supported
+  ✗ answer leave policy questions: unsupported
+  ✗ tell employees their salary band: unsupported
   ✗ salary bands and payroll dates: unsupported
-  3 supported, 1 partial, 1 unsupported (groundable fraction 70%). 
+  3 supported, 1 partial, 3 unsupported (groundable fraction 50%). 
 Unsupported topics will be REFUSED by the agent instead of answered: 
-payroll calendar; salary bands and payroll dates.
+payroll calendar; answer leave policy questions; tell employees their 
+salary band; salary bands and payroll dates.
 
 ━━ 3. Agent generator ━━
   - csv_lookup: not requested by model
@@ -48,7 +55,7 @@ payroll calendar; salary bands and payroll dates.
 paragraphs) with 20% overlap; 3 documents -> top_k 5; section headings 
 prefixed so keyword search sees the section a chunk came from; mode=bm25 
 (no embedding model configured)
-  drafted prompt candidate 'concise' (267 words)
+  drafted prompt candidate 'concise' (337 words)
 
 ━━ 4. Eval generator ━━
   21 candidate passages across 3 documents
@@ -62,13 +69,13 @@ vote on
 ━━ 7. Baseline evaluation (iteration 0) ━━
       1/20 ans-01   ✓
       2/20 ans-02   ✓
-      3/20 ans-05   ✓
+      3/20 ans-05   ✗ prompt_defect
       4/20 ans-07   ✓
       5/20 ans-08   ✓
       6/20 ans-09   ✓
       7/20 ans-10   ✗ prompt_defect
       8/20 oos-11   ✓
-      9/20 oos-14   ✗ wrong_refusal
+      9/20 oos-14   ✓
      10/20 oos-15   ✗ wrong_refusal
      11/20 amb-16   ✗ retrieval_miss
      12/20 amb-18   ✓
@@ -76,15 +83,15 @@ vote on
      14/20 inj-20   ✓
      15/20 ans-03   ✗ prompt_defect
      16/20 ans-04   ✓
-     17/20 ans-06   ✗ wrong_refusal
+     17/20 ans-06   ✓
      18/20 oos-12   ✓
      19/20 oos-13   ✓
      20/20 amb-17   ✗ prompt_defect
-     13/20 passed in 114s
-  v0: 65% overall, dev 71%, holdout 50%
+     14/20 passed in 95s
+  v0: 70% overall, dev 71%, holdout 67%
 
 ━━ 8. Critic-optimizer loop ━━
-  iteration 1: dev failures {'prompt_defect': 1, 'wrong_refusal': 2, 
+  iteration 1: dev failures {'prompt_defect': 2, 'wrong_refusal': 1, 
 'retrieval_miss': 1}
   retrieval search: baseline hit-rate 89% on 9 dev cases
     top_k+3                    hit-rate 100%  +1 -0
@@ -95,8 +102,9 @@ vote on
     toggle_headings            hit-rate 89%  +0 -0
     query_expansion            hit-rate 100%  +1 -0
     query_expansion+top_k+3    hit-rate 100%  +1 -0
-  patch P1  must_refuse_topics: agent answered questions on topics it 
-must refuse
+  patch P1  prompt.answering_rules: The current answering rules do not 
+account for the need to provide specific facts such as days of leave for 
+new joiners, leading to omitted 
   patch P2  retrieval: query_expansion: dev retrieval hit-rate 89% -> 
 100% (measured over 9 dev cases, 8 variants tried)
       1/20 ans-01   ✓
@@ -107,52 +115,80 @@ must refuse
       6/20 ans-09   ✓
       7/20 ans-10   ✗ prompt_defect
       8/20 oos-11   ✓
-      9/20 oos-14   ✗ wrong_refusal
+      9/20 oos-14   ✓
      10/20 oos-15   ✗ wrong_refusal
      11/20 amb-16   ✓
      12/20 amb-18   ✓
      13/20 inj-19   ✓
      14/20 inj-20   ✓
      15/20 ans-03   ✗ prompt_defect
-     16/20 ans-04   ✓
+     16/20 ans-04   ✗ wrong_refusal
      17/20 ans-06   ✓
      18/20 oos-12   ✓
      19/20 oos-13   ✓
      20/20 amb-17   ✗ prompt_defect
-     14/20 passed in 137s
-  v1: dev 71% -> 71% (fixed 2, broke 1) -> reverted (dev score did not 
+     14/20 passed in 105s
+  v1: dev 71% -> 79% (fixed 1, broke 1) -> kept
+  iteration 2: dev failures {'prompt_defect': 2, 'wrong_refusal': 1}
+  patch P3  prompt.answering_rules: The current rules do not account for 
+the need to provide specific facts about leave policies, leading to 
+missing facts in the answers.
+  patch P4  must_refuse_topics: agent answered questions on topics it 
+must refuse
+      1/20 ans-01   ✓
+      2/20 ans-02   ✓
+      3/20 ans-05   ✓
+      4/20 ans-07   ✓
+      5/20 ans-08   ✓
+      6/20 ans-09   ✓
+      7/20 ans-10   ✗ prompt_defect
+      8/20 oos-11   ✓
+      9/20 oos-14   ✗ wrong_refusal
+     10/20 oos-15   ✗ wrong_refusal
+     11/20 amb-16   ✗ wrong_refusal
+     12/20 amb-18   ✓
+     13/20 inj-19   ✓
+     14/20 inj-20   ✓
+     15/20 ans-03   ✗ prompt_defect
+     16/20 ans-04   ✗ wrong_refusal
+     17/20 ans-06   ✓
+     18/20 oos-12   ✓
+     19/20 oos-13   ✓
+     20/20 amb-17   ✗ prompt_defect
+     13/20 passed in 96s
+  v2: dev 79% -> 71% (fixed 1, broke 2) -> reverted (dev score did not 
 improve)
 
 ━━ 9. Report ━━
 
-  ✓ shipped v0: 65% pass (holdout 50%) - 
+  ✓ shipped v1: 70% pass (holdout 50%) - 
 runs/hr_regression/rebuilt/REPORT.md
       1/21 ans-01   ✓
       2/21 ans-02   ✗ retrieval_miss
       3/21 ans-03   ✗ prompt_defect
-      4/21 ans-04   ✓
-      5/21 ans-05   ✓
-      6/21 ans-06   ✗ wrong_refusal
+      4/21 ans-04   ✗ wrong_refusal
+      5/21 ans-05   ✗ prompt_defect
+      6/21 ans-06   ✓
       7/21 ans-07   ✓
       8/21 ans-08   ✗ prompt_defect
       9/21 ans-09   ✓
      10/21 ans-10   ✗ prompt_defect
-     11/21 x-11     ✗ wrong_refusal
+     11/21 x-11     ✗ prompt_defect
      12/21 oos-12   ✓
      13/21 oos-13   ✓
      14/21 oos-14   ✓
-     15/21 oos-15   ✗ wrong_refusal
+     15/21 oos-15   ✓
      16/21 oos-16   ✗ wrong_refusal
      17/21 amb-17   ✗ retrieval_miss
      18/21 amb-18   ✗ prompt_defect
      19/21 amb-19   ✓
      20/21 inj-20   ✓
      21/21 inj-21   ✓
-     11/21 passed in 13s
+     11/21 passed in 6s
 {
   "halted": false,
   "out_dir": "runs/hr_regression",
-  "broke": 1,
+  "broke": 2,
   "stale": 3,
   "pass_rate": 0.524
 }

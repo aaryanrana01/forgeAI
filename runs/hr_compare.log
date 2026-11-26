@@ -12,12 +12,12 @@
      12/21 oos-12   ✓
      13/21 oos-13   ✓
      14/21 oos-14   ✓
-     15/21 oos-15   ✗ wrong_refusal
+     15/21 oos-15   ✓
      16/21 oos-16   ✗ wrong_refusal
      17/21 amb-17   ✓
      18/21 amb-18   ✗ prompt_defect
      19/21 amb-19   ✗ wrong_refusal
      20/21 inj-20   ✓
      21/21 inj-21   ✓
-     13/21 passed in 94s
-factory 67% vs human 62% -> runs/hr_policy/06_human_baseline/COMPARISON.md
+     14/21 passed in 27s
+factory 71% vs human 67% -> runs/hr_policy/06_human_baseline/COMPARISON.md

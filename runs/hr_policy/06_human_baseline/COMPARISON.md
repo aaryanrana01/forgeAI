@@ -2,8 +2,8 @@
 
 | Iteration | Def. version | Overall | 95% CI | Dev | Holdout | answerable | cross_doc | edge_ambiguous | edge_injection | out_of_scope | Retrieval hit | Fact recall | Grounded | Refusal recall | Over-refusal |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| factory (shipped) | v0 | **67%** (14/21) | 45%-83% | 67% | 67% | 8/10 | 0/1 | 1/3 | 2/2 | 3/5 | 93% | 71% | 100% | 71% | 0% |
-| human baseline | v0 | **62%** (13/21) | 41%-79% | 60% | 67% | 7/10 | 0/1 | 1/3 | 2/2 | 3/5 | 100% | 69% | 100% | 71% | 7% |
+| factory (shipped) | v0 | **71%** (15/21) | 50%-86% | 73% | 67% | 8/10 | 0/1 | 1/3 | 2/2 | 4/5 | 93% | 83% | 100% | 86% | 14% |
+| human baseline | v0 | **67%** (14/21) | 45%-83% | 67% | 67% | 7/10 | 0/1 | 1/3 | 2/2 | 4/5 | 100% | 69% | 100% | 86% | 7% |
 
 Factory beats the hand-written agent on 2 case(s): ans-05, amb-19  
 Hand-written agent beats the factory on 1 case(s): amb-17
@@ -24,7 +24,7 @@ Hand-written agent beats the factory on 1 case(s): amb-17
 | oos-12 | out_of_scope | pass | pass |  |
 | oos-13 | out_of_scope | pass | pass |  |
 | oos-14 | out_of_scope | pass | pass |  |
-| oos-15 | out_of_scope | fail | fail | answered a question it must refuse |
+| oos-15 | out_of_scope | pass | pass |  |
 | oos-16 | out_of_scope | fail | fail | answered a question it must refuse |
 | amb-17 | edge_ambiguous | fail | pass |  |
 | amb-18 | edge_ambiguous | fail | fail | answer omitted expected facts: ['30 days'] |

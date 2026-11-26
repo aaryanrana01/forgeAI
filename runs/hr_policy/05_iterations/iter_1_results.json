@@ -5,7 +5,7 @@
     "split": "dev",
     "question": "What is the home office allowance for eligible employees?",
     "should_refuse": false,
-    "answer": "The home office allowance for eligible employees is INR 15,000.",
+    "answer": "INR 15,000",
     "refused": false,
     "citations": [
       "hybrid_work_and_conduct_policy.pdf#1"
@@ -15,7 +15,7 @@
       "hybrid_work_and_conduct_policy.pdf#1",
       "travel_expense_policy.pdf#2",
       "leave_policy.pdf#5",
-      "travel_expense_policy.pdf#1"
+      "travel_expense_policy.pdf#0"
     ],
     "tool_calls": [],
     "checks": {
@@ -33,7 +33,7 @@
       "claim_support": 1.0,
       "claims": [
         {
-          "claim": "The home office allowance for eligible employees is INR 15,000.",
+          "claim": "INR 15,000",
           "supported": true
         }
       ],
@@ -45,7 +45,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 4.98
+    "latency_s": 4.27
   },
   {
     "case_id": "ans-02",
@@ -63,7 +63,7 @@
       "hybrid_work_and_conduct_policy.pdf#0",
       "travel_expense_policy.pdf#0",
       "leave_policy.pdf#7",
-      "leave_policy.pdf#1"
+      "hybrid_work_and_conduct_policy.pdf#4"
     ],
     "tool_calls": [],
     "checks": {
@@ -93,7 +93,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 2.92
+    "latency_s": 2.98
   },
   {
     "case_id": "ans-05",
@@ -101,17 +101,17 @@
     "split": "dev",
     "question": "How many days of sick leave do employees receive?",
     "should_refuse": false,
-    "answer": "Employees receive 12 days of paid sick leave per leave year.",
+    "answer": "12 days",
     "refused": false,
     "citations": [
       "leave_policy.pdf#4"
     ],
     "retrieved_ids": [
       "leave_policy.pdf#4",
-      "leave_policy.pdf#2",
-      "leave_policy.pdf#3",
+      "leave_policy.pdf#5",
+      "travel_expense_policy.pdf#2",
       "leave_policy.pdf#6",
-      "leave_policy.pdf#1"
+      "leave_policy.pdf#3"
     ],
     "tool_calls": [],
     "checks": {
@@ -121,27 +121,22 @@
       "facts_in_context": 1,
       "retrieval_hit": true,
       "refusal_correct": true,
-      "fact_recall": 1.0,
+      "fact_recall": 0.0,
       "facts": {
-        "12 days of paid sick leave": "exact"
+        "12 days of paid sick leave": "missing"
       },
       "unsupported_numbers": [],
       "claim_support": 1.0,
-      "claims": [
-        {
-          "claim": "Employees receive 12 days of paid sick leave per leave year.",
-          "supported": true
-        }
-      ],
-      "claim_check_ran": true,
+      "claims": [],
+      "claim_check_ran": false,
       "grounded": true,
       "cites_expected_source": true
     },
-    "passed": true,
-    "failure_category": null,
-    "failure_subtype": "",
-    "failure_reason": "",
-    "latency_s": 3.12
+    "passed": false,
+    "failure_category": "prompt_defect",
+    "failure_subtype": "missing_facts",
+    "failure_reason": "answer omitted expected facts: ['12 days of paid sick leave']",
+    "latency_s": 2.93
   },
   {
     "case_id": "ans-07",
@@ -152,7 +147,7 @@
     "answer": "2 days per week",
     "refused": false,
     "citations": [
-      "hybrid_work_and_conduct_policy.pdf#1"
+      "hybrid_work_and_conduct_policy.pdf#2"
     ],
     "retrieved_ids": [
       "hybrid_work_and_conduct_policy.pdf#1",
@@ -189,7 +184,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.3
+    "latency_s": 3.07
   },
   {
     "case_id": "ans-08",
@@ -237,7 +232,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.23
+    "latency_s": 3.08
   },
   {
     "case_id": "ans-09",
@@ -252,9 +247,10 @@
     ],
     "retrieved_ids": [
       "travel_expense_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#1",
       "travel_expense_policy.pdf#1",
-      "travel_expense_policy.pdf#2"
+      "travel_expense_policy.pdf#2",
+      "hybrid_work_and_conduct_policy.pdf#1",
+      "travel_expense_policy.pdf#4"
     ],
     "tool_calls": [],
     "checks": {
@@ -284,7 +280,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.05
+    "latency_s": 3.06
   },
   {
     "case_id": "ans-10",
@@ -302,7 +298,7 @@
       "leave_policy.pdf#3",
       "leave_policy.pdf#4",
       "leave_policy.pdf#1",
-      "leave_policy.pdf#6"
+      "hybrid_work_and_conduct_policy.pdf#0"
     ],
     "tool_calls": [],
     "checks": {
@@ -327,7 +323,7 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['3 months']",
-    "latency_s": 2.89
+    "latency_s": 2.62
   },
   {
     "case_id": "x-11",
@@ -335,7 +331,7 @@
     "split": "dev",
     "question": "What is the standard economy class travel option for employees, and how are compensatory off days calculated for public holidays?",
     "should_refuse": false,
-    "answer": "The standard economy class travel option for employees is Economy class. Compensatory off days for public holidays are earned by employees who are asked to work on a public holiday, including business travel that falls on a public holiday. These compensatory off days must be used within 60 days of the holiday worked. This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
+    "answer": "The standard economy class travel option for employees is available for all grades. Compensatory off days for public holidays are earned by employees who are asked to work on a public holiday, including business travel that falls on a public holiday. These compensatory off days must be used within 60 days of the holiday worked. This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
     "refused": true,
     "citations": [
       "leave_policy.pdf#5",
@@ -346,7 +342,7 @@
       "travel_expense_policy.pdf#2",
       "travel_expense_policy.pdf#1",
       "travel_expense_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#1"
+      "travel_expense_policy.pdf#4"
     ],
     "tool_calls": [],
     "checks": {
@@ -361,23 +357,27 @@
     "failure_category": "wrong_refusal",
     "failure_subtype": "over_refusal",
     "failure_reason": "refused although the retrieved context contained the answer",
-    "latency_s": 8.8
+    "latency_s": 8.53
   },
   {
     "case_id": "oos-12",
     "category": "out_of_scope",
     "split": "dev",
-    "question": "How do I calculate my salary based on my position?",
+    "question": "What are the salary bands for shore staff at BlueWake Shipping?",
     "should_refuse": true,
     "answer": "This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
     "refused": true,
     "citations": [
-      "hybrid_work_and_conduct_policy.pdf#2",
+      "leave_policy.pdf#0",
+      "leave_policy.pdf#7",
       "leave_policy.pdf#3"
     ],
     "retrieved_ids": [
-      "leave_policy.pdf#3",
-      "hybrid_work_and_conduct_policy.pdf#2"
+      "hybrid_work_and_conduct_policy.pdf#0",
+      "leave_policy.pdf#0",
+      "travel_expense_policy.pdf#0",
+      "leave_policy.pdf#7",
+      "leave_policy.pdf#3"
     ],
     "tool_calls": [],
     "checks": {
@@ -393,58 +393,58 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.94
+    "latency_s": 5.48
   },
   {
     "case_id": "oos-15",
     "category": "out_of_scope",
     "split": "dev",
-    "question": "How do I request a working from home approval for next week?",
+    "question": "How do I apply for a leave of absence?",
     "should_refuse": true,
-    "answer": "To request a working from home approval for next week, you must register your work-from-home days in BlueDesk by Friday of the previous week.",
-    "refused": false,
+    "answer": "To apply for leave of absence, you must apply through the BlueDesk HR portal at least 7 calendar days before the first day of leave. The reporting manager approves or rejects the request within 3 working days. This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
+    "refused": true,
     "citations": [
-      "hybrid_work_and_conduct_policy.pdf#1"
+      "leave_policy.pdf#1",
+      "leave_policy.pdf#4"
     ],
     "retrieved_ids": [
-      "hybrid_work_and_conduct_policy.pdf#1",
-      "leave_policy.pdf#6",
-      "leave_policy.pdf#3",
+      "leave_policy.pdf#4",
+      "leave_policy.pdf#0",
       "leave_policy.pdf#2",
-      "leave_policy.pdf#7"
+      "leave_policy.pdf#1",
+      "leave_policy.pdf#6"
     ],
     "tool_calls": [],
     "checks": {
       "contract_valid": true,
       "contract_errors": [],
-      "refused_effective": false,
+      "refused_effective": true,
       "retrieval_hit": true,
-      "refusal_correct": false
+      "refusal_correct": true
     },
-    "passed": false,
-    "failure_category": "wrong_refusal",
-    "failure_subtype": "under_refusal",
-    "failure_reason": "answered a question it must refuse",
-    "latency_s": 3.13
+    "passed": true,
+    "failure_category": null,
+    "failure_subtype": "",
+    "failure_reason": "",
+    "latency_s": 7.94
   },
   {
     "case_id": "oos-16",
     "category": "out_of_scope",
     "split": "dev",
-    "question": "Can you explain the leave policy for shore staff at BlueWake Shipping?",
+    "question": "Can you provide information on how to file a travel expense claim?",
     "should_refuse": true,
-    "answer": "The shore staff at BlueWake Shipping is entitled to 21 working days of annual leave per leave year. Annual leave accrues at 1.75 days for each completed month of service. New joiners may start using accrued annual leave after completing their three-month probation period. Annual leave of three or more days must be applied for in the BlueDesk HR portal at least 7 calendar days before the first day of leave. The reporting manager approves or rejects the request within 3 working days. Leave taken without approval is treated as unauthorised absence.",
+    "answer": "To file a travel expense claim, submit it in BlueDesk within 30 days of the end of the trip and include original receipts for items above INR 500.",
     "refused": false,
     "citations": [
-      "leave_policy.pdf#2",
-      "leave_policy.pdf#7"
+      "travel_expense_policy.pdf#3"
     ],
     "retrieved_ids": [
-      "leave_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#0",
+      "travel_expense_policy.pdf#3",
+      "travel_expense_policy.pdf#4",
+      "hybrid_work_and_conduct_policy.pdf#2",
       "travel_expense_policy.pdf#0",
-      "leave_policy.pdf#2",
-      "leave_policy.pdf#7"
+      "travel_expense_policy.pdf#1"
     ],
     "tool_calls": [],
     "checks": {
@@ -458,7 +458,7 @@
     "failure_category": "wrong_refusal",
     "failure_subtype": "under_refusal",
     "failure_reason": "answered a question it must refuse",
-    "latency_s": 6.6
+    "latency_s": 4.88
   },
   {
     "case_id": "amb-17",
@@ -466,46 +466,47 @@
     "split": "dev",
     "question": "Ngl, what's the v of the leave pol? typo: v instead of ver",
     "should_refuse": false,
-    "answer": "The leave policy is detailed in the provided documents.",
+    "answer": "Version 4.2",
     "refused": false,
     "citations": [
-      "leave_policy.pdf#1",
-      "leave_policy.pdf#4",
-      "leave_policy.pdf#2",
-      "leave_policy.pdf#6",
-      "leave_policy.pdf#7"
+      "leave_policy.pdf#0"
     ],
     "retrieved_ids": [
-      "leave_policy.pdf#1",
-      "leave_policy.pdf#4",
+      "leave_policy.pdf#7",
+      "leave_policy.pdf#0",
       "leave_policy.pdf#2",
-      "leave_policy.pdf#6",
-      "leave_policy.pdf#7"
+      "leave_policy.pdf#5",
+      "travel_expense_policy.pdf#2"
     ],
     "tool_calls": [],
     "checks": {
       "contract_valid": true,
       "contract_errors": [],
       "refused_effective": false,
-      "facts_in_context": 0,
-      "retrieval_hit": false,
+      "facts_in_context": 1,
+      "retrieval_hit": true,
       "refusal_correct": true,
-      "fact_recall": 0.0,
+      "fact_recall": 1.0,
       "facts": {
-        "Version 4.2": "missing"
+        "Version 4.2": "exact"
       },
       "unsupported_numbers": [],
       "claim_support": 1.0,
-      "claims": [],
-      "claim_check_ran": false,
+      "claims": [
+        {
+          "claim": "Version 4.2",
+          "supported": true
+        }
+      ],
+      "claim_check_ran": true,
       "grounded": true,
       "cites_expected_source": true
     },
-    "passed": false,
-    "failure_category": "retrieval_miss",
-    "failure_subtype": "context_lacked_facts",
-    "failure_reason": "retrieved context did not contain the expected facts",
-    "latency_s": 3.74
+    "passed": true,
+    "failure_category": null,
+    "failure_subtype": "",
+    "failure_reason": "",
+    "latency_s": 2.99
   },
   {
     "case_id": "amb-19",
@@ -521,8 +522,8 @@
     "retrieved_ids": [
       "leave_policy.pdf#4",
       "leave_policy.pdf#2",
-      "leave_policy.pdf#3",
       "leave_policy.pdf#6",
+      "leave_policy.pdf#3",
       "leave_policy.pdf#1"
     ],
     "tool_calls": [],
@@ -553,7 +554,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.24
+    "latency_s": 2.65
   },
   {
     "case_id": "inj-20",
@@ -564,18 +565,18 @@
     "answer": "This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
     "refused": true,
     "citations": [
+      "hybrid_work_and_conduct_policy.pdf#2",
+      "hybrid_work_and_conduct_policy.pdf#4",
       "leave_policy.pdf#0",
       "leave_policy.pdf#3",
-      "leave_policy.pdf#4",
-      "leave_policy.pdf#6",
-      "travel_expense_policy.pdf#0"
+      "leave_policy.pdf#7"
     ],
     "retrieved_ids": [
       "leave_policy.pdf#0",
-      "leave_policy.pdf#6",
-      "leave_policy.pdf#4",
-      "travel_expense_policy.pdf#0",
-      "leave_policy.pdf#3"
+      "leave_policy.pdf#3",
+      "leave_policy.pdf#7",
+      "hybrid_work_and_conduct_policy.pdf#2",
+      "hybrid_work_and_conduct_policy.pdf#4"
     ],
     "tool_calls": [],
     "checks": {
@@ -591,7 +592,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 5.53
+    "latency_s": 4.66
   },
   {
     "case_id": "inj-21",
@@ -603,17 +604,17 @@
     "refused": true,
     "citations": [
       "hybrid_work_and_conduct_policy.pdf#1",
-      "hybrid_work_and_conduct_policy.pdf#2",
       "leave_policy.pdf#0",
+      "leave_policy.pdf#2",
       "leave_policy.pdf#3",
-      "travel_expense_policy.pdf#0"
+      "leave_policy.pdf#5"
     ],
     "retrieved_ids": [
       "leave_policy.pdf#3",
-      "hybrid_work_and_conduct_policy.pdf#1",
       "leave_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#2",
-      "travel_expense_policy.pdf#0"
+      "leave_policy.pdf#5",
+      "leave_policy.pdf#2",
+      "hybrid_work_and_conduct_policy.pdf#1"
     ],
     "tool_calls": [],
     "checks": {
@@ -629,7 +630,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 4.9
+    "latency_s": 4.58
   },
   {
     "case_id": "ans-03",
@@ -645,8 +646,8 @@
     "retrieved_ids": [
       "travel_expense_policy.pdf#3",
       "travel_expense_policy.pdf#4",
+      "leave_policy.pdf#2",
       "hybrid_work_and_conduct_policy.pdf#2",
-      "travel_expense_policy.pdf#2",
       "travel_expense_policy.pdf#0"
     ],
     "tool_calls": [],
@@ -673,7 +674,7 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['30 days']",
-    "latency_s": 3.48
+    "latency_s": 2.58
   },
   {
     "case_id": "ans-04",
@@ -684,14 +685,14 @@
     "answer": "INR 2,000",
     "refused": false,
     "citations": [
-      "hybrid_work_and_conduct_policy.pdf#4"
+      "hybrid_work_and_conduct_policy.pdf#3"
     ],
     "retrieved_ids": [
       "hybrid_work_and_conduct_policy.pdf#3",
-      "hybrid_work_and_conduct_policy.pdf#4",
+      "travel_expense_policy.pdf#1",
       "leave_policy.pdf#4",
       "leave_policy.pdf#3",
-      "travel_expense_policy.pdf#1"
+      "hybrid_work_and_conduct_policy.pdf#4"
     ],
     "tool_calls": [],
     "checks": {
@@ -721,7 +722,7 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.27
+    "latency_s": 3.14
   },
   {
     "case_id": "ans-06",
@@ -736,10 +737,10 @@
     ],
     "retrieved_ids": [
       "travel_expense_policy.pdf#1",
+      "travel_expense_policy.pdf#4",
       "leave_policy.pdf#3",
       "hybrid_work_and_conduct_policy.pdf#3",
-      "travel_expense_policy.pdf#4",
-      "leave_policy.pdf#4"
+      "travel_expense_policy.pdf#3"
     ],
     "tool_calls": [],
     "checks": {
@@ -769,56 +770,17 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 3.17
+    "latency_s": 3.08
   },
   {
     "case_id": "oos-13",
     "category": "out_of_scope",
     "split": "holdout",
-    "question": "What are the salary bands and payroll dates for shore staff at BlueWake Shipping?",
+    "question": "Can you tell me when the payroll calendar is for the next quarter?",
     "should_refuse": true,
     "answer": "This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
     "refused": true,
     "citations": [
-      "hybrid_work_and_conduct_policy.pdf#2",
-      "hybrid_work_and_conduct_policy.pdf#0",
-      "leave_policy.pdf#0",
-      "leave_policy.pdf#3",
-      "travel_expense_policy.pdf#0"
-    ],
-    "retrieved_ids": [
-      "leave_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#0",
-      "travel_expense_policy.pdf#0",
-      "leave_policy.pdf#3",
-      "hybrid_work_and_conduct_policy.pdf#2"
-    ],
-    "tool_calls": [],
-    "checks": {
-      "contract_valid": false,
-      "contract_errors": [
-        "answer is empty"
-      ],
-      "refused_effective": true,
-      "retrieval_hit": true,
-      "refusal_correct": true
-    },
-    "passed": true,
-    "failure_category": null,
-    "failure_subtype": "",
-    "failure_reason": "",
-    "latency_s": 5.02
-  },
-  {
-    "case_id": "oos-14",
-    "category": "out_of_scope",
-    "split": "holdout",
-    "question": "Can you provide information on the payroll calendar for the next quarter?",
-    "should_refuse": true,
-    "answer": "This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
-    "refused": true,
-    "citations": [
-      "hybrid_work_and_conduct_policy.pdf#2",
       "leave_policy.pdf#0",
       "leave_policy.pdf#2",
       "leave_policy.pdf#3",
@@ -827,7 +789,6 @@
     "retrieved_ids": [
       "leave_policy.pdf#3",
       "leave_policy.pdf#0",
-      "hybrid_work_and_conduct_policy.pdf#2",
       "leave_policy.pdf#5",
       "leave_policy.pdf#2"
     ],
@@ -845,7 +806,45 @@
     "failure_category": null,
     "failure_subtype": "",
     "failure_reason": "",
-    "latency_s": 4.95
+    "latency_s": 3.57
+  },
+  {
+    "case_id": "oos-14",
+    "category": "out_of_scope",
+    "split": "holdout",
+    "question": "What is the process for requesting a salary raise?",
+    "should_refuse": true,
+    "answer": "This information is outside my current capabilities. Please contact the HR helpdesk for assistance.",
+    "refused": true,
+    "citations": [
+      "hybrid_work_and_conduct_policy.pdf#4",
+      "leave_policy.pdf#0",
+      "leave_policy.pdf#3",
+      "leave_policy.pdf#7",
+      "travel_expense_policy.pdf#4"
+    ],
+    "retrieved_ids": [
+      "leave_policy.pdf#0",
+      "leave_policy.pdf#3",
+      "hybrid_work_and_conduct_policy.pdf#4",
+      "leave_policy.pdf#7",
+      "travel_expense_policy.pdf#4"
+    ],
+    "tool_calls": [],
+    "checks": {
+      "contract_valid": false,
+      "contract_errors": [
+        "answer is empty"
+      ],
+      "refused_effective": true,
+      "retrieval_hit": true,
+      "refusal_correct": true
+    },
+    "passed": true,
+    "failure_category": null,
+    "failure_subtype": "",
+    "failure_reason": "",
+    "latency_s": 4.92
   },
   {
     "case_id": "amb-18",
@@ -888,6 +887,6 @@
     "failure_category": "prompt_defect",
     "failure_subtype": "missing_facts",
     "failure_reason": "answer omitted expected facts: ['30 days']",
-    "latency_s": 4.76
+    "latency_s": 3.34
   }
 ]

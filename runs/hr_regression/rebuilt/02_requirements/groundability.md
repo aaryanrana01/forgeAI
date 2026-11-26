@@ -1,6 +1,6 @@
 # Groundability report
 
-3 supported, 1 partial, 1 unsupported (groundable fraction 70%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; salary bands and payroll dates.
+3 supported, 1 partial, 3 unsupported (groundable fraction 50%). Unsupported topics will be REFUSED by the agent instead of answered: payroll calendar; answer leave policy questions; tell employees their salary band; salary bands and payroll dates.
 
 | Topic | Verdict | Evidence | Note |
 |---|---|---|---|
@@ -9,9 +9,13 @@
 | payroll calendar | unsupported | - | Date salary is credited each month |
 | working from home | partial | hybrid_work_and_conduct_policy.pdf#2, hybrid_work_and_conduct_policy.pdf#1, hybrid_work_and_conduct_policy.pdf#3 | working from home benefits, duration, and specific details about working from another location |
 | hybrid work and conduct policy | supported | hybrid_work_and_conduct_policy.pdf#1, hybrid_work_and_conduct_policy.pdf#2, hybrid_work_and_conduct_policy.pdf#3, hybrid_work_and_conduct_policy.pdf#0, hybrid_work_and_conduct_policy.pdf#2, hybrid_work_and_conduct_policy.pdf#3, hybrid_work_and_conduct_policy.pdf#0 | none |
+| answer leave policy questions | unsupported | - | leave policy questions |
+| tell employees their salary band | unsupported | - | tell employees their salary band |
 | salary bands and payroll dates | unsupported | - | requested in the brief; intake already set it to REFUSE. salary bands and payroll dates |
 
 ## Flagged gaps
 The brief asks for these but the documents cannot support them. The agent is configured to refuse them rather than guess:
 - payroll calendar
+- answer leave policy questions
+- tell employees their salary band
 - salary bands and payroll dates

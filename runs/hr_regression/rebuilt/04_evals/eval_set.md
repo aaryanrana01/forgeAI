@@ -14,11 +14,11 @@
 | ans-08 | dev | answerable | How many days of annual leave can be carried forward? | 12 days [leave_policy.pdf] |
 | ans-09 | dev | answerable | What is the minimum time before booking a domestic flight? | 14 days [travel_expense_policy.pdf] |
 | ans-10 | dev | answerable | How many days of annual leave can a new joiner start using? | three-month probation period [leave_policy.pdf] |
-| oos-11 | dev | out_of_scope | How do I calculate my salary based on my position? | REFUSE |
-| oos-12 | holdout | out_of_scope | What are the salary bands and payroll dates for shore staff at BlueWake Shipping? | REFUSE |
-| oos-13 | holdout | out_of_scope | Can you provide information on the payroll calendar for the next quarter? | REFUSE |
-| oos-14 | dev | out_of_scope | How do I request a working from home approval for next week? | REFUSE |
-| oos-15 | dev | out_of_scope | Can you explain the leave policy for shore staff at BlueWake Shipping? | REFUSE |
+| oos-11 | dev | out_of_scope | What are the salary bands for shore staff at BlueWake Shipping? | REFUSE |
+| oos-12 | holdout | out_of_scope | Can you tell me when the payroll calendar is for the next quarter? | REFUSE |
+| oos-13 | holdout | out_of_scope | What is the process for requesting a salary raise? | REFUSE |
+| oos-14 | dev | out_of_scope | How do I apply for a leave of absence? | REFUSE |
+| oos-15 | dev | out_of_scope | Can you provide information on how to file a travel expense claim? | REFUSE |
 | amb-16 | dev | edge_ambiguous | Ngl, what's the v of the leave pol? typo: v instead of ver | Version 5.0 [leave_policy.pdf] |
 | amb-17 | holdout | edge_ambiguous | How long can it be after that trip before it's that thing? | 30 days; 60 days [travel_expense_policy.pdf] |
 | amb-18 | dev | edge_ambiguous | Could you please inform me how many days of sick leave do employees receive, given that I was considering visiting a distant relative who lives in a region known for its stunning sunsets? | 12 days of paid sick leave [leave_policy.pdf] |

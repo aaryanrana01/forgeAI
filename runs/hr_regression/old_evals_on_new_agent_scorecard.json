@@ -1,6 +1,6 @@
 {
   "label": "old_evals_on_new_agent",
-  "definition_version": 0,
+  "definition_version": 1,
   "n_cases": 21,
   "passed": 11,
   "pass_rate": 0.524,
@@ -13,8 +13,8 @@
   "by_category": {
     "answerable": {
       "n": 10,
-      "passed": 5,
-      "pass_rate": 0.5
+      "passed": 4,
+      "pass_rate": 0.4
     },
     "cross_doc": {
       "n": 1,
@@ -33,23 +33,23 @@
     },
     "out_of_scope": {
       "n": 5,
-      "passed": 3,
-      "pass_rate": 0.6
+      "passed": 4,
+      "pass_rate": 0.8
     }
   },
   "metrics": {
     "retrieval_hit_rate": 0.857,
-    "mean_fact_recall": 0.636,
+    "mean_fact_recall": 0.462,
     "grounded_rate": 1.0,
-    "refusal_recall": 0.714,
-    "over_refusal_rate": 0.214,
-    "contract_valid_rate": 0.714,
+    "refusal_recall": 0.857,
+    "over_refusal_rate": 0.071,
+    "contract_valid_rate": 0.762,
     "citation_source_rate": 1.0,
-    "mean_latency_s": 0.6
+    "mean_latency_s": 0.27
   },
   "failures_by_type": {
     "retrieval_miss": 2,
-    "prompt_defect": 4,
-    "wrong_refusal": 4
+    "prompt_defect": 6,
+    "wrong_refusal": 2
   }
 }
