@@ -1,0 +1,42 @@
+[
+  {
+    "tool": "csv_lookup",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "No CSV table is present in the folder to use csv_lookup.",
+    "precondition_ok": false,
+    "precondition": "no CSV file in the document folder",
+    "final": false,
+    "why": "not requested by model"
+  },
+  {
+    "tool": "calculator",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "No calculations are needed for the provided requirements.",
+    "precondition_ok": false,
+    "precondition": "requirements never mention a need this tool serves (pattern: calculator)",
+    "final": false,
+    "why": "not requested by model"
+  },
+  {
+    "tool": "current_date",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "No date-related requirements are present in the provided requirements.",
+    "precondition_ok": false,
+    "precondition": "requirements never mention a need this tool serves (pattern: current_date)",
+    "final": false,
+    "why": "not requested by model"
+  },
+  {
+    "tool": "weather",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "No weather-related requirements are present in the provided requirements.",
+    "precondition_ok": false,
+    "precondition": "requirements never mention a need this tool serves (pattern: weather)",
+    "final": false,
+    "why": "not requested by model"
+  }
+]

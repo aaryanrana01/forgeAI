@@ -1,0 +1,27 @@
+[
+  {
+    "question": "Who exactly are the shore staff at BlueWake Shipping that the assistant will be for?",
+    "answer": "Users: about 400 shore employees in the Mumbai and Chennai offices, from trainees to senior managers.",
+    "source": "requester_notes"
+  },
+  {
+    "question": "What is the expected tone for the assistant's responses to shore staff?",
+    "answer": "The tone should be professional, helpful, and supportive.",
+    "source": "default_assumption"
+  },
+  {
+    "question": "Are there any specific HR policies or topics that should be excluded from the assistant's responses?",
+    "answer": "Exclude any policies or topics not mentioned in the provided documents.",
+    "source": "default_assumption"
+  },
+  {
+    "question": "What should the assistant do if an employee asks about salary bands or payroll calendars that are not covered in the provided documents?",
+    "answer": "The assistant should escalate these requests to the HR helpdesk for further investigation and response.",
+    "source": "default_assumption"
+  },
+  {
+    "question": "Who should shore staff contact if the assistant cannot provide an answer to their HR policy question?",
+    "answer": "Shore staff should contact the HR helpdesk for assistance.",
+    "source": "default_assumption"
+  }
+]

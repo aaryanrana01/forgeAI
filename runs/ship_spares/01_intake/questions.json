@@ -1,0 +1,29 @@
+{
+  "questions": [
+    {
+      "question": "Who are the primary users of the assistant and what is the expected tone for their interactions?",
+      "why_it_matters": "Understanding the audience will help tailor the assistant's language and tone to meet their needs and expectations.",
+      "default_assumption": "The primary users are fleet technical superintendents and the tone is professional and helpful."
+    },
+    {
+      "question": "Are there any specific technical or operational procedures that must be followed, and how will the assistant ensure compliance?",
+      "why_it_matters": "Ensuring compliance with procedures is crucial for the assistant's functionality and reliability.",
+      "default_assumption": "The assistant should follow Nordmarine and Poseidon's supply terms and Nordmarine's technical procurement policy."
+    },
+    {
+      "question": "Are there any critical spares or emergency procurement procedures that the assistant should be aware of and handle?",
+      "why_it_matters": "Handling critical spares and emergency procurement is essential for the assistant's core functionality.",
+      "default_assumption": "The assistant should be aware of critical spares and handle emergency procurement procedures as outlined in the policy and supplier terms."
+    },
+    {
+      "question": "Are there any specific units or currencies that should be used in the assistant's interactions with users and suppliers?",
+      "why_it_matters": "Using consistent units and currencies ensures accuracy and avoids confusion.",
+      "default_assumption": "The assistant should use USD as the currency and the units specified in the documents."
+    },
+    {
+      "question": "Are there any legal or privacy concerns that the assistant should be aware of and handle appropriately?",
+      "why_it_matters": "Handling legal and privacy concerns is crucial to ensure the assistant operates within the bounds of the law and respects user privacy.",
+      "default_assumption": "The assistant should handle all legal and privacy concerns as per Nordmarine's and Poseidon's policies, and the procurement policy."
+    }
+  ]
+}

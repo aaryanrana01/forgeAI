@@ -1,0 +1,118 @@
+{
+  "n_documents": 3,
+  "documents": [
+    {
+      "doc_id": "hybrid_work_and_conduct_policy.pdf",
+      "type": "pdf",
+      "words": 370,
+      "pages": 2,
+      "headings": [
+        "HYBRID WORK AND CODE OF CONDUCT POLICY",
+        "1. Eligibility",
+        "2. Hybrid Pattern",
+        "3. Core Hours",
+        "4. Equipment and Allowances",
+        "5. Information Security",
+        "6. Working From Another Location",
+        "7. Gifts and Hospitality",
+        "8. Conflicts of Interest",
+        "9. Speak-Up and Grievances",
+        "10. Breaches"
+      ],
+      "top_terms": [
+        "work",
+        "policy",
+        "company",
+        "hybrid",
+        "eligible",
+        "employe",
+        "home",
+        "week",
+        "hour",
+        "india",
+        "employee",
+        "allowance",
+        "gift",
+        "bluedesk",
+        "core"
+      ],
+      "opening": "HYBRID WORK AND CODE OF CONDUCT POLICY BlueWake Shipping Pvt. Ltd. (fictional company for demonstration) Policy HR-POL-05 | Version 2.1 | Effective 1 July 2025 | Owner: Human Resources 1. Eligibility Hybrid working is open to shore staff whose role is not tied to a site, such as a terminal or warehouse, once they have completed the three-month probation period."
+    },
+    {
+      "doc_id": "leave_policy.pdf",
+      "type": "pdf",
+      "words": 594,
+      "pages": 2,
+      "headings": [
+        "LEAVE POLICY",
+        "1. Purpose and Scope",
+        "2. Leave Year",
+        "3. Annual Leave",
+        "4. Carry Forward and Encashment",
+        "5. Sick Leave",
+        "6. Casual Leave",
+        "7. Public Holidays and Compensatory Off",
+        "8. Parental Leave",
+        "9. Bereavement Leave",
+        "10. Leave Without Pay",
+        "11. Contact"
+      ],
+      "top_terms": [
+        "leave",
+        "year",
+        "annual",
+        "employe",
+        "work",
+        "holiday",
+        "policy",
+        "employee",
+        "request",
+        "paid",
+        "public",
+        "child",
+        "march",
+        "accru",
+        "month"
+      ],
+      "opening": "LEAVE POLICY BlueWake Shipping Pvt. Ltd. (fictional company for demonstration) Policy HR-POL-03 | Version 4.2 | Effective 1 April 2026 | Owner: Human Resources 1. Purpose and Scope This policy explains the leave available to shore-based employees on the BlueWake payroll in the Mumbai and Chennai offices. It does not apply to seafarers or other sea staff, whose leave is"
+    },
+    {
+      "doc_id": "travel_expense_policy.pdf",
+      "type": "pdf",
+      "words": 459,
+      "pages": 2,
+      "headings": [
+        "TRAVEL AND EXPENSE POLICY",
+        "1. Scope",
+        "2. Approval and Booking",
+        "3. Air Travel",
+        "4. Hotel Limits",
+        "5. Per Diem",
+        "6. Travel on Weekends and Public Holidays",
+        "7. Local Conveyance",
+        "8. Expense Claims",
+        "9. Travel Advance",
+        "10. Non-Reimbursable Items",
+        "11. Contact"
+      ],
+      "top_terms": [
+        "travel",
+        "trip",
+        "busines",
+        "claim",
+        "expense",
+        "policy",
+        "night",
+        "company",
+        "paid",
+        "book",
+        "request",
+        "approv",
+        "international",
+        "employe",
+        "hotel"
+      ],
+      "opening": "TRAVEL AND EXPENSE POLICY BlueWake Shipping Pvt. Ltd. (fictional company for demonstration) Policy FIN-POL-07 | Version 3.0 | Effective 1 January 2026 | Owner: Finance 1. Scope This policy covers business travel and expense reimbursement for shore staff. Travel of crew joining or signing off vessels is arranged and paid by the Crewing Department and is not covered here. 2."
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "topics": [
+    {
+      "topic": "leave policy",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "leave_policy.pdf#4",
+        "leave_policy.pdf#2",
+        "leave_policy.pdf#5",
+        "leave_policy.pdf#3",
+        "leave_policy.pdf#1",
+        "leave_policy.pdf#0"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.5,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "travel and expense policy",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "travel_expense_policy.pdf#2",
+        "travel_expense_policy.pdf#3",
+        "travel_expense_policy.pdf#1",
+        "travel_expense_policy.pdf#0",
+        "leave_policy.pdf#3",
+        "hybrid_work_and_conduct_policy.pdf#1"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.62,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "hybrid work and conduct policy",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "hybrid_work_and_conduct_policy.pdf#2",
+        "hybrid_work_and_conduct_policy.pdf#1",
+        "hybrid_work_and_conduct_policy.pdf#3",
+        "hybrid_work_and_conduct_policy.pdf#0",
+        "leave_policy.pdf#3",
+        "leave_policy.pdf#4"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.48,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "salary band",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "salary band information",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "working from home",
+      "verdict": "partial",
+      "evidence_chunk_ids": [
+        "hybrid_work_and_conduct_policy.pdf#0",
+        "hybrid_work_and_conduct_policy.pdf#1",
+        "hybrid_work_and_conduct_policy.pdf#2",
+        "hybrid_work_and_conduct_policy.pdf#3",
+        "leave_policy.pdf#3",
+        "leave_policy.pdf#4"
+      ],
+      "note": "no concrete information on working from another location, no information on gifts and hospitality, no information on conflicts of interest, no information on speak-up and grievances, no information on breaches, no information on casual leave, no information on parental leave, no information on bereavement leave",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "company policies",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "travel_expense_policy.pdf#0",
+        "leave_policy.pdf#0",
+        "hybrid_work_and_conduct_policy.pdf#0",
+        "hybrid_work_and_conduct_policy.pdf#1",
+        "hybrid_work_and_conduct_policy.pdf#3",
+        "travel_expense_policy.pdf#3"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.67,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "employee benefits",
+      "verdict": "partial",
+      "evidence_chunk_ids": [
+        "hybrid_work_and_conduct_policy.pdf#1",
+        "hybrid_work_and_conduct_policy.pdf#2",
+        "leave_policy.pdf#5",
+        "leave_policy.pdf#1",
+        "leave_policy.pdf#3",
+        "travel_expense_policy.pdf#2"
+      ],
+      "note": "4. Equipment and Allowances, 7. Gifts and Hospitality, 8. Conflicts of Interest, 6. Working From Another Location, 10. Leave Without Pay, 6. Casual Leave, 8. Expense Claims",
+      "lexical_overlap": 0.67,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "company holidays",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "leave_policy.pdf#3",
+        "travel_expense_policy.pdf#2",
+        "travel_expense_policy.pdf#0"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.8,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "conflicts of interest",
+      "verdict": "partial",
+      "evidence_chunk_ids": [
+        "hybrid_work_and_conduct_policy.pdf#2",
+        "hybrid_work_and_conduct_policy.pdf#0",
+        "hybrid_work_and_conduct_policy.pdf#3"
+      ],
+      "note": "Conflicts of interest declaration process, conflicts of interest examples, conflicts of interest resolution process",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "grievances and speak-up",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "Speak-up and Grievances policy details (guard note: top excerpt hybrid_work_and_conduct_policy.pdf#3 has high keyword overlap - verify manually)",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": false
+    }
+  ],
+  "flagged_gaps": [
+    "salary band",
+    "grievances and speak-up"
+  ],
+  "groundable_fraction": 0.65,
+  "blocking": false,
+  "summary": "5 supported, 3 partial, 2 unsupported (groundable fraction 65%). Unsupported topics will be REFUSED by the agent instead of answered: salary band; grievances and speak-up."
+}

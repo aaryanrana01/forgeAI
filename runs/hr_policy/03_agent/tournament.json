@@ -1,0 +1,84 @@
+{
+  "n_cases": 12,
+  "case_ids": [
+    "ans-05",
+    "x-12",
+    "amb-18",
+    "inj-21",
+    "oos-17",
+    "ans-02",
+    "x-11",
+    "amb-20",
+    "inj-22",
+    "oos-13",
+    "ans-07",
+    "oos-14"
+  ],
+  "candidates": [
+    {
+      "style": "concise",
+      "passed": 7,
+      "n": 12,
+      "fact_recall": 0.732,
+      "prompt_words": 323,
+      "per_case": {
+        "ans-05": true,
+        "x-12": false,
+        "amb-18": false,
+        "inj-21": true,
+        "oos-17": true,
+        "ans-02": true,
+        "x-11": false,
+        "amb-20": false,
+        "inj-22": true,
+        "oos-13": true,
+        "ans-07": true,
+        "oos-14": false
+      }
+    },
+    {
+      "style": "procedural",
+      "passed": 7,
+      "n": 12,
+      "fact_recall": 0.732,
+      "prompt_words": 315,
+      "per_case": {
+        "ans-05": true,
+        "x-12": false,
+        "amb-18": false,
+        "inj-21": true,
+        "oos-17": true,
+        "ans-02": true,
+        "x-11": false,
+        "amb-20": false,
+        "inj-22": true,
+        "oos-13": true,
+        "ans-07": true,
+        "oos-14": false
+      }
+    },
+    {
+      "style": "persona",
+      "passed": 6,
+      "n": 12,
+      "fact_recall": 0.532,
+      "prompt_words": 348,
+      "per_case": {
+        "ans-05": false,
+        "x-12": false,
+        "amb-18": false,
+        "inj-21": true,
+        "oos-17": true,
+        "ans-02": true,
+        "x-11": false,
+        "amb-20": false,
+        "inj-22": true,
+        "oos-13": true,
+        "ans-07": true,
+        "oos-14": false
+      }
+    }
+  ],
+  "winner": "procedural",
+  "note": "Winner 'procedural'. Spread between best and worst candidate: 1 case(s) of 12 - within noise for this sample size; the choice is weakly supported."
+}

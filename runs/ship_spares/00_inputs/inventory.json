@@ -1,0 +1,173 @@
+{
+  "n_documents": 4,
+  "documents": [
+    {
+      "doc_id": "procurement_policy.pdf",
+      "type": "pdf",
+      "words": 410,
+      "pages": 2,
+      "headings": [
+        "TECHNICAL PROCUREMENT POLICY",
+        "1. Scope",
+        "2. Purchase Orders",
+        "3. Approval Limits",
+        "4. Quotations",
+        "5. Preferred Suppliers",
+        "6. Emergency Procurement",
+        "7. Critical Spares",
+        "8. Receiving and Inspection",
+        "9. Contact"
+      ],
+      "top_terms": [
+        "order",
+        "purchase",
+        "technical",
+        "procurement",
+        "vessel",
+        "supplier",
+        "delivery",
+        "policy",
+        "part",
+        "approval",
+        "spar",
+        "fleet",
+        "rais",
+        "shipnet",
+        "verbal"
+      ],
+      "opening": "TECHNICAL PROCUREMENT POLICY Meridian Fleet Management (fictional company for demonstration) Policy PROC-POL-02 | Version 5.1 | Effective 1 March 2026 | Owner: Technical Procurement 1. Scope This policy applies to the purchase of spare parts and consumables for engine room machinery on all vessels managed by Meridian Fleet Management. Purchases of provisions, crew services and dry-dock contracts follow separate procedures."
+    },
+    {
+      "doc_id": "spares_catalogue.csv",
+      "type": "csv",
+      "words": 1654,
+      "columns": [
+        "part_no",
+        "description",
+        "equipment",
+        "maker",
+        "compatible_models",
+        "category",
+        "unit_price_usd",
+        "stock_qty",
+        "warehouse",
+        "supplier",
+        "lead_time_days",
+        "min_order_qty"
+      ],
+      "n_rows": 40,
+      "sample_rows": [
+        {
+          "part_no": "ME-FI-5021",
+          "description": "Fuel injector nozzle",
+          "equipment": "Main engine",
+          "maker": "MAN B&W",
+          "compatible_models": "6S50MC-C; 6S50ME-B",
+          "category": "A",
+          "unit_price_usd": "1245.50",
+          "stock_qty": "6",
+          "warehouse": "Singapore",
+          "supplier": "Poseidon Marine Supply",
+          "lead_time_days": "14",
+          "min_order_qty": "2"
+        },
+        {
+          "part_no": "ME-FV-5022",
+          "description": "Fuel valve complete assembly",
+          "equipment": "Main engine",
+          "maker": "MAN B&W",
+          "compatible_models": "6S50MC-C",
+          "category": "A",
+          "unit_price_usd": "4380.00",
+          "stock_qty": "3",
+          "warehouse": "Singapore",
+          "supplier": "Poseidon Marine Supply",
+          "lead_time_days": "21",
+          "min_order_qty": "1"
+        },
+        {
+          "part_no": "ME-PR-5030",
+          "description": "Piston ring set (one cylinder)",
+          "equipment": "Main engine",
+          "maker": "MAN B&W",
+          "compatible_models": "6S50MC-C; 6S50ME-B",
+          "category": "A",
+          "unit_price_usd": "2890.00",
+          "stock_qty": "4",
+          "warehouse": "Singapore",
+          "supplier": "Poseidon Marine Supply",
+          "lead_time_days": "28",
+          "min_order_qty": "1"
+        }
+      ]
+    },
+    {
+      "doc_id": "supplier_terms_nordmarine.pdf",
+      "type": "pdf",
+      "words": 201,
+      "pages": 1,
+      "headings": [
+        "SUPPLY TERMS - NORDMARINE PARTS AS",
+        "1. Products",
+        "2. Payment Terms",
+        "3. Volume Discount",
+        "4. Delivery",
+        "5. Expedited Dispatch",
+        "6. Warranty",
+        "7. Returns"
+      ],
+      "top_terms": [
+        "part",
+        "order",
+        "delivery",
+        "nordmarine",
+        "recondition",
+        "exchange",
+        "unit",
+        "value",
+        "percent",
+        "warranty",
+        "return",
+        "supply",
+        "term",
+        "agreement",
+        "turbocharger"
+      ],
+      "opening": "SUPPLY TERMS - NORDMARINE PARTS AS Agreement between NordMarine Parts AS and Meridian Fleet Management (fictional) Agreement MFM-SA-021 | Valid 1 April 2025 to 31 March 2027 1. Products NordMarine Parts supplies OEM spare parts for turbochargers, main engines, boilers and air compressors, and reconditioned exchange units for turbocharger cartridges. 2. Payment Terms Invoices are payable within 45 days of"
+    },
+    {
+      "doc_id": "supplier_terms_poseidon.pdf",
+      "type": "pdf",
+      "words": 246,
+      "pages": 1,
+      "headings": [
+        "SUPPLY TERMS - POSEIDON MARINE SUPPLY",
+        "1. Products",
+        "2. Prices and Validity",
+        "3. Payment Terms",
+        "4. Delivery",
+        "5. Expedited Dispatch",
+        "6. Warranty",
+        "7. Returns"
+      ],
+      "top_terms": [
+        "order",
+        "part",
+        "delivery",
+        "poseidon",
+        "supply",
+        "marine",
+        "pric",
+        "singapore",
+        "warranty",
+        "return",
+        "term",
+        "agreement",
+        "meridian",
+        "valid",
+        "engin"
+      ],
+      "opening": "SUPPLY TERMS - POSEIDON MARINE SUPPLY Agreement between Poseidon Marine Supply Pte. Ltd. and Meridian Fleet Management (fictional) Agreement MFM-SA-014 | Valid 1 January 2026 to 31 December 2027 1. Products Poseidon Marine Supply provides genuine OEM and OEM-approved spare parts for main engines, auxiliary engines, purifiers, compressors and pumps. Every part is delivered with a certificate of origin. 2."
+    }
+  ]
+}

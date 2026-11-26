@@ -1,0 +1,107 @@
+[
+  {
+    "iteration": 1,
+    "definition_version": 1,
+    "decision": "reverted (dev score did not improve)",
+    "failures_in": {
+      "prompt_defect": 3,
+      "retrieval_miss": 1,
+      "wrong_refusal": 2
+    },
+    "patches": [
+      {
+        "id": "P1",
+        "category": "prompt_defect",
+        "target": "prompt.answering_rules",
+        "before": [
+          "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
+          "Cite the ids of the passages you used.",
+          "Copy numbers and dates exactly."
+        ],
+        "after": [
+          "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional expected facts. Never use outside knowledge.",
+          "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
+          "Cite the ids of the passages you used.",
+          "Copy numbers and dates exactly."
+        ],
+        "rationale": "The prompt is missing rules to ensure that answers include all expected facts, leading to omitted answers and refusal of questions.",
+        "addressed_cases": [
+          "ans-05",
+          "ans-07",
+          "x-11"
+        ],
+        "evidence": {}
+      },
+      {
+        "id": "P2",
+        "category": "wrong_refusal",
+        "target": "must_refuse_topics",
+        "before": [
+          "personal data",
+          "salary details",
+          "advice on personal matters",
+          "salary band"
+        ],
+        "after": [
+          "personal data",
+          "salary details",
+          "advice on personal matters",
+          "salary band",
+          "working from home"
+        ],
+        "rationale": "agent answered questions on topics it must refuse",
+        "addressed_cases": [
+          "oos-16"
+        ],
+        "evidence": {}
+      }
+    ],
+    "diff": {
+      "prompt": {
+        "answering_rules": {
+          "before": [
+            "Use only facts found in the CONTEXT and TOOL RESULTS sections. Never use outside knowledge.",
+            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
+            "Cite the ids of the passages you used.",
+            "Copy numbers and dates exactly."
+          ],
+          "after": [
+            "Use only facts found in the CONTEXT, TOOL RESULTS, and any additional expected facts. Never use outside knowledge.",
+            "If the CONTEXT does not contain the answer, set refused=true. Do not guess.",
+            "Cite the ids of the passages you used.",
+            "Copy numbers and dates exactly."
+          ]
+        }
+      },
+      "must_refuse_topics": {
+        "before": [
+          "personal data",
+          "salary details",
+          "advice on personal matters",
+          "salary band"
+        ],
+        "after": [
+          "personal data",
+          "salary details",
+          "advice on personal matters",
+          "salary band",
+          "working from home"
+        ]
+      }
+    },
+    "score_before": {
+      "overall": 0.524,
+      "dev": 0.6,
+      "holdout": 0.333
+    },
+    "score_after": {
+      "overall": 0.524,
+      "dev": 0.6,
+      "holdout": 0.333
+    },
+    "fixed": [],
+    "broken": [],
+    "tokens": 29454
+  }
+]

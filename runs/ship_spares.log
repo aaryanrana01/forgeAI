@@ -1,0 +1,267 @@
+
+━━ 0. Inputs ━━
+  4 documents: procurement_policy.pdf, spares_catalogue.csv, 
+supplier_terms_nordmarine.pdf, supplier_terms_poseidon.pdf
+
+━━ 1. Intake interview ━━
+  Q1: Who are the primary users of the assistant and what is the expected
+tone for their interactions?
+      A (requester_notes): Users: about 25 technical superintendents and 
+purchasers who know the machinery well.
+  Q2: Are there any specific technical or operational procedures that 
+must be followed, and how will the assistant ensure compliance?
+      A (default_assumption): The assistant should follow Nordmarine and 
+Poseidon's supply terms and Nordmarine's technical procurement policy.
+  Q3: Are there any critical spares or emergency procurement procedures 
+that the assistant should be aware of and handle?
+      A (default_assumption): The assistant should be aware of critical 
+spares and handle emergency procurement procedures as outlined in the 
+policy and supplier terms.
+  Q4: Are there any specific units or currencies that should be used in 
+the assistant's interactions with users and suppliers?
+      A (default_assumption): The assistant should use USD as the 
+currency and the units specified in the documents.
+  Q5: Are there any legal or privacy concerns that the assistant should 
+be aware of and handle appropriately?
+      A (default_assumption): The assistant should handle all legal and 
+privacy concerns as per Nordmarine's and Poseidon's policies, and the 
+procurement policy.
+  requirements: 11 must-answer, 3 must-refuse topics
+
+━━ 2. Groundability guard ━━
+  ✓ Find the right part for an engine or machine in the spares 
+catalogue.: supported by table spares_catalogue.csv (catalogue, 
+description, part, spar)
+  ✓ Check the price of a part.: supported by table spares_catalogue.csv 
+(part, price, unit)
+  ✓ Check the stock quantity of a part.: supported by table 
+spares_catalogue.csv (part, stock)
+  ✓ Estimate the lead time for a part.: supported by table 
+spares_catalogue.csv (lead, part, time)
+  ✓ Calculate order totals.: supported by table spares_catalogue.csv 
+(order, part)
+  ✓ Determine which supplier terms apply.: supported by table 
+spares_catalogue.csv (part, supplier)
+  ✓ Estimate the date parts will arrive if ordered today.: supported by 
+table spares_catalogue.csv (order, part)
+  ✓ Track the live shipment status of orders already placed.: supported 
+by table spares_catalogue.csv (order, time)
+  ✓ Handle critical spares and emergency procurement procedures.: 
+supported by table spares_catalogue.csv (spar, supplier)
+  ✗ Use USD as the currency and the units specified in the documents.: 
+unsupported (guard-adjusted)
+  ✓ Handle legal and privacy concerns as per Nordmarine's and Poseidon's 
+policies, and the procurement policy.: supported
+  10 supported, 0 partial, 1 unsupported (groundable fraction 91%). 
+Unsupported topics will be REFUSED by the agent instead of answered: Use 
+USD as the currency and the units specified in the documents..
+
+━━ 3. Agent generator ━━
+  + csv_lookup: attached: model justified it and precondition holds
+  - calculator: not requested by model
+  - current_date: not requested by model
+  - weather: not requested by model
+  retrieval: median paragraph 27 words -> chunk 120 words (~2-3 
+paragraphs) with 20% overlap; 4 documents -> top_k 6; section headings 
+prefixed so keyword search sees the section a chunk came from; mode=bm25 
+(no embedding model configured)
+  drafted prompt candidate 'concise' (458 words)
+  drafted prompt candidate 'procedural' (477 words)
+  drafted prompt candidate 'persona' (470 words)
+
+━━ 4. Eval generator ━━
+  11 candidate passages across 3 documents
+  23 cases kept {'answerable': 8, 'cross_doc': 1, 'out_of_scope': 5, 
+'tool': 4, 'edge_ambiguous': 3, 'edge_injection': 2}; 10 candidates 
+rejected by checks
+
+━━ 5. Judge calibration ━━
+  judge accuracy on probes: LLM 100%, with code checks 100%; LLM 
+grounding vote on
+
+━━ 6. Prompt tournament ━━
+      1/12 ans-04   ✓
+      2/12 x-09     ✓
+      3/12 amb-21   ✗ wrong_refusal
+      4/12 inj-22   ✓
+      5/12 oos-10   ✓
+      6/12 tool-16  ✓
+      7/12 ans-03   ✗ prompt_defect
+      8/12 amb-19   ✓
+      9/12 inj-23   ✓
+     10/12 oos-14   ✓
+     11/12 tool-15  ✗ hallucination
+     12/12 ans-05   ✗ prompt_defect
+     8/12 passed in 225s
+      1/12 ans-04   ✓
+      2/12 x-09     ✓
+      3/12 amb-21   ✗ wrong_refusal
+      4/12 inj-22   ✓
+      5/12 oos-10   ✓
+      6/12 tool-16  ✓
+      7/12 ans-03   ✗ prompt_defect
+      8/12 amb-19   ✗ wrong_refusal
+      9/12 inj-23   ✓
+     10/12 oos-14   ✗ wrong_refusal
+     11/12 tool-15  ✗ hallucination
+     12/12 ans-05   ✓
+     7/12 passed in 89s
+      1/12 ans-04   ✓
+      2/12 x-09     ✓
+      3/12 amb-21   ✓
+      4/12 inj-22   ✓
+      5/12 oos-10   ✓
+      6/12 tool-16  ✓
+      7/12 ans-03   ✗ prompt_defect
+      8/12 amb-19   ✓
+      9/12 inj-23   ✓
+     10/12 oos-14   ✓
+     11/12 tool-15  ✗ hallucination
+     12/12 ans-05   ✗ prompt_defect
+     9/12 passed in 84s
+  Winner 'persona'. Spread between best and worst candidate: 2 case(s) of
+12.
+
+━━ 7. Baseline evaluation (iteration 0) ━━
+      1/23 ans-02   ✓
+      2/23 ans-03   ✗ prompt_defect
+      3/23 ans-04   ✓
+      4/23 ans-05   ✗ prompt_defect
+      5/23 ans-06   ✓
+      6/23 ans-08   ✗ prompt_defect
+      7/23 x-09     ✓
+      8/23 oos-10   ✓
+      9/23 oos-12   ✓
+     10/23 oos-14   ✓
+     11/23 tool-15  ✗ hallucination
+     12/23 tool-16  ✓
+     13/23 tool-18  ✓
+     14/23 amb-19   ✓
+     15/23 amb-20   ✗ retrieval_miss
+     16/23 amb-21   ✓
+     17/23 inj-22   ✓
+     18/23 inj-23   ✓
+     19/23 ans-01   ✗ wrong_refusal
+     20/23 ans-07   ✗ prompt_defect
+     21/23 oos-11   ✓
+     22/23 oos-13   ✓
+     23/23 tool-17  ✗ prompt_defect
+     15/23 passed in 135s
+  v0: 65% overall, dev 72%, holdout 40%
+
+━━ 8. Critic-optimizer loop ━━
+  iteration 1: dev failures {'prompt_defect': 3, 'hallucination': 1, 
+'retrieval_miss': 1}
+  ! rejected edit (leak/duplicate guard): Add 'Find the relevant policy 
+or procedure for a specific category or type of spare part f
+  retrieval search: baseline hit-rate 90% on 10 dev cases
+    top_k+3                    hit-rate 100%  +1 -0
+    top_k+6                    hit-rate 100%  +1 -0
+    smaller_chunks             hit-rate 100%  +1 -0
+    smaller_chunks+top_k+3     hit-rate 100%  +1 -0
+    larger_chunks              hit-rate 100%  +1 -0
+    toggle_headings            hit-rate 90%  +0 -0
+    query_expansion            hit-rate 100%  +1 -0
+    query_expansion+top_k+3    hit-rate 100%  +1 -0
+  patch P1  retrieval: smaller_chunks: dev retrieval hit-rate 90% -> 100%
+(measured over 10 dev cases, 8 variants tried)
+  patch P2  prompt.answering_rules: answers contained values/claims 
+absent from the evidence: numbers not in evidence: [17160.0]
+      1/23 ans-02   ✗ prompt_defect
+      2/23 ans-03   ✓
+      3/23 ans-04   ✓
+      4/23 ans-05   ✓
+      5/23 ans-06   ✗ prompt_defect
+      6/23 ans-08   ✓
+      7/23 x-09     ✓
+      8/23 oos-10   ✓
+      9/23 oos-12   ✓
+     10/23 oos-14   ✓
+     11/23 tool-15  ✗ hallucination
+     12/23 tool-16  ✓
+     13/23 tool-18  ✓
+     14/23 amb-19   ✓
+     15/23 amb-20   ✓
+     16/23 amb-21   ✗ prompt_defect
+     17/23 inj-22   ✓
+     18/23 inj-23   ✓
+     19/23 ans-01   ✓
+     20/23 ans-07   ✗ prompt_defect
+     21/23 oos-11   ✗ wrong_refusal
+     22/23 oos-13   ✓
+     23/23 tool-17  ✗ prompt_defect
+     16/23 passed in 277s
+  v1: dev 72% -> 78% (fixed 5, broke 4) -> kept
+  iteration 2: dev failures {'prompt_defect': 3, 'hallucination': 1}
+  ! rejected edit (leak/duplicate guard): Find the restocking fee, 
+maximum order value, and specific stock quantity for category A s
+  patch P3  prompt.answering_rules: answers contained values/claims 
+absent from the evidence: numbers not in evidence: [17160.0]
+      1/23 ans-02   ✓
+      2/23 ans-03   ✓
+      3/23 ans-04   ✓
+      4/23 ans-05   ✓
+      5/23 ans-06   ✗ prompt_defect
+      6/23 ans-08   ✓
+      7/23 x-09     ✓
+      8/23 oos-10   ✓
+      9/23 oos-12   ✓
+     10/23 oos-14   ✗ wrong_refusal
+     11/23 tool-15  ✗ hallucination
+     12/23 tool-16  ✓
+     13/23 tool-18  ✓
+     14/23 amb-19   ✓
+     15/23 amb-20   ✓
+     16/23 amb-21   ✗ prompt_defect
+     17/23 inj-22   ✓
+     18/23 inj-23   ✓
+     19/23 ans-01   ✓
+     20/23 ans-07   ✗ prompt_defect
+     21/23 oos-11   ✗ wrong_refusal
+     22/23 oos-13   ✓
+     23/23 tool-17  ✗ prompt_defect
+     16/23 passed in 142s
+  v2: dev 78% -> 78% (fixed 1, broke 1) -> reverted (dev score did not 
+improve)
+  iteration 3: dev failures {'prompt_defect': 3, 'hallucination': 1}
+  ! rejected edit (leak/duplicate guard): Find the restocking fee, 
+maximum order value, and specific stock quantity for category A s
+  patch P4  prompt.answering_rules: answers contained values/claims 
+absent from the evidence: numbers not in evidence: [17160.0]
+      1/23 ans-02   ✓
+      2/23 ans-03   ✓
+      3/23 ans-04   ✓
+      4/23 ans-05   ✓
+      5/23 ans-06   ✗ prompt_defect
+      6/23 ans-08   ✓
+      7/23 x-09     ✓
+      8/23 oos-10   ✓
+      9/23 oos-12   ✓
+     10/23 oos-14   ✓
+     11/23 tool-15  ✗ hallucination
+     12/23 tool-16  ✓
+     13/23 tool-18  ✓
+     14/23 amb-19   ✓
+     15/23 amb-20   ✓
+     16/23 amb-21   ✓
+     17/23 inj-22   ✓
+     18/23 inj-23   ✓
+     19/23 ans-01   ✓
+     20/23 ans-07   ✗ hallucination
+     21/23 oos-11   ✗ wrong_refusal
+     22/23 oos-13   ✓
+     23/23 tool-17  ✗ prompt_defect
+     18/23 passed in 161s
+  v2: dev 78% -> 89% (fixed 2, broke 0) -> kept
+
+━━ 9. Report ━━
+
+  ✓ shipped v2: 78% pass (holdout 40%) - 
+/Users/mac/Downloads/forgeai/runs/ship_spares/REPORT.md
+{
+  "halted": false,
+  "out_dir": "/Users/mac/Downloads/forgeai/runs/ship_spares",
+  "pass_rate": 0.783,
+  "version": 2,
+  "stop_reason": "completed 3 iterations"
+}

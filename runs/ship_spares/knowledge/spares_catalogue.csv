@@ -1,0 +1,41 @@
+part_no,description,equipment,maker,compatible_models,category,unit_price_usd,stock_qty,warehouse,supplier,lead_time_days,min_order_qty
+ME-FI-5021,Fuel injector nozzle,Main engine,MAN B&W,6S50MC-C; 6S50ME-B,A,1245.50,6,Singapore,Poseidon Marine Supply,14,2
+ME-FV-5022,Fuel valve complete assembly,Main engine,MAN B&W,6S50MC-C,A,4380.00,3,Singapore,Poseidon Marine Supply,21,1
+ME-PR-5030,Piston ring set (one cylinder),Main engine,MAN B&W,6S50MC-C; 6S50ME-B,A,2890.00,4,Singapore,Poseidon Marine Supply,28,1
+ME-CL-5034,Cylinder liner,Main engine,MAN B&W,6S50MC-C,A,18750.00,1,Singapore,Poseidon Marine Supply,60,1
+ME-EV-5040,Exhaust valve spindle,Main engine,MAN B&W,6S50MC-C; 6S50ME-B,A,6120.00,2,Rotterdam,NordMarine Parts AS,35,1
+ME-SA-5045,Starting air valve,Main engine,MAN B&W,6S50MC-C,B,2240.00,3,Rotterdam,NordMarine Parts AS,30,1
+ME-GK-5050,Cylinder cover gasket kit,Main engine,MAN B&W,6S50MC-C; 6S50ME-B,B,385.00,18,Singapore,Poseidon Marine Supply,10,5
+WR-FI-6101,Fuel injector,Main engine,Wartsila,RT-flex50-D,A,1610.00,5,Rotterdam,NordMarine Parts AS,21,2
+WR-PR-6110,Piston ring set (one cylinder),Main engine,Wartsila,RT-flex50-D,A,3150.00,2,Rotterdam,NordMarine Parts AS,35,1
+WR-SV-6120,Servo oil pump seal kit,Main engine,Wartsila,RT-flex50-D,B,540.00,9,Rotterdam,NordMarine Parts AS,14,2
+AE-FP-7201,Fuel injection pump,Auxiliary engine,Yanmar,6EY18ALW,A,2675.00,3,Singapore,Poseidon Marine Supply,18,1
+AE-NZ-7202,Injection nozzle tip,Auxiliary engine,Yanmar,6EY18ALW,A,212.40,24,Singapore,Poseidon Marine Supply,7,6
+AE-CR-7210,Connecting rod bearing shell pair,Auxiliary engine,Yanmar,6EY18ALW,A,468.00,12,Singapore,Poseidon Marine Supply,12,2
+AE-TC-7220,Turbocharger cartridge (reconditioned exchange),Auxiliary engine,Yanmar,6EY18ALW,B,5890.00,1,Rotterdam,NordMarine Parts AS,42,1
+AE-HG-7230,Cylinder head gasket,Auxiliary engine,Yanmar,6EY18ALW,B,96.80,40,Mumbai,Konkan Ship Spares,5,10
+AE-FP-7301,Fuel injection pump,Auxiliary engine,Daihatsu,6DK-20,A,2510.00,2,Mumbai,Konkan Ship Spares,20,1
+AE-NZ-7302,Injection nozzle tip,Auxiliary engine,Daihatsu,6DK-20,A,198.00,30,Mumbai,Konkan Ship Spares,6,6
+AE-WP-7310,Jacket water pump mechanical seal,Auxiliary engine,Daihatsu,6DK-20,B,342.00,8,Mumbai,Konkan Ship Spares,9,2
+AE-LF-7315,Lube oil filter element,Auxiliary engine,Daihatsu,6DK-20,C,38.50,120,Mumbai,Konkan Ship Spares,4,12
+TC-NR-8001,Nozzle ring,Turbocharger,ABB,TPL65-B,A,7340.00,1,Rotterdam,NordMarine Parts AS,45,1
+TC-BR-8005,Bearing bush set,Turbocharger,ABB,TPL65-B,A,1890.00,4,Rotterdam,NordMarine Parts AS,21,1
+TC-FL-8010,Air filter silencer mat,Turbocharger,ABB,TPL65-B; TPL61-A,C,164.00,16,Rotterdam,NordMarine Parts AS,10,4
+PU-BS-9001,Bowl spindle bearing kit,Fuel oil purifier,Alfa Laval,S821; S836,A,1420.00,5,Singapore,Poseidon Marine Supply,14,1
+PU-MS-9005,Major service kit,Fuel oil purifier,Alfa Laval,S821,B,2960.00,3,Singapore,Poseidon Marine Supply,21,1
+PU-IS-9006,Intermediate service kit,Fuel oil purifier,Alfa Laval,S821,B,1185.00,6,Singapore,Poseidon Marine Supply,14,1
+PU-OR-9010,O-ring kit for bowl,Lube oil purifier,Alfa Laval,S836,C,145.00,22,Mumbai,Konkan Ship Spares,6,2
+CO-VA-9101,Suction and delivery valve set,Main air compressor,Sperre,HV2/200,A,1275.00,4,Rotterdam,NordMarine Parts AS,18,1
+CO-PR-9105,Piston ring set (LP and HP stage),Main air compressor,Sperre,HV2/200,B,640.00,7,Rotterdam,NordMarine Parts AS,18,1
+CO-GK-9110,Overhaul gasket kit,Main air compressor,Sperre,HV2/200,C,215.00,11,Singapore,Poseidon Marine Supply,9,2
+BO-BN-9201,Burner nozzle,Auxiliary boiler,Aalborg,OS-TCi,B,310.00,10,Rotterdam,NordMarine Parts AS,16,2
+BO-PC-9205,Photocell flame sensor,Auxiliary boiler,Aalborg,OS-TCi,A,780.00,3,Rotterdam,NordMarine Parts AS,16,1
+BO-GG-9210,Gauge glass set,Auxiliary boiler,Aalborg,OS-TCi; Mission OL,B,265.00,9,Singapore,Poseidon Marine Supply,11,2
+PM-MS-9301,Mechanical seal,Main sea water pump,Shinko,SVS200-2,B,890.00,4,Singapore,Poseidon Marine Supply,15,1
+PM-IM-9305,Impeller,Main sea water pump,Shinko,SVS200-2,B,1740.00,2,Singapore,Poseidon Marine Supply,25,1
+PM-BR-9310,Bearing set,Fire pump,Shinko,RVP200MS,A,420.00,6,Mumbai,Konkan Ship Spares,10,2
+PM-SL-9320,Gland packing ring set,Ballast pump,Naniwa,FCD-200,C,72.00,35,Mumbai,Konkan Ship Spares,5,10
+ST-SE-9401,Steering gear ram seal kit,Steering gear,Rolls-Royce,SR642,A,2380.00,2,Rotterdam,NordMarine Parts AS,28,1
+ST-FL-9405,Hydraulic return filter element,Steering gear,Rolls-Royce,SR642,C,118.00,14,Singapore,Poseidon Marine Supply,8,4
+OW-MB-9501,Membrane and coalescer pack,Oily water separator,RWO,SKIT/S-DEB 2.5,B,1365.00,3,Rotterdam,NordMarine Parts AS,20,1
+OW-OC-9505,15 ppm oil content meter sensor cell,Oily water separator,RWO,OMD-2008,A,2145.00,2,Rotterdam,NordMarine Parts AS,24,1

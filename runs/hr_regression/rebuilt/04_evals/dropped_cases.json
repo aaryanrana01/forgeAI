@@ -1,0 +1,199 @@
+[
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What happens if an employee is asked to work on a public holiday, and how can they claim a compensatory off day?",
+      "a": [
+        "Each office observes 12 public holidays per calendar year.",
+        "An employee who is asked by the manager to work on a public holiday earns one compensatory off day."
+      ],
+      "b": [
+        "A compensatory off day must be used within 90 days of the holiday worked."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What are the eligibility criteria for shore staff to participate in the hybrid work policy, and what is the purpose of the leave policy for shore-based employees?",
+      "a": [
+        "Hybrid working is open to shore staff whose role is not tied to a site, such as a terminal or warehouse, once they have completed the three-month probation period."
+      ],
+      "b": [
+        "This policy explains the leave available to shore-based employees on the BlueWake payroll in the Mumbai and Chennai offices."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the reimbursement process for travel advances and how does it relate to expense claims?",
+      "a": [
+        "Employees may request a travel advance of up to 70 percent of the estimated trip cost.",
+        "Claims submitted more than 60 days after the trip are not reimbursed unless the CFO approves them."
+      ],
+      "b": [
+        "An internet allowance of INR 1,000 per month is paid with salary."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the daily allowance for meals and incidentals on a day trip shorter than 8 hours in an international trip, and what is the home office allowance for a company laptop?",
+      "a": [
+        "For day trips shorter than 8 hours, 50 percent of the daily allowance is paid.",
+        "The daily allowance for meals and incidentals on domestic trips is INR 1,800 for grades up to M2 and INR 2,500 for grade M3 and above."
+      ],
+      "b": [
+        "Each eligible employee receives a company laptop and a one-time home office allowance of INR 15,000 for a chair, desk or monitor."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "Can an employee use their compensatory off day for a public holiday that falls on a weekend?",
+      "a": [
+        "Casual Leave Employees receive 6 days of casual leave per leave year for personal matters.",
+        "Public Holidays and Compensatory Off"
+      ],
+      "b": [
+        "When business travel falls on a public holiday, the employee is eligible for a compensatory off day as set out in section 7 of the Leave Policy."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the annual leave policy for new joiners and how do they apply for leave?",
+      "a": [
+        "New joiners may start using accrued annual leave after completing their three-month probation period.",
+        "Annual leave of three or more days must be applied for in the BlueDesk HR portal at least 7 calendar days before the first day of leave."
+      ],
+      "b": []
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the process for reporting a lost or stolen laptop or phone, and how many public holidays are observed in an office per year?",
+      "a": [
+        "A lost or stolen laptop or phone must be reported to IT Security at itsec@bluewake.example within 24 hours.",
+        "Each office observes 12 public holidays per calendar year."
+      ],
+      "b": [
+        "Each office observes 12 public holidays per calendar year."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What are the core hours for employees working from home, and how much parental leave is available for a first-time adoption?",
+      "a": [
+        "Employees working from home must be reachable during core hours of 10:00 to 16:00 India Standard Time."
+      ],
+      "b": [
+        "Adoption leave for a child below three months of age is 12 weeks."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the standard economy class travel for employees, and what additional class is available for employees in grade M3 and above, and how many days of annual leave must be applied for in advance?",
+      "a": [
+        "All bookings are made through the company travel desk.",
+        "Economy class is the standard for all employees."
+      ],
+      "b": [
+        "Every shore employee is entitled to 24 working days of annual leave per leave year.",
+        "Annual leave of three or more days must be applied for in the BlueDesk HR portal at least 7 calendar days before the first day of leave."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What are the requirements for sick leave and how do they relate to working from home policies?",
+      "a": [
+        "Sick leave cannot be carried forward or encashed.",
+        "An employee must inform the reporting manager before 10:00 on the first day of absence."
+      ],
+      "b": [
+        "Hybrid Pattern Eligible employees may work from home for up to 2 days per week.",
+        "Employees working from home must be reachable during core hours of 10:00 to 16:00 India Standard Time."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What is the maximum amount of leave without pay an employee can request, and what is the deadline for submitting expense claims?",
+      "a": [
+        "10. Leave Without Pay Once all other leave is exhausted, an employee may request leave without pay of up to 30 days per leave year.",
+        "9. Bereavement Leave Employees may take up to 5 working days of paid bereavement leave on the death of an immediate family member: spouse, child, parent, sibling or parent-in-law."
+      ],
+      "b": [
+        "8. Expense Claims Expense claims must be submitted in BlueDesk within 30 days of the end of the trip."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What happens to unused annual leave that exceeds 12 days and how is it encashed upon leaving?",
+      "a": [
+        "Any balance above 12 days lapses on 31 March.",
+        "On exit, the full accrued annual leave balance is encashed in the final settlement."
+      ],
+      "b": []
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What are the non-reimbursable items for travel expenses, and what is the home office allowance for eligible employees?",
+      "a": [
+        "Non-Reimbursable Items",
+        "Questions about claims go to Finance at expenses@bluewake.example."
+      ],
+      "b": [
+        "Each eligible employee receives a company laptop and a one-time home office allowance of INR 15,000 for a chair, desk or monitor."
+      ]
+    }
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "near-duplicate question",
+    "payload": "What are the core hours for employees working from home, and how many days per week can they work from home?"
+  },
+  {
+    "kind": "cross_doc",
+    "reason": "could not verify a fact from each document",
+    "payload": {
+      "question": "What are the consequences for retaliation against someone who raises a misconduct concern, and how much bereavement leave can an employee take if their spouse dies?",
+      "a": [
+        "Retaliation against anyone who raises a concern in good faith is prohibited.",
+        "Speak-Up and Grievances Concerns about misconduct can be raised with the manager, with HR, or through the ethics hotline at ethics@bluewake.example. Anonymous reports are accepted."
+      ],
+      "b": [
+        "Bereavement Leave Employees may take up to 5 working days of paid bereavement leave on the death of an immediate family member: spouse, child, parent, sibling or parent-in-law."
+      ]
+    }
+  }
+]

@@ -1,0 +1,123 @@
+{
+  "topics": [
+    {
+      "topic": "Find the right part for an engine or machine in the spares catalogue.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: catalogue, description, part, spar)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Check the price of a part.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: part, price, unit)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Check the stock quantity of a part.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: part, stock)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Estimate the lead time for a part.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: lead, part, time)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Calculate order totals.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: order, part)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Determine which supplier terms apply.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: part, supplier)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Estimate the date parts will arrive if ordered today.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: order, part)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Track the live shipment status of orders already placed.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: order, time)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Handle critical spares and emergency procurement procedures.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "spares_catalogue.csv:columns"
+      ],
+      "note": "answerable from table spares_catalogue.csv (columns matching: spar, supplier)",
+      "lexical_overlap": 1.0,
+      "adjusted_by_guard": false
+    },
+    {
+      "topic": "Use USD as the currency and the units specified in the documents.",
+      "verdict": "unsupported",
+      "evidence_chunk_ids": [],
+      "note": "guard: model said 'supported' but cited no valid excerpt. none",
+      "lexical_overlap": 0.0,
+      "adjusted_by_guard": true
+    },
+    {
+      "topic": "Handle legal and privacy concerns as per Nordmarine's and Poseidon's policies, and the procurement policy.",
+      "verdict": "supported",
+      "evidence_chunk_ids": [
+        "procurement_policy.pdf#4",
+        "procurement_policy.pdf#0",
+        "procurement_policy.pdf#2",
+        "procurement_policy.pdf#3",
+        "procurement_policy.pdf#1",
+        "supplier_terms_poseidon.pdf#0"
+      ],
+      "note": "none",
+      "lexical_overlap": 0.27,
+      "adjusted_by_guard": false
+    }
+  ],
+  "flagged_gaps": [
+    "Use USD as the currency and the units specified in the documents."
+  ],
+  "groundable_fraction": 0.909,
+  "blocking": false,
+  "summary": "10 supported, 0 partial, 1 unsupported (groundable fraction 91%). Unsupported topics will be REFUSED by the agent instead of answered: Use USD as the currency and the units specified in the documents.."
+}

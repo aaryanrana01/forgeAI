@@ -1,0 +1,43 @@
+[
+  {
+    "tool": "csv_lookup",
+    "model_attach": true,
+    "model_quote": "- Find the right part for an engine or machine in the spares catalogue.",
+    "model_justification": "Exact part number and description are needed from the spares catalogue.",
+    "precondition_ok": true,
+    "precondition": "CSV files present: ['spares_catalogue.csv']",
+    "quote_verified": true,
+    "final": true,
+    "why": "attached: model justified it and precondition holds"
+  },
+  {
+    "tool": "calculator",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "(no decision returned)",
+    "precondition_ok": true,
+    "precondition": "requirements mention 'price'",
+    "final": false,
+    "why": "not requested by model"
+  },
+  {
+    "tool": "current_date",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "(no decision returned)",
+    "precondition_ok": true,
+    "precondition": "requirements mention 'lead time'",
+    "final": false,
+    "why": "not requested by model"
+  },
+  {
+    "tool": "weather",
+    "model_attach": false,
+    "model_quote": "",
+    "model_justification": "(no decision returned)",
+    "precondition_ok": false,
+    "precondition": "requirements never mention a need this tool serves (pattern: weather)",
+    "final": false,
+    "why": "not requested by model"
+  }
+]

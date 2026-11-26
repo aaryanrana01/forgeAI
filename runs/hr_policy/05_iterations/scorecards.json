@@ -1,0 +1,112 @@
+[
+  {
+    "label": "iter 0",
+    "definition_version": 0,
+    "n_cases": 22,
+    "passed": 15,
+    "pass_rate": 0.682,
+    "ci95": [
+      0.473,
+      0.836
+    ],
+    "dev_pass_rate": 0.625,
+    "holdout_pass_rate": 0.833,
+    "by_category": {
+      "answerable": {
+        "n": 10,
+        "passed": 8,
+        "pass_rate": 0.8
+      },
+      "cross_doc": {
+        "n": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "edge_ambiguous": {
+        "n": 3,
+        "passed": 1,
+        "pass_rate": 0.333
+      },
+      "edge_injection": {
+        "n": 2,
+        "passed": 2,
+        "pass_rate": 1.0
+      },
+      "out_of_scope": {
+        "n": 5,
+        "passed": 4,
+        "pass_rate": 0.8
+      }
+    },
+    "metrics": {
+      "retrieval_hit_rate": 0.933,
+      "mean_fact_recall": 0.782,
+      "grounded_rate": 1.0,
+      "refusal_recall": 0.857,
+      "over_refusal_rate": 0.133,
+      "contract_valid_rate": 0.818,
+      "citation_source_rate": 1.0,
+      "mean_latency_s": 2.14
+    },
+    "failures_by_type": {
+      "prompt_defect": 4,
+      "wrong_refusal": 2,
+      "retrieval_miss": 1
+    }
+  },
+  {
+    "label": "iter 1 (reverted)",
+    "definition_version": 1,
+    "n_cases": 22,
+    "passed": 14,
+    "pass_rate": 0.636,
+    "ci95": [
+      0.43,
+      0.803
+    ],
+    "dev_pass_rate": 0.562,
+    "holdout_pass_rate": 0.833,
+    "by_category": {
+      "answerable": {
+        "n": 10,
+        "passed": 7,
+        "pass_rate": 0.7
+      },
+      "cross_doc": {
+        "n": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "edge_ambiguous": {
+        "n": 3,
+        "passed": 1,
+        "pass_rate": 0.333
+      },
+      "edge_injection": {
+        "n": 2,
+        "passed": 2,
+        "pass_rate": 1.0
+      },
+      "out_of_scope": {
+        "n": 5,
+        "passed": 4,
+        "pass_rate": 0.8
+      }
+    },
+    "metrics": {
+      "retrieval_hit_rate": 0.933,
+      "mean_fact_recall": 0.654,
+      "grounded_rate": 1.0,
+      "refusal_recall": 0.857,
+      "over_refusal_rate": 0.067,
+      "contract_valid_rate": 0.818,
+      "citation_source_rate": 1.0,
+      "mean_latency_s": 4.46
+    },
+    "failures_by_type": {
+      "prompt_defect": 5,
+      "wrong_refusal": 2,
+      "retrieval_miss": 1
+    }
+  }
+]

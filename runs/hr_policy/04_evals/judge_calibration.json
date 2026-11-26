@@ -1,0 +1,107 @@
+{
+  "probes": [
+    {
+      "probe": "good",
+      "case": "ans-01",
+      "expected_grounded": true,
+      "llm_ratio": 1.0,
+      "llm_correct": true,
+      "deterministic_flags": [],
+      "combined_correct": true
+    },
+    {
+      "probe": "padded_with_fabrication",
+      "case": "ans-01",
+      "expected_grounded": false,
+      "llm_ratio": 0.0,
+      "llm_correct": true,
+      "deterministic_flags": [
+        4750.0,
+        9.0
+      ],
+      "combined_correct": true
+    },
+    {
+      "probe": "wrong_number",
+      "case": "ans-01",
+      "expected_grounded": false,
+      "llm_ratio": 1.0,
+      "llm_correct": false,
+      "deterministic_flags": [
+        30003.0
+      ],
+      "combined_correct": true
+    },
+    {
+      "probe": "good",
+      "case": "ans-02",
+      "expected_grounded": true,
+      "llm_ratio": 1.0,
+      "llm_correct": true,
+      "deterministic_flags": [],
+      "combined_correct": true
+    },
+    {
+      "probe": "padded_with_fabrication",
+      "case": "ans-02",
+      "expected_grounded": false,
+      "llm_ratio": 0.0,
+      "llm_correct": true,
+      "deterministic_flags": [
+        4750.0,
+        9.0
+      ],
+      "combined_correct": true
+    },
+    {
+      "probe": "wrong_number",
+      "case": "ans-02",
+      "expected_grounded": false,
+      "llm_ratio": 0.0,
+      "llm_correct": true,
+      "deterministic_flags": [
+        11.4
+      ],
+      "combined_correct": true
+    },
+    {
+      "probe": "good",
+      "case": "ans-03",
+      "expected_grounded": true,
+      "llm_ratio": 1.0,
+      "llm_correct": true,
+      "deterministic_flags": [],
+      "combined_correct": true
+    },
+    {
+      "probe": "padded_with_fabrication",
+      "case": "ans-03",
+      "expected_grounded": false,
+      "llm_ratio": 0.0,
+      "llm_correct": true,
+      "deterministic_flags": [
+        4750.0
+      ],
+      "combined_correct": true
+    },
+    {
+      "probe": "wrong_number",
+      "case": "ans-03",
+      "expected_grounded": false,
+      "llm_ratio": 1.0,
+      "llm_correct": false,
+      "deterministic_flags": [
+        63.0
+      ],
+      "combined_correct": true
+    }
+  ],
+  "llm_judge_accuracy": 0.78,
+  "combined_accuracy": 1.0,
+  "llm_grounding_vote_enabled": true,
+  "judge_model": "qwen2.5:3b-instruct",
+  "factory_model": "qwen2.5:3b-instruct",
+  "same_model_family": true,
+  "order_checks": 0,
+  "order_disagreements": 0
+}

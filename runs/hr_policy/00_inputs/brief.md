@@ -1,0 +1,1 @@
+I need an assistant that answers HR policy questions for shore staff at BlueWake Shipping - things like leave, travel and expense claims, and working from home. It should also be able to tell employees their salary band and the payroll calendar (the date salary is credited each month), because those are the most common questions our HR helpdesk gets.

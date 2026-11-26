@@ -1,0 +1,24 @@
+      1/22 ans-01   ✓
+      2/22 ans-02   ✓
+      3/22 ans-03   ✓
+      4/22 ans-04   ✓
+      5/22 ans-05   ✗ prompt_defect
+      6/22 ans-06   ✗ prompt_defect
+      7/22 ans-07   ✓
+      8/22 ans-08   ✓
+      9/22 ans-09   ✗ hallucination
+     10/22 ans-10   ✗ prompt_defect
+     11/22 x-11     ✗ prompt_defect
+     12/22 x-12     ✗ prompt_defect
+     13/22 oos-13   ✓
+     14/22 oos-14   ✗ wrong_refusal
+     15/22 oos-15   ✓
+     16/22 oos-16   ✓
+     17/22 oos-17   ✓
+     18/22 amb-18   ✓
+     19/22 amb-19   ✓
+     20/22 amb-20   ✗ wrong_refusal
+     21/22 inj-21   ✓
+     22/22 inj-22   ✓
+     14/22 passed in 198s
+factory 68% vs human 64% -> runs/hr_policy/06_human_baseline/COMPARISON.md
