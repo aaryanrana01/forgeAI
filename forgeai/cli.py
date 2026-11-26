@@ -127,6 +127,9 @@ def cmd_compare(args) -> int:
     from .pipeline import evaluate_definition
     from .stages.report import pct, scorecard_table
     run = Path(args.run)
+    if not (run / "04_evals/eval_set.json").exists() or not (run / "05_iterations/final_results.json").exists():
+        print(f"compare skipped: {run} has no finished factory run (no eval set / results). See {run / 'REPORT.md'}.")
+        return 1
     out = Path(args.out or run / "06_human_baseline")
     ev = evaluate_definition(args.definition, run / "04_evals/eval_set.json", out, settings=_settings(args),
                              label="human_baseline", knowledge_dir=run / "knowledge")

@@ -23,6 +23,16 @@ BLOCK_BELOW = 0.5          # stop the factory if less than half the brief is gro
 MIN_EVIDENCE_OVERLAP = 0.25
 
 
+def _topic_in_excerpts(topic: str, hits) -> str | None:
+    """Id of a top-3 excerpt that contains every word of the topic name (the document's own name counts:
+    'leave policy' is covered by leave_policy.pdf). None when no excerpt does."""
+    for c, _ in hits[:3]:
+        text = c.text + " " + c.doc_id.rsplit(".", 1)[0].replace("_", " ")
+        if coverage(topic, text) >= 0.99:
+            return c.chunk_id
+    return None
+
+
 class _Verdict(BaseModel):
     verdict: Literal["supported", "partial", "unsupported"]
     evidence_chunk_ids: list[str] = []
@@ -32,10 +42,17 @@ class _Verdict(BaseModel):
 def assess(ctx: RunContext, req: Requirements, docs) -> GroundabilityReport:
     retr = Retriever(docs, RetrievalConfig(chunk_size=160, chunk_overlap=30, top_k=6), llm=None)
     results: list[TopicGrounding] = []
-    from ..docs.loader import table_match
+    from ..docs.loader import table_computable, table_match
 
     for t in req.must_answer_topics:
         query = f"{t.topic} {t.description}"
+        ctable, ctool = table_computable(t.topic, docs)
+        if ctable:  # e.g. "order totals" = price column x quantity; "arrival date" = today + lead time column
+            results.append(TopicGrounding(topic=t.topic, verdict="supported", evidence_chunk_ids=[f"{ctable}:columns"],
+                                          note=f"computed from {ctable} columns with the {ctool} tool",
+                                          lexical_overlap=1.0))
+            ctx.log(f"  ✓ {t.topic}: supported - computed from {ctable} with {ctool}")
+            continue
         table, cols = table_match(query, docs)
         if table:  # structured data: support is decided by the table's columns, not by sampled rows
             results.append(TopicGrounding(topic=t.topic, verdict="supported", evidence_chunk_ids=[f"{table}:columns"],
@@ -56,17 +73,25 @@ def assess(ctx: RunContext, req: Requirements, docs) -> GroundabilityReport:
         verdict, adjusted, note = v.verdict, False, v.missing
         # --- deterministic guard over the model's verdict -----------------
         if verdict in ("supported", "partial") and not ids:
-            verdict, adjusted = "unsupported", True
-            note = f"guard: model said '{v.verdict}' but cited no valid excerpt. {note}".strip()
+            # small models often forget to cite. Only keep the claim if the top excerpt contains every
+            # word of the topic name - and then only as 'partial', never 'supported'.
+            found = _topic_in_excerpts(t.topic, hits)
+            if found:
+                verdict, adjusted, ids = "partial", True, [found]
+                note = (f"guard: model said '{v.verdict}' without citing; excerpt {found} contains the "
+                        f"topic, so kept as partial. {note}").strip()
+            else:
+                verdict, adjusted = "unsupported", True
+                note = f"guard: model said '{v.verdict}' but cited no valid excerpt. {note}".strip()
         elif verdict == "supported" and overlap < MIN_EVIDENCE_OVERLAP:
             verdict, adjusted = "partial", True
             note = f"guard: cited excerpts barely mention the topic (overlap {overlap:.2f}). {note}".strip()
-        elif verdict == "unsupported" and hits and coverage(t.topic, hits[0][0].text) >= 0.99:
-            # every word of the topic name appears in the top excerpt: a false gap is likelier than a real one
-            verdict, adjusted = "partial", True
-            ids = [hits[0][0].chunk_id]
-            note = (f"guard: model said unsupported, but excerpt {hits[0][0].chunk_id} contains every word of the "
-                    f"topic - downgraded to partial. {note}").strip()
+        elif verdict == "unsupported" and _topic_in_excerpts(t.topic, hits):
+            # every word of the topic name appears in a top excerpt: a false gap is likelier than a real one
+            found = _topic_in_excerpts(t.topic, hits)
+            verdict, adjusted, ids = "partial", True, [found]
+            note = (f"guard: model said unsupported, but excerpt {found} contains every word of the "
+                    f"topic - changed to partial. {note}").strip()
         results.append(TopicGrounding(topic=t.topic, verdict=verdict, evidence_chunk_ids=ids, note=note,
                                       lexical_overlap=round(overlap, 2), adjusted_by_guard=adjusted))
         mark = {"supported": "✓", "partial": "~", "unsupported": "✗"}[verdict]

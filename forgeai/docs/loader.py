@@ -178,3 +178,28 @@ def table_match(text: str, docs: list[Document]) -> tuple[str, list[str]]:
         if (len(col_hit) >= 2 or (stem_hit and col_hit)) and len(hit) > len(best[1]):
             best = (d.doc_id, hit)
     return best
+
+
+_CALC = re.compile(r"\b(total|sum|cost|calculat|compute|order value|quantit)\w*", re.I)
+_DATE = re.compile(r"\b(arriv|deliver|eta|date|when will|lead time)\w*", re.I)
+
+
+def table_computable(text: str, docs: list[Document]) -> tuple[str, str]:
+    """Is `text` (a topic) something computed from a CSV's numeric columns? Returns (doc_id, tool) where tool
+    is 'calculator' (totals from a price column) or 'current_date' (dates from a lead-time column)."""
+    for d in docs:
+        if d.kind != "csv" or not d.rows:
+            continue
+
+        def numeric(col: str) -> bool:
+            vals = [r.get(col, "") for r in d.rows]
+            return sum(bool(re.fullmatch(r"-?[\d,]+(\.\d+)?", v.strip() or "x")) for v in vals) >= 0.9 * len(vals)
+
+        low = {c: c.lower() for c in d.columns}
+        has_price = any(("price" in low[c] or "cost" in low[c]) and numeric(c) for c in d.columns)
+        has_lead = any("lead" in low[c] and numeric(c) for c in d.columns)
+        if has_lead and _DATE.search(text):
+            return d.doc_id, "current_date"
+        if has_price and _CALC.search(text):
+            return d.doc_id, "calculator"
+    return "", ""

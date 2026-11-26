@@ -21,6 +21,28 @@ class _NoteAnswer(BaseModel):
     answer: str
 
 
+# words that appear in almost every intake question, so they cannot identify the matching note line
+_GENERIC_Q = {"assistant", "user", "staff", "shore", "respons", "response", "question", "expect", "specific", "provid",
+              "any", "there", "should", "would", "will", "help", "need", "employee", "interact", "regard",
+              "handle", "ensure", "follow", "aware", "appropriately", "primary", "exactly"}
+
+
+def best_note_line(question: str, notes: str) -> str:
+    """Deterministic fallback: the notes bullet sharing the most distinctive words with the question."""
+    from ..textutil import tokens
+
+    q = {t for t in tokens(question) if t not in _GENERIC_Q and len(t) > 2}
+    best, best_n = "", 0
+    for ln in notes.splitlines():
+        ln = ln.strip()
+        if not ln.startswith("-"):
+            continue
+        n = len(q & set(tokens(ln)))
+        if n > best_n:
+            best, best_n = ln.lstrip("- ").strip(), n
+    return best if best_n >= 1 else ""
+
+
 def generate_questions(ctx: RunContext, brief: str, inv: dict) -> QuestionList:
     msgs = prompts.split("intake_questions", brief=brief, inventory=inventory_text(inv))
     try:
@@ -56,6 +78,10 @@ def collect_answers(ctx: RunContext, ql: QuestionList) -> list[QAPair]:
                     answer, source = a.strip(), "requester_notes"
             except LLMError:
                 pass
+            if not answer:  # small models often miss an answer that is plainly in the notes
+                line = best_note_line(q.question, ctx.requester_notes)
+                if line:
+                    answer, source = line, "requester_notes"
         if not answer:
             answer = q.default_assumption or "No preference stated."
         qa.append(QAPair(question=q.question, answer=answer, source=source))
@@ -65,9 +91,13 @@ def collect_answers(ctx: RunContext, ql: QuestionList) -> list[QAPair]:
 
 def write_requirements(ctx: RunContext, brief: str, inv: dict, qa: list[QAPair]) -> Requirements:
     qa_text = "\n".join(f"- Q: {p.question}\n  A [{p.source}]: {p.answer}" for p in qa) or "(no questions asked)"
-    notes = ctx.requester_notes.strip() if ctx.intake_mode == "notes" and ctx.requester_notes.strip() else "(none)"
-    msgs = prompts.split("intake_requirements", brief=brief, qa=qa_text, inventory=inventory_text(inv), notes=notes)
+    msgs = prompts.split("intake_requirements", brief=brief, qa=qa_text, inventory=inventory_text(inv))
     req = ctx.llm.json(msgs, Requirements, task="intake_requirements", max_tokens=1800, retries=3)
+    # a topic cannot be both answered and refused: small models sometimes copy refusals into must-answer
+    from ..textutil import jaccard
+    refuse = [t.topic for t in req.must_refuse_topics]
+    req.must_answer_topics = [t for t in req.must_answer_topics
+                              if not any(jaccard(t.topic, r) >= 0.5 for r in refuse)]
     # every default assumption must be visible in the document, even if the model forgot it
     for p in qa:
         if p.source == "default_assumption":

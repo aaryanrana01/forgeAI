@@ -106,3 +106,73 @@ def test_placeholder_copied_from_shape_is_rejected_and_retried(tmp_path):
     s = Settings(backend="fake", use_cache=False, cache_dir=str(tmp_path))
     llm = LLM(s, Meter(Budget()), responder=lambda task, m, sc: next(replies))
     assert llm.json([{"role": "user", "content": "who to contact?"}], A, task="t").answer == "HR helpdesk, extension 2400"
+
+
+# ---------------------------------------------------------------- regressions seen in real qwen2.5:3b runs
+
+def test_computed_table_topics_are_recognised():
+    from forgeai.docs.loader import table_computable
+    sp = load_folder(ROOT / "demos/ship_spares/docs")
+    hr = load_folder(ROOT / "demos/hr_policy/docs")
+    assert table_computable("order total", sp)[1] == "calculator"
+    assert table_computable("estimate the arrival date if ordered today", sp)[1] == "current_date"
+    assert table_computable("live shipment status", sp) == ("", "")
+    assert table_computable("order total", hr) == ("", ""), "no CSV -> nothing is computed from a table"
+
+
+def test_tool_rules_recover_tools_the_model_skipped(tmp_path):
+    """Real run: the model attached nothing / misquoted, although the brief needs totals and dates."""
+    import json as _json
+
+    from forgeai.config import Budget, Settings
+    from forgeai.pipeline import make_context
+    from forgeai.schemas import Requirements, Topic
+    from forgeai.stages.generator import select_tools
+
+    def responder(task, messages, schema):
+        if task == "tool_selection":
+            return _json.dumps({"decisions": [{"tool": "csv_lookup", "attach": True, "evidence_quote": "invented words",
+                                               "justification": "x"}]})
+        return _json.dumps({"tool": "calculator", "attach": False, "evidence_quote": "", "justification": "no"})
+
+    ctx = make_context(tmp_path, Settings(backend="fake", cache_dir=str(tmp_path)), Budget(), responder=responder)
+    sp = load_folder(ROOT / "demos/ship_spares/docs")
+    req = Requirements(agent_name="a", scope="s", audience="u", tone="t", must_refuse_topics=[],
+                       must_answer_topics=[Topic(topic="part number lookup", description="find a part in the spares catalogue"),
+                                           Topic(topic="order total", description="price times quantity"),
+                                           Topic(topic="arrival date", description="when parts arrive if ordered today")])
+    from forgeai.docs.loader import inventory
+    bindings, audit = select_tools(ctx, req, "", sp, inventory(sp))
+    names = {b.name for b in bindings}
+    assert names == {"csv_lookup", "calculator", "current_date"}, audit
+    hr = load_folder(ROOT / "demos/hr_policy/docs")
+    req_hr = Requirements(agent_name="a", scope="s", audience="u", tone="t", must_refuse_topics=[],
+                          must_answer_topics=[Topic(topic="annual leave", description="days per year")])
+    assert select_tools(ctx, req_hr, "", hr, inventory(hr))[0] == []
+
+
+def test_groundability_keeps_uncited_topic_as_partial(tmp_path):
+    """Real run: the model said 'supported' for 'leave policy' but forgot to cite -> it must not become a gap."""
+    import json as _json
+
+    from forgeai.config import Budget, Settings
+    from forgeai.pipeline import make_context
+    from forgeai.schemas import Requirements, Topic
+    from forgeai.stages.groundability import assess
+
+    ctx = make_context(tmp_path, Settings(backend="fake", cache_dir=str(tmp_path)), Budget(),
+                       responder=lambda t, m, s: _json.dumps({"verdict": "supported", "evidence_chunk_ids": [], "missing": ""}))
+    req = Requirements(agent_name="a", scope="s", audience="u", tone="t", must_refuse_topics=[],
+                       must_answer_topics=[Topic(topic="leave policy", description="annual and sick leave"),
+                                           Topic(topic="crew wages", description="pay of seafarers")])
+    rep = assess(ctx, req, load_folder(ROOT / "demos/hr_policy/docs"))
+    verdicts = {t.topic: t.verdict for t in rep.topics}
+    assert verdicts["leave policy"] == "partial"
+    assert verdicts["crew wages"] == "unsupported"
+
+
+def test_note_fallback_finds_plain_answers():
+    from forgeai.stages.intake import best_note_line
+    notes = (ROOT / "demos/hr_policy/requester_notes.md").read_text()
+    assert "friendly" in best_note_line("What is the expected tone for the assistant's responses?", notes).lower()
+    assert "hr.helpdesk" in best_note_line("Who should staff contact if the assistant cannot help?", notes)

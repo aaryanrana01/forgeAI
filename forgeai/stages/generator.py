@@ -80,14 +80,25 @@ def _quote_found(quote: str, haystack: str) -> bool:
     return best >= 0.6
 
 
-def _table_need(req: Requirements, docs) -> str:
-    """Deterministic rule: a must-answer topic that talks about a table's columns needs csv_lookup."""
-    from ..docs.loader import table_match
+def _rule_need(name: str, req: Requirements, docs) -> str:
+    """Deterministic evidence that a tool is needed, from the requirements AND the data structure:
+    csv_lookup when a must-answer topic is about a CSV's columns; calculator / current_date when a
+    must-answer topic is computed from a numeric price / lead-time column. Returns the reason or ''."""
+    from ..docs.loader import table_computable, table_match
 
     for t in req.must_answer_topics:
-        table, cols = table_match(f"{t.topic} {t.description}", docs)
-        if table:
-            return f"must-answer topic '{t.topic}' needs exact values from {table} (columns: {', '.join(cols)})"
+        text = f"{t.topic} {t.description}"
+        if name == "csv_lookup":
+            table, cols = table_match(text, docs)
+            if table:
+                return f"must-answer topic '{t.topic}' needs exact values from {table} (columns: {', '.join(cols)})"
+            ctable, _ = table_computable(t.topic, docs)
+            if ctable:
+                return f"must-answer topic '{t.topic}' is computed from {ctable}, so rows must be looked up first"
+        elif name in ("calculator", "current_date"):
+            ctable, tool = table_computable(t.topic, docs)
+            if ctable and tool == name:
+                return f"must-answer topic '{t.topic}' is computed from {ctable} columns"
     return ""
 
 
@@ -134,14 +145,15 @@ def select_tools(ctx: RunContext, req: Requirements, brief: str, docs, inv: dict
                 entry["final"], entry["why"] = False, "VETOED: evidence quote not found in requirements (invented need)"
             else:
                 entry["final"], entry["why"] = True, "attached: model justified it and precondition holds"
-        elif name == "csv_lookup" and pre_ok and _table_need(req, docs):
-            entry["final"] = True
-            entry["why"] = f"attached by rule although the model did not ask: {_table_need(req, docs)}"
-            d = d or _Decision(tool=name, attach=True)
-            d.justification = d.justification or entry["why"]
         else:
-            entry["final"] = False
-            entry["why"] = "not requested by model"
+            entry["final"], entry["why"] = False, "not requested by model"
+        # the data structure can prove a need the small model missed (never used for weather)
+        rule = _rule_need(name, req, docs) if pre_ok and name != "weather" else ""
+        if not entry["final"] and rule:
+            entry["final"] = True
+            entry["why"] = f"attached by rule ({entry['why']}): {rule}"
+            d = d or _Decision(tool=name, attach=True)
+            d.justification = d.justification or rule
         if entry["final"]:
             cfg = {}
             if name == "csv_lookup":

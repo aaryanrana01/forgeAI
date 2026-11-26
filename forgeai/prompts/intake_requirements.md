@@ -9,9 +9,6 @@ BRIEF:
 INTERVIEW (question -> answer, with where the answer came from):
 $qa
 
-REQUESTER'S OWN NOTES (when present, these override default assumptions in the interview):
-$notes
-
 DOCUMENT FOLDER:
 $inventory
 
@@ -21,10 +18,10 @@ Write the requirements for the assistant:
 - audience, tone, language
 - must_answer_topics: 4-10 concrete SUBJECTS users will ask about, e.g. "annual leave" or "order totals"
   (each with a one-line description). Rules about tone, currency, units or format are NOT topics -
-  put those in constraints.
+  put those in constraints. Things the assistant must NOT answer never go here - they go in must_refuse_topics.
   Include EVERY topic the brief asks for, even if the documents may not cover it - a later check
   verifies coverage, so do not silently drop anything the requester wants.
-- must_refuse_topics: topics the assistant must decline - include every one the requester's notes list - (out of scope, unsafe, personal data, advice
+- must_refuse_topics: topics the assistant must decline (out of scope, unsafe, personal data, advice
   it is not qualified to give). Include at least 3.
 - escalation_contact: who to contact when it cannot help (only if stated; otherwise a generic
   instruction such as "your HR business partner")
