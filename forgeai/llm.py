@@ -34,6 +34,10 @@ class BudgetExceeded(RuntimeError):
     pass
 
 
+class PlaceholderCopied(ValueError):
+    pass
+
+
 class Meter:
     """Shared usage meter for a run (factory model + judge model + embeddings)."""
 
@@ -103,6 +107,24 @@ class Meter:
             },
             "by_task": {k: {kk: round(vv, 1) for kk, vv in v.items()} for k, v in sorted(self.by_task.items())},
         }
+
+
+PLACEHOLDERS = {"string", "str", "text", "...", "<string>", "<text>", "string | null"}
+
+
+def find_placeholders(data: Any, path: str = "") -> list[str]:
+    """Small models sometimes copy the example shape literally ({"answer": "string"}).
+    Return the paths of fields whose value is just a placeholder word."""
+    out: list[str] = []
+    if isinstance(data, dict):
+        for k, v in data.items():
+            out += find_placeholders(v, f"{path}.{k}" if path else k)
+    elif isinstance(data, list):
+        for i, v in enumerate(data):
+            out += find_placeholders(v, f"{path}[{i}]")
+    elif isinstance(data, str) and data.strip().lower() in PLACEHOLDERS:
+        out.append(path or "value")
+    return out
 
 
 def schema_shape(schema: dict) -> Any:
@@ -261,8 +283,13 @@ class LLM:
                 if isinstance(data, list) and len(schema.get("properties", {})) == 1:
                     # model returned the bare list for a single-field wrapper
                     data = {next(iter(schema["properties"])): data}
+                copied = find_placeholders(data)
+                if copied:
+                    raise PlaceholderCopied(
+                        f"these fields contain the placeholder word instead of real content: {copied}. "
+                        "Replace every placeholder with the actual value")
                 return model_cls.model_validate(data)
-            except (JSONExtractError, ValidationError) as e:
+            except (JSONExtractError, ValidationError, PlaceholderCopied) as e:
                 last_err = str(e)[:600]
                 msgs = msgs + [
                     {"role": "assistant", "content": raw[:2000]},
