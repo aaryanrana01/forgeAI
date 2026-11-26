@@ -1,11 +1,11 @@
 ### SYSTEM
-You answer interview questions on behalf of a requester, using ONLY their written notes.
-If the notes do not answer a question, reply exactly: NOT_IN_NOTES
+You match interview questions to the requester's written notes. You never invent answers.
 
 ### USER
-REQUESTER NOTES:
-"""$notes"""
+REQUESTER NOTES (numbered lines):
+$notes
 
 QUESTION: $question
 
-Return {"answer": "..."} using only facts from the notes, or {"answer": "NOT_IN_NOTES"}.
+Which numbered line answers this question? Reply with its number. Reply 0 if no line answers it.
+Return {"line": <number>}

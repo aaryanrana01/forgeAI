@@ -39,12 +39,28 @@ class _Verdict(BaseModel):
     missing: str = ""
 
 
-def assess(ctx: RunContext, req: Requirements, docs) -> GroundabilityReport:
+def brief_requested(topic: str, brief: str) -> bool:
+    """True if most of the topic's words appear in the brief (the requester asked for it)."""
+    from ..textutil import tokens
+
+    tt = set(tokens(topic))
+    return bool(tt) and len(tt & set(tokens(brief))) / len(tt) >= 0.6
+
+
+def assess(ctx: RunContext, req: Requirements, docs, brief: str = "") -> GroundabilityReport:
     retr = Retriever(docs, RetrievalConfig(chunk_size=160, chunk_overlap=30, top_k=6), llm=None)
     results: list[TopicGrounding] = []
     from ..docs.loader import table_computable, table_match
 
-    for t in req.must_answer_topics:
+    # Topics the BRIEF asked for but intake already put on the refuse list (e.g. "salary bands") are checked
+    # too, so the gap is reported - but they never count towards the groundable fraction.
+    requested_refusals = [RefuseTopic(topic=t.topic, reason=t.reason) for t in req.must_refuse_topics
+                          if brief and brief_requested(t.topic, brief)]
+    extra_names = {t.topic for t in requested_refusals}
+    from ..schemas import Topic as _Topic
+    to_check = list(req.must_answer_topics) + [_Topic(topic=t.topic, description=t.reason) for t in requested_refusals]
+
+    for t in to_check:
         query = f"{t.topic} {t.description}"
         ctable, ctool = table_computable(t.topic, docs)
         if ctable:  # e.g. "order totals" = price column x quantity; "arrival date" = today + lead time column
@@ -97,12 +113,17 @@ def assess(ctx: RunContext, req: Requirements, docs) -> GroundabilityReport:
         mark = {"supported": "✓", "partial": "~", "unsupported": "✗"}[verdict]
         ctx.log(f"  {mark} {t.topic}: {verdict}{' (guard-adjusted)' if adjusted else ''}")
 
-    n = len(results) or 1
-    frac = (sum(r.verdict == "supported" for r in results) + 0.5 * sum(r.verdict == "partial" for r in results)) / n
+    for r in results:
+        if r.topic in extra_names:
+            r.note = ("requested in the brief; intake already set it to REFUSE. " + r.note).strip()
+    core = [r for r in results if r.topic not in extra_names]
+    n = len(core) or 1
+    frac = (sum(r.verdict == "supported" for r in core) + 0.5 * sum(r.verdict == "partial" for r in core)) / n
     gaps = [r.topic for r in results if r.verdict == "unsupported"]
     blocking = frac < BLOCK_BELOW
-    summary = (f"{sum(r.verdict == 'supported' for r in results)} supported, "
-               f"{sum(r.verdict == 'partial' for r in results)} partial, {len(gaps)} unsupported "
+    summary = (f"{sum(r.verdict == 'supported' for r in core)} supported, "
+               f"{sum(r.verdict == 'partial' for r in core)} partial, "
+               f"{sum(r.verdict == 'unsupported' for r in core)} unsupported "
                f"(groundable fraction {frac:.0%}).")
     if gaps:
         summary += " Unsupported topics will be REFUSED by the agent instead of answered: " + "; ".join(gaps) + "."
@@ -115,7 +136,8 @@ def assess(ctx: RunContext, req: Requirements, docs) -> GroundabilityReport:
 def apply_to_requirements(req: Requirements, rep: GroundabilityReport) -> Requirements:
     req = req.model_copy(deep=True)
     gap_set = set(rep.flagged_gaps)
-    removed = [t for t in req.must_answer_topics if t.topic in gap_set]
+    already = {t.topic for t in req.must_refuse_topics}
+    removed = [t for t in req.must_answer_topics if t.topic in gap_set and t.topic not in already]
     req.must_answer_topics = [t for t in req.must_answer_topics if t.topic not in gap_set]
     for t in removed:
         req.must_refuse_topics.append(RefuseTopic(
@@ -140,9 +162,10 @@ def report_markdown(rep: GroundabilityReport) -> str:
     return "\n".join(md) + "\n"
 
 
-def run_groundability(ctx: RunContext, req: Requirements, docs) -> tuple[Requirements, GroundabilityReport]:
+def run_groundability(ctx: RunContext, req: Requirements, docs, brief: str = ""
+                      ) -> tuple[Requirements, GroundabilityReport]:
     ctx.stage("2. Groundability guard")
-    rep = assess(ctx, req, docs)
+    rep = assess(ctx, req, docs, brief)
     ctx.save_json("02_requirements/groundability.json", rep)
     ctx.save_text("02_requirements/groundability.md", report_markdown(rep))
     final = apply_to_requirements(req, rep)

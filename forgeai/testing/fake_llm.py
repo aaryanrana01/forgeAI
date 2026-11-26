@@ -66,11 +66,14 @@ class FakeResponder:
         ]}
 
     def t_intake_answer_from_notes(self, u, s, m):
-        notes = _section(u, 'REQUESTER NOTES:\n"""', '"""')
+        notes = _section(u, "REQUESTER NOTES (numbered lines):", "QUESTION:")
         q = _section(u, "QUESTION:", "\n")
-        best = max((ln.strip("- ").strip() for ln in notes.splitlines() if ln.strip().startswith("-")),
-                   key=lambda ln: jaccard(ln, q), default="")
-        return {"answer": best if best and jaccard(best, q) > 0.05 else "NOT_IN_NOTES"}
+        best, best_n = 0, 0.05
+        for ln in notes.strip().splitlines():
+            mm = re.match(r"(\d+)\. (.*)", ln.strip())
+            if mm and jaccard(mm.group(2), q) > best_n:
+                best, best_n = int(mm.group(1)), jaccard(mm.group(2), q)
+        return {"line": best}
 
     def t_intake_requirements(self, u, s, m):
         brief = _section(u, 'BRIEF:\n"""', '"""')

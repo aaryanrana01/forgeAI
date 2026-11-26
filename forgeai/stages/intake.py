@@ -17,8 +17,8 @@ from ..schemas import QAPair, QuestionList, Requirements
 MAX_QUESTIONS = 5
 
 
-class _NoteAnswer(BaseModel):
-    answer: str
+class _NoteLine(BaseModel):
+    line: int
 
 
 # words that appear in almost every intake question, so they cannot identify the matching note line
@@ -27,20 +27,24 @@ _GENERIC_Q = {"assistant", "user", "staff", "shore", "respons", "response", "que
               "handle", "ensure", "follow", "aware", "appropriately", "primary", "exactly"}
 
 
+def note_lines(notes: str) -> list[str]:
+    return [ln.strip().lstrip("-").strip() for ln in notes.splitlines() if ln.strip().startswith("-")]
+
+
 def best_note_line(question: str, notes: str) -> str:
-    """Deterministic fallback: the notes bullet sharing the most distinctive words with the question."""
+    """Deterministic fallback: the note line sharing the most DISTINCTIVE words with the question.
+    Words found in several note lines (e.g. 'HR', 'policy') count for less; a weak match returns ''."""
     from ..textutil import tokens
 
+    lines = note_lines(notes)
+    toks = [set(tokens(ln)) for ln in lines]
     q = {t for t in tokens(question) if t not in _GENERIC_Q and len(t) > 2}
-    best, best_n = "", 0
-    for ln in notes.splitlines():
-        ln = ln.strip()
-        if not ln.startswith("-"):
-            continue
-        n = len(q & set(tokens(ln)))
-        if n > best_n:
-            best, best_n = ln.lstrip("- ").strip(), n
-    return best if best_n >= 1 else ""
+    best, best_score = "", 0.0
+    for ln, lt in zip(lines, toks):
+        score = sum(1 / sum(t in other for other in toks) for t in q & lt)
+        if score > best_score:
+            best, best_score = ln, score
+    return best if best_score >= 1.0 else ""
 
 
 def generate_questions(ctx: RunContext, brief: str, inv: dict) -> QuestionList:
@@ -71,14 +75,16 @@ def collect_answers(ctx: RunContext, ql: QuestionList) -> list[QAPair]:
             if reply and reply.strip():
                 answer, source = reply.strip(), "requester"
         elif ctx.intake_mode == "notes" and ctx.requester_notes.strip():
-            msgs = prompts.split("intake_answer_from_notes", notes=ctx.requester_notes, question=q.question)
-            try:
-                a = ctx.llm.json(msgs, _NoteAnswer, task="intake_answer_from_notes", max_tokens=200).answer
-                if a.strip() and "NOT_IN_NOTES" not in a:
-                    answer, source = a.strip(), "requester_notes"
+            lines = note_lines(ctx.requester_notes)
+            numbered = "\n".join(f"{i}. {ln}" for i, ln in enumerate(lines, 1))
+            msgs = prompts.split("intake_answer_from_notes", notes=numbered, question=q.question)
+            try:  # picking a line number is far easier for a small model than writing the answer
+                n = ctx.llm.json(msgs, _NoteLine, task="intake_answer_from_notes", max_tokens=40).line
+                if 1 <= n <= len(lines):
+                    answer, source = lines[n - 1], "requester_notes"
             except LLMError:
                 pass
-            if not answer:  # small models often miss an answer that is plainly in the notes
+            if not answer:  # fallback only on a strong, distinctive word match
                 line = best_note_line(q.question, ctx.requester_notes)
                 if line:
                     answer, source = line, "requester_notes"

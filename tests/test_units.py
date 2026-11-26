@@ -176,3 +176,45 @@ def test_note_fallback_finds_plain_answers():
     notes = (ROOT / "demos/hr_policy/requester_notes.md").read_text()
     assert "friendly" in best_note_line("What is the expected tone for the assistant's responses?", notes).lower()
     assert "hr.helpdesk" in best_note_line("Who should staff contact if the assistant cannot help?", notes)
+
+
+def test_brief_requested_refusal_is_still_reported_as_gap(tmp_path):
+    """Run 3: intake put 'salary bands' straight on the refuse list, so the gap was never reported."""
+    import json as _json
+
+    from forgeai.config import Budget, Settings
+    from forgeai.pipeline import make_context
+    from forgeai.schemas import RefuseTopic, Requirements, Topic
+    from forgeai.stages.groundability import assess
+
+    def responder(task, messages, schema):
+        user = messages[-1]["content"]
+        ok = "salary" not in user.split("DESCRIPTION")[0].lower()
+        return _json.dumps({"verdict": "supported" if ok else "unsupported",
+                            "evidence_chunk_ids": ["leave_policy.pdf#1"] if ok else [], "missing": ""})
+
+    ctx = make_context(tmp_path, Settings(backend="fake", cache_dir=str(tmp_path)), Budget(), responder=responder)
+    req = Requirements(agent_name="a", scope="s", audience="u", tone="t",
+                       must_answer_topics=[Topic(topic="annual leave", description="days of leave")],
+                       must_refuse_topics=[RefuseTopic(topic="salary bands and payroll calendar", reason="not in docs"),
+                                           RefuseTopic(topic="medical advice", reason="not qualified")])
+    brief = (ROOT / "demos/hr_policy/brief.md").read_text()
+    rep = assess(ctx, req, load_folder(ROOT / "demos/hr_policy/docs"), brief)
+    assert rep.flagged_gaps == ["salary bands and payroll calendar"], "brief asked for it -> must be reported"
+    assert rep.groundable_fraction == 1.0, "already-refused topics must not lower the groundable fraction"
+
+
+def test_lookups_are_not_mistaken_for_computations():
+    from forgeai.docs.loader import table_computable
+    sp = load_folder(ROOT / "demos/ship_spares/docs")
+    assert table_computable("stock quantity", sp) == ("", "")
+    assert table_computable("lead time", sp) == ("", "")
+    assert table_computable("estimated delivery date", sp)[1] == "current_date"
+
+
+def test_note_fallback_ignores_weak_matches():
+    from forgeai.stages.intake import best_note_line
+    notes = (ROOT / "demos/hr_policy/requester_notes.md").read_text()
+    contact = best_note_line("Who should shore staff contact if the assistant cannot provide an answer to "
+                             "their HR policy question?", notes)
+    assert "hr.helpdesk" in contact and "Salary" not in contact

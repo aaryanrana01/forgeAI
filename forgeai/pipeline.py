@@ -124,7 +124,7 @@ def _run_factory(brief_path: str | Path, docs_dir: str | Path, out_dir: str | Pa
 
     # ------------------------------------------------- intake + groundability
     req_draft, qa = run_intake(ctx, brief, inv)
-    req, gr = run_groundability(ctx, req_draft, docs)
+    req, gr = run_groundability(ctx, req_draft, docs, brief)
     ctx.save_json("02_requirements/requirements.json", req)
     ctx.save_text("02_requirements/requirements.md", requirements_markdown(req, qa))
 

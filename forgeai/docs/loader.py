@@ -180,8 +180,8 @@ def table_match(text: str, docs: list[Document]) -> tuple[str, list[str]]:
     return best
 
 
-_CALC = re.compile(r"\b(total|sum|cost|calculat|compute|order value|quantit)\w*", re.I)
-_DATE = re.compile(r"\b(arriv|deliver|eta|date|when will|lead time)\w*", re.I)
+_CALC = re.compile(r"\b(total|sum|calculat|compute|order value|order cost|cost of)\w*", re.I)
+_DATE = re.compile(r"\b(arriv|deliver|eta|date|when will)\w*", re.I)
 
 
 def table_computable(text: str, docs: list[Document]) -> tuple[str, str]:
