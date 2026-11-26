@@ -1,0 +1,8 @@
+pydantic>=2.6
+requests>=2.31
+pypdf>=4.0
+pyyaml>=6.0
+rich>=13.0
+reportlab>=4.0      # only needed to re-render the demo PDFs (demos/synthesis/build_docs.py)
+streamlit>=1.35     # only needed for the web UI
+pytest>=8.0         # tests

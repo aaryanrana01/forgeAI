@@ -1,0 +1,26 @@
+[project]
+name = "forgeai"
+version = "1.0.0"
+description = "ForgeAI - the agent that builds agents: brief + documents -> tested agent + honest report"
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2.6", "requests>=2.31", "pypdf>=4.0", "pyyaml>=6.0", "rich>=13.0"]
+
+[project.optional-dependencies]
+ui = ["streamlit>=1.35"]
+dev = ["pytest>=8.0", "reportlab>=4.0"]
+
+[project.scripts]
+forgeai = "forgeai.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["forgeai*"]
+
+[tool.setuptools.package-data]
+forgeai = ["prompts/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
