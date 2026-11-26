@@ -75,6 +75,10 @@ class FakeResponder:
                 best, best_n = int(mm.group(1)), jaccard(mm.group(2), q)
         return {"line": best}
 
+    def t_intake_brief_requests(self, u, s, m):
+        brief = _section(u, 'BRIEF:\n"""', '"""')
+        return {"requests": [c.strip(" .") for c in re.split(r",|: |\. ", brief) if len(c.split()) >= 4][:8]}
+
     def t_intake_requirements(self, u, s, m):
         brief = _section(u, 'BRIEF:\n"""', '"""')
         heads = []

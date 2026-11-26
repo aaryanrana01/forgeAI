@@ -218,3 +218,37 @@ def test_note_fallback_ignores_weak_matches():
     contact = best_note_line("Who should shore staff contact if the assistant cannot provide an answer to "
                              "their HR policy question?", notes)
     assert "hr.helpdesk" in contact and "Salary" not in contact
+
+
+def test_dropped_brief_requests_are_restored(tmp_path):
+    """Run 4: the requirements writer turned 'track the live shipment status' into 'order status' and dropped
+    'estimate the date parts will arrive' -> no gap flagged, no date tool. The coverage check restores both."""
+    import json as _json
+
+    from forgeai.config import Budget, Settings
+    from forgeai.pipeline import make_context
+    from forgeai.schemas import RefuseTopic, Requirements, Topic
+    from forgeai.stages.intake import ensure_brief_coverage
+
+    brief = (ROOT / "demos/ship_spares/brief.md").read_text()
+    reqs = {"requests": ["find the right part for an engine or machine", "check its price, stock and lead time",
+                         "work out order totals", "estimate the date parts will arrive if ordered today",
+                         "track the live shipment status of orders already placed"]}
+    ctx = make_context(tmp_path, Settings(backend="fake", cache_dir=str(tmp_path)), Budget(),
+                       responder=lambda t, m, s: _json.dumps(reqs))
+    req = Requirements(agent_name="a", scope="s", audience="u", tone="t",
+                       must_answer_topics=[Topic(topic=t, description="") for t in
+                                           ["part number lookup for engine or machine", "price inquiry", "stock availability",
+                                            "lead time inquiry", "order total calculation", "order status"]],
+                       must_refuse_topics=[RefuseTopic(topic="negotiate prices", reason="")])
+    req, added = ensure_brief_coverage(ctx, brief, req)
+    assert any("arrive" in a for a in added) and any("shipment" in a for a in added), added
+    assert not any("price" in a for a in added), "already-covered requests must not be duplicated"
+
+
+def test_brief_framing_is_never_turned_into_a_topic():
+    from forgeai.stages.intake import _clean_request
+    assert _clean_request("I need an assistant that answers HR policy questions for shore staff") == ""
+    assert _clean_request("Build an assistant for our fleet technical superintendents") == ""
+    assert _clean_request("It would also be great if it could track the live shipment status of orders already "
+                          "placed") == "track the live shipment status of orders already placed"

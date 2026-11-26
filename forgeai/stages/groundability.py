@@ -134,7 +134,24 @@ def assess(ctx: RunContext, req: Requirements, docs, brief: str = "") -> Grounda
 
 
 def apply_to_requirements(req: Requirements, rep: GroundabilityReport) -> Requirements:
+    from ..textutil import tokens
+
     req = req.model_copy(deep=True)
+    # Safety: a request restored from the brief that overlaps topics the documents DO support is too broad
+    # to refuse (refusing "answers HR policy questions ... leave" would break the agent). Keep it, as partial.
+    ok_tokens = set()
+    for r in rep.topics:
+        if r.verdict != "unsupported":
+            ok_tokens |= set(tokens(r.topic))
+    restored = {t.topic for t in req.must_answer_topics if "restored by coverage check" in t.description}
+    for r in rep.topics:
+        rt = set(tokens(r.topic))
+        if r.topic in restored and r.verdict == "unsupported" and rt and len(rt & ok_tokens) / len(rt) >= 0.5:
+            r.verdict, r.adjusted_by_guard = "partial", True
+            r.note = ("guard: broad request restored from the brief overlaps supported topics - kept as partial "
+                      "instead of being refused. " + r.note).strip()
+            if r.topic in rep.flagged_gaps:
+                rep.flagged_gaps.remove(r.topic)
     gap_set = set(rep.flagged_gaps)
     already = {t.topic for t in req.must_refuse_topics}
     removed = [t for t in req.must_answer_topics if t.topic in gap_set and t.topic not in already]

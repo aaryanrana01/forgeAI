@@ -6,19 +6,83 @@ requirements document (JSON + Markdown)."""
 
 from __future__ import annotations
 
+import re
+
 from ..schemas import BaseModel
 
 from .. import prompts
 from ..context import RunContext
 from ..docs.loader import inventory_text
 from ..llm import LLMError
-from ..schemas import QAPair, QuestionList, Requirements
+from ..schemas import QAPair, QuestionList, Requirements, Topic
 
 MAX_QUESTIONS = 5
 
 
 class _NoteLine(BaseModel):
     line: int
+
+
+class _Requests(BaseModel):
+    requests: list[str]
+
+
+def _brief_clauses(brief: str) -> list[str]:
+    """Deterministic fallback: split the brief into request-like clauses."""
+    parts = re.split(r"[.;:]\s+|,\s+|\s+-\s+|\s+and\s+(?=[a-z]+\s)", brief)
+    return [p.strip(" .") for p in parts if len(p.split()) >= 4]
+
+
+_FRAMING = re.compile(r"^(?:i|we)\s+(?:need|want)\s+|^(?:please\s+)?(?:build|create|make)\s+|"
+                      r"^(?:it\s+)?would\s+(?:also\s+)?be\s+great\s+if\s+it\s+could\s+|^it\s+should\s+(?:also\s+)?"
+                      r"(?:be\s+able\s+to\s+)?|^also\s+", re.I)
+
+
+def _clean_request(r: str) -> str:
+    """Strip framing ('I need ...', 'it would also be great if it could ...'); drop the sentence that just
+    describes the whole assistant, and anything too long to be one request."""
+    r = r.strip(" .-")
+    for _ in range(2):
+        r = _FRAMING.sub("", r).strip()
+    if re.search(r"\bassistant\b", r, re.I) or not 2 <= len(r.split()) <= 14:
+        return ""
+    return r
+
+
+def ensure_brief_coverage(ctx: RunContext, brief: str, req: Requirements) -> tuple[Requirements, list[str]]:
+    """Every request in the brief must survive into the requirements (as a topic to answer or to refuse).
+    Small models silently drop requests - e.g. 'track the live shipment status' became 'order status' and
+    the gap was never flagged. Missing requests are added back verbatim as must-answer topics, so the
+    groundability guard judges them (and flags them if the documents cannot support them)."""
+    from ..textutil import tokens
+
+    requests: list[str] = []
+    try:
+        res = ctx.llm.json(prompts.split("intake_brief_requests", brief=brief), _Requests,
+                           task="intake_brief_requests", max_tokens=400)
+        bt = set(tokens(brief))
+        for r in res.requests:  # keep only phrases really taken from the brief
+            rt = set(tokens(r))
+            if len(rt) >= 2 and len(rt & bt) / len(rt) >= 0.7:
+                requests.append(r.strip())
+    except LLMError:
+        pass
+    if not requests:
+        requests = _brief_clauses(brief)
+    requests = [c for c in (_clean_request(r) for r in requests) if c]
+    covered = set()
+    for t in req.must_answer_topics:
+        covered |= set(tokens(f"{t.topic} {t.description}"))
+    for t in req.must_refuse_topics:
+        covered |= set(tokens(f"{t.topic} {t.reason}"))
+    added = []
+    for r in requests:
+        rt = set(tokens(r))
+        if rt and len(rt & covered) / len(rt) < 0.6:
+            req.must_answer_topics.append(Topic(topic=r, description="requested in the brief (restored by coverage check)"))
+            covered |= rt
+            added.append(r)
+    return req, added
 
 
 # words that appear in almost every intake question, so they cannot identify the matching note line
@@ -99,6 +163,10 @@ def write_requirements(ctx: RunContext, brief: str, inv: dict, qa: list[QAPair])
     qa_text = "\n".join(f"- Q: {p.question}\n  A [{p.source}]: {p.answer}" for p in qa) or "(no questions asked)"
     msgs = prompts.split("intake_requirements", brief=brief, qa=qa_text, inventory=inventory_text(inv))
     req = ctx.llm.json(msgs, Requirements, task="intake_requirements", max_tokens=1800, retries=3)
+    req, restored = ensure_brief_coverage(ctx, brief, req)
+    for r in restored:
+        ctx.log(f"  + restored a request the requirements writer dropped: \"{r}\"", "yellow")
+        req.assumptions.append(f"Restored from the brief by the coverage check: {r}")
     # a topic cannot be both answered and refused: small models sometimes copy refusals into must-answer
     from ..textutil import jaccard
     refuse = [t.topic for t in req.must_refuse_topics]
