@@ -61,9 +61,12 @@ def assess(ctx: RunContext, req: Requirements, docs) -> GroundabilityReport:
         elif verdict == "supported" and overlap < MIN_EVIDENCE_OVERLAP:
             verdict, adjusted = "partial", True
             note = f"guard: cited excerpts barely mention the topic (overlap {overlap:.2f}). {note}".strip()
-        elif verdict == "unsupported" and hits and coverage(query, hits[0][0].text) > 0.7:
-            note = (f"{note} (guard note: top excerpt {hits[0][0].chunk_id} has high keyword overlap - "
-                    f"verify manually)").strip()
+        elif verdict == "unsupported" and hits and coverage(t.topic, hits[0][0].text) >= 0.99:
+            # every word of the topic name appears in the top excerpt: a false gap is likelier than a real one
+            verdict, adjusted = "partial", True
+            ids = [hits[0][0].chunk_id]
+            note = (f"guard: model said unsupported, but excerpt {hits[0][0].chunk_id} contains every word of the "
+                    f"topic - downgraded to partial. {note}").strip()
         results.append(TopicGrounding(topic=t.topic, verdict=verdict, evidence_chunk_ids=ids, note=note,
                                       lexical_overlap=round(overlap, 2), adjusted_by_guard=adjusted))
         mark = {"supported": "✓", "partial": "~", "unsupported": "✗"}[verdict]

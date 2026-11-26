@@ -65,7 +65,8 @@ def collect_answers(ctx: RunContext, ql: QuestionList) -> list[QAPair]:
 
 def write_requirements(ctx: RunContext, brief: str, inv: dict, qa: list[QAPair]) -> Requirements:
     qa_text = "\n".join(f"- Q: {p.question}\n  A [{p.source}]: {p.answer}" for p in qa) or "(no questions asked)"
-    msgs = prompts.split("intake_requirements", brief=brief, qa=qa_text, inventory=inventory_text(inv))
+    notes = ctx.requester_notes.strip() if ctx.intake_mode == "notes" and ctx.requester_notes.strip() else "(none)"
+    msgs = prompts.split("intake_requirements", brief=brief, qa=qa_text, inventory=inventory_text(inv), notes=notes)
     req = ctx.llm.json(msgs, Requirements, task="intake_requirements", max_tokens=1800, retries=3)
     # every default assumption must be visible in the document, even if the model forgot it
     for p in qa:

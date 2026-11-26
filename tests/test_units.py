@@ -89,3 +89,20 @@ def test_retriever_finds_policy_passages():
     assert any("12 days of paid sick leave" in c.text for c, _ in hits)
     hits = r.search("hotel limit per night in Singapore")
     assert hits[0][0].doc_id == "travel_expense_policy.pdf"
+
+
+def test_placeholder_copied_from_shape_is_rejected_and_retried(tmp_path):
+    """Real bug seen with qwen2.5: the model answered {"answer": "string"} (copied the example shape)."""
+    import json as _json
+
+    from forgeai.config import Budget, Settings
+    from forgeai.llm import LLM, Meter
+    from forgeai.schemas import BaseModel
+
+    class A(BaseModel):
+        answer: str
+
+    replies = iter([_json.dumps({"answer": "string"}), _json.dumps({"answer": "HR helpdesk, extension 2400"})])
+    s = Settings(backend="fake", use_cache=False, cache_dir=str(tmp_path))
+    llm = LLM(s, Meter(Budget()), responder=lambda task, m, sc: next(replies))
+    assert llm.json([{"role": "user", "content": "who to contact?"}], A, task="t").answer == "HR helpdesk, extension 2400"

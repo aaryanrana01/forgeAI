@@ -82,7 +82,7 @@ class FakeResponder:
         skip = {"purpose and scope", "scope", "contact", "products", "breaches"}
         topics = [{"topic": h, "description": f"questions about {h.lower()}"} for h in heads
                   if h.lower() not in skip][:8]
-        for clause in re.split(r",|: | and estimate", brief)[1:6]:
+        for clause in re.split(r",|: |\. | and (?=estimate)", brief)[1:10]:
             c = clause.strip(" .")
             if 3 <= len(c.split()) <= 14 and "track" not in c:
                 topics.append({"topic": c[:70], "description": f"users ask to {c}"})
@@ -118,13 +118,18 @@ class FakeResponder:
                     return ln.strip("- ").strip()[:120]
             return ""
         has_csv = "(CSV table," in u
-        q_calc, q_date = quote(r"total|cost|price"), quote(r"date|arriv|lead time")
+        # like qwen2.5:3b in the real run: returns a decision for csv_lookup only and skips the rest
         return {"decisions": [
             {"tool": "csv_lookup", "attach": has_csv, "evidence_quote": quote(r"catalogue|price|stock") if has_csv else "",
-             "justification": "needs table values"},
-            {"tool": "calculator", "attach": bool(q_calc) and has_csv, "evidence_quote": q_calc, "justification": "totals"},
-            {"tool": "current_date", "attach": bool(q_date) and has_csv, "evidence_quote": q_date, "justification": "dates"},
-            {"tool": "weather", "attach": False, "evidence_quote": "", "justification": "not needed"}]}
+             "justification": "needs table values"}]}
+
+    def t_tool_check(self, u, s, m):
+        req = _section(u, "REQUIREMENTS (what the assistant must do):", "OUT OF SCOPE")
+        tool = re.search(r'"tool": "(\w+)"', u).group(1)
+        pat = {"calculator": r"total|cost", "current_date": r"date|arriv", "weather": r"weather|wind",
+               "csv_lookup": r"catalogue|price"}.get(tool, r"$^")
+        line = next((ln.strip("- ").strip() for ln in req.splitlines() if re.search(pat, ln, re.I)), "")
+        return {"tool": tool, "attach": bool(line), "evidence_quote": line[:120], "justification": "needed" if line else "not needed"}
 
     def t_prompt_writer(self, u, s, m):
         return {"role": "You are a helpful company assistant.", "scope": "Answer questions from the company documents.",

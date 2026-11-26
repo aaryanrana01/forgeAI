@@ -70,6 +70,8 @@ def test_spares_demo_selects_exactly_the_needed_tools(tmp_path):
     d = AgentDefinition.model_validate_json((out / "agent_definition.json").read_text())
     names = {t.name for t in d.tools}
     assert "csv_lookup" in names and "weather" not in names
+    # the real qwen2.5:3b run skipped these two; the one-tool-at-a-time follow-up must recover them
+    assert {"calculator", "current_date"} <= names, names
     es = json.loads((out / "04_evals/eval_set.json").read_text())
     assert any(c["category"] == "tool" for c in es["cases"]), "CSV-backed tool cases must be generated"
 

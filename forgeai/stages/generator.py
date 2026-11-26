@@ -101,8 +101,22 @@ def select_tools(ctx: RunContext, req: Requirements, brief: str, docs, inv: dict
                            _Decisions, task="tool_selection", max_tokens=700)
         decisions = {d.tool: d for d in res.decisions if d.tool in REGISTRY}
     except LLMError as e:
-        ctx.log(f"  ! tool selection failed ({e}); attaching no tools", "yellow")
+        ctx.log(f"  ! tool selection failed ({e}); asking tool by tool", "yellow")
         decisions = {}
+    # Small models often return a decision for only one or two tools. Ask again, ONE tool at a time
+    # (a much easier question), for every tool the model skipped whose precondition could hold.
+    for name, tool in REGISTRY.items():
+        if name in decisions or not tool.precondition(need_text, docs)[0]:
+            continue
+        try:
+            one = ctx.llm.json(prompts.split("tool_check", requirements=need_text, refuse=refuse, tool=name,
+                                             description=tool.description, when=tool.when_to_use),
+                               _Decision, task="tool_check", max_tokens=250)
+            one.tool = name
+            decisions[name] = one
+            ctx.log(f"  (asked again about {name}: attach={one.attach})")
+        except LLMError:
+            pass
 
     bindings, audit = [], []
     for name, tool in REGISTRY.items():

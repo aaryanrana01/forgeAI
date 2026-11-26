@@ -30,7 +30,7 @@ from ..context import RunContext
 from ..llm import LLMError
 from ..retrieval.index import Retriever
 from ..schemas import EvalCase, EvalSet, GroundabilityReport, Requirements, RetrievalConfig
-from ..textutil import fact_present, jaccard, normalize, numbers, tokens
+from ..textutil import fact_present, jaccard, normalize, numbers, numbers_with_words, tokens
 
 PROMPTS_USED = ["evalgen_answerable", "evalgen_crossdoc", "evalgen_out_of_scope", "evalgen_refusal_check",
                 "evalgen_paraphrase", "evalgen_injection", "evalgen_table"]
@@ -73,6 +73,9 @@ class _Q(BaseModel):
     question: str
 
 
+# section numbering like "3. " or "4.2 " at the start of a fact/heading - but NOT "12 days"
+_NUMBERING = re.compile(r"^\s*(?:\d+[.)]|\d+(?:\.\d+)+)\s+")
+
 PARAPHRASE_STYLES = [
     "very casual and short, like a quick chat message, with one small typo",
     "vague, using 'it' or 'that thing' and leaving out the formal policy name",
@@ -99,6 +102,8 @@ class EvalGenerator:
         self.cases: list[EvalCase] = []
         self.dropped: list[dict] = []
         self.parent: dict[str, str] = {}
+        self.headings = {normalize(_NUMBERING.sub("", h)).strip(" .")
+                         for d in docs for h in d.headings}
         self._n = 0
 
     # --------------------------------------------------------------- helpers
@@ -112,12 +117,25 @@ class EvalGenerator:
     def _is_dup(self, q: str) -> bool:
         return any(jaccard(q, c.question) > 0.6 for c in self.cases)
 
-    def _verify_facts(self, facts: list[str], passage: str) -> list[str]:
+    def _verify_facts(self, facts: list[str], passage: str, question: str = "") -> list[str]:
+        """Keep only facts that (1) are really in the passage, (2) are not already given away by the
+        question, (3) are not just a section heading, and (4) carry information: a number, or at least
+        two content words. Seen in real runs: 'Purpose', 'Scope', '3. Air Travel ...', 'Tier-1 cities'."""
         ok = []
         for f in facts:
-            f = f.strip().strip('"').strip()
-            if 1 <= len(f.split()) <= 14 and fact_present(f, passage, token_threshold=0.85):
-                ok.append(f)
+            f = _NUMBERING.sub("", f.strip().strip('"').strip())
+            n_words = len(f.split())
+            if not 1 <= n_words <= 12:
+                continue
+            if not fact_present(f, passage, token_threshold=0.85):
+                continue
+            if question and fact_present(f, question, token_threshold=0.85):
+                continue
+            if normalize(f).strip(" .") in self.headings:
+                continue
+            if not numbers_with_words(f) and len(tokens(f)) < 2:
+                continue
+            ok.append(f)
         return ok
 
     def _seed_chunks(self) -> list:
@@ -158,7 +176,7 @@ class EvalGenerator:
             except LLMError as e:
                 self._drop("answerable", f"generation failed: {e}", c.chunk_id)
                 continue
-            facts = self._verify_facts(qa.key_facts, c.text)
+            facts = self._verify_facts(qa.key_facts, c.text, qa.question)
             if not facts:
                 self._drop("answerable", "no key fact could be verified in the source passage",
                            {"chunk": c.chunk_id, "question": qa.question, "claimed_facts": qa.key_facts})
@@ -207,7 +225,8 @@ class EvalGenerator:
             except LLMError as e:
                 self._drop("cross_doc", f"generation failed: {e}", key)
                 continue
-            fa, fb = self._verify_facts(r.facts_from_a, a.text), self._verify_facts(r.facts_from_b, b.text)
+            fa = self._verify_facts(r.facts_from_a, a.text, r.question)
+            fb = self._verify_facts(r.facts_from_b, b.text, r.question)
             if not fa or not fb:
                 self._drop("cross_doc", "could not verify a fact from each document",
                            {"question": r.question, "a": r.facts_from_a, "b": r.facts_from_b})
@@ -403,7 +422,9 @@ class EvalGenerator:
         self.gen_paraphrases(self.plan["edge_ambiguous"])
         self.gen_injections(self.plan["edge_injection"])
         rounds = 0
-        while len(self.cases) < MIN_CASES and seeds and rounds < 3:   # top up after verification losses
+        while len(self.cases) < MIN_CASES and rounds < 3:   # top up after verification losses
+            if not seeds:  # every passage used once: go round again for a second, different question
+                seeds = self._seed_chunks()
             self.gen_answerable(MIN_CASES - len(self.cases), seeds)
             rounds += 1
         self.assign_splits()

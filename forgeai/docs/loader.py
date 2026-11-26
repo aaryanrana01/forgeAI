@@ -155,7 +155,10 @@ def inventory_text(inv: dict) -> str:
     return "\n".join(lines)
 
 
-_GENERIC_COLS = {"usd", "inr", "day", "qty", "no", "id", "name", "code", "type"}
+# words too common to prove that a topic is about the table ("track the status of ORDERS" is not a
+# catalogue question just because a column is called min_ORDER_qty)
+_GENERIC_COLS = {"usd", "inr", "day", "qty", "no", "id", "name", "code", "type", "order", "min", "max",
+                 "time", "unit", "model", "category", "date", "status", "total"}
 
 
 def table_match(text: str, docs: list[Document]) -> tuple[str, list[str]]:
